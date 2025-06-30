@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # lpkniweb
 
 ## Project setup
@@ -22,4 +23,8 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-# lpkniweb
+# TreasureHunt Web
+=======
+# treasure-hunt
+-
+>>>>>>> 8e7a21650724c9dbf1ac3759572753161f373394

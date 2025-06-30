@@ -7,9 +7,8 @@
       @set-active="setActiveMenu"
     />
 
-    <!-- Main Content -->
     <div class="flex-1 p-8">
-      <!-- Header -->
+      
       <div class="flex justify-between items-center mb-8">
         <h2 class="text-2xl font-bold text-gray-800">Dashboard</h2>
         <div class="flex items-center space-x-3">
@@ -21,7 +20,7 @@
         </div>
       </div>
 
-      <!-- Stats Cards -->
+      
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div
           v-for="stat in stats"
@@ -36,7 +35,6 @@
         </div>
       </div>
 
-      <!-- Group Cards -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div
           v-for="group in groups"
@@ -68,7 +66,7 @@
         </div>
       </div>
 
-      <!-- Recent Activities -->
+      
       <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-50">
         <h3 class="text-lg font-semibold text-gray-800 mb-2">Aktivitas Terbaru</h3>
         <p class="text-sm text-gray-500 mb-6">Update real-time</p>
@@ -90,7 +88,6 @@
 
 <script>
 import { ref, reactive } from "vue";
-
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
 
 export default {

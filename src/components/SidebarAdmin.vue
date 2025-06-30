@@ -5,7 +5,6 @@
       isCollapsed ? 'w-16' : 'w-64',
     ]"
   >
-    
     <div class="p-4 border-b border-slate-700">
       <div class="flex items-center justify-between">
         <div v-if="!isCollapsed">
@@ -28,7 +27,6 @@
       </div>
     </div>
 
-    
     <nav class="flex-1 p-4 space-y-2">
       <div v-for="item in menuItems" :key="item.name">
         <a
@@ -68,7 +66,7 @@
     <div v-if="!isCollapsed" class="p-4 border-t border-slate-700">
       <p class="text-xs text-slate-400">©Treasure Hunt Untag 2025</p>
     </div>
-  </div>
+  </div>  
 </template>
 
 <script>
