@@ -8,7 +8,6 @@
     />
 
     <div class="flex-1 p-8">
-      
       <div class="flex justify-between items-center mb-8">
         <h2 class="text-2xl font-bold text-gray-800">Dashboard</h2>
         <div class="flex items-center space-x-3">
@@ -20,7 +19,6 @@
         </div>
       </div>
 
-      
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div
           v-for="stat in stats"
@@ -66,7 +64,6 @@
         </div>
       </div>
 
-      
       <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-50">
         <h3 class="text-lg font-semibold text-gray-800 mb-2">Aktivitas Terbaru</h3>
         <p class="text-sm text-gray-500 mb-6">Update real-time</p>
@@ -113,14 +110,24 @@ export default {
     ]);
 
     const menuItems = reactive([
-      { name: "Dashboard", icon: "navbar-1.png", active: true },
-      { name: "Bank Soal", icon: "navbar-2.png", active: false },
-      { name: "Monitoring Progress", icon: "navbar-3.png", active: false },
-      { name: "Leaderboard", icon: "navbar-4.png", active: false },
-      { name: "Treasure Hint", icon: "navbar-5.png", active: false },
-      { name: "Sponsorship", icon: "navbar-6.png", active: false },
-      { name: "Manajemen Kelompok", icon: "navbar-7.png", active: false },
-      { name: "Manajemnt Event", icon: "navbar.png", active: false },
+      { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
+      { name: "Bank Soal", icon: "navbar-2.png", route: "/bank-soal", active: false },
+      {
+        name: "Monitoring Progress",
+        icon: "navbar-3.png",
+        route: "/monitoring",
+        active: false,
+      },
+      { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: true },
+      { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
+      { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
+      {
+        name: "Manajemen Kelompok",
+        icon: "navbar-7.png",
+        route: "/kelompok",
+        active: false,
+      },
+      { name: "Manajemen Event", icon: "navbar.png", route: "/event", active: false },
     ]);
 
     const activities = reactive([
@@ -144,6 +151,11 @@ export default {
     const toggleSidebar = () => {
       isCollapsed.value = !isCollapsed.value;
     };
+    const setActiveMenu = (name) => {
+      menuItems.forEach((item) => {
+        item.active = item.name === name;
+      });
+    };
 
     return {
       isCollapsed,
@@ -152,6 +164,7 @@ export default {
       activities,
       toggleSidebar,
       menuItems,
+      setActiveMenu,
     };
   },
 };

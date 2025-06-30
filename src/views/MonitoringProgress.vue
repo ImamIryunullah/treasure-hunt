@@ -10,20 +10,19 @@
     <div class="flex-1 p-8">
       <div class="mb-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between">
-          
           <div class="mb-4 md:mb-0">
             <h1 class="text-3xl font-bold text-gray-900 mb-2">Monitor progres</h1>
             <p class="text-gray-600">Pantau semua progres kelompok</p>
           </div>
-
-          
           <div class="flex gap-3">
             <button
+              @click="toggleAutoRefresh"
               class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium transition-colors"
             >
-              Auto refresh
+              {{ autoRefreshActive ? "Stop Auto Refresh" : "Auto Refresh" }}
             </button>
             <button
+              @click="exportToCSV"
               class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium transition-colors"
             >
               Export data
@@ -31,7 +30,6 @@
           </div>
         </div>
       </div>
-
       <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
         <div
           v-for="stat in stats"
@@ -53,7 +51,12 @@
             >
               <option>Semua Fakultas</option>
               <option>Fakultas Teknik</option>
-              <option>Fakultas Ekonomi</option>
+              <option>Fakultas Ekonomi dan Bisnis</option>
+              <option>Fakultas Ilmu Sosial dan Ilmu Politik</option>
+              <option>Fakultas Ilmu Budaya</option>
+              <option>Fakultas Hukum</option>
+              <option>Fakultas Psikologi</option>
+              <option>Fakultas Vokasi</option>
             </select>
             <div
               class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none"
@@ -180,7 +183,7 @@
 </template>
 
 <script>
-import { ref, reactive } from "vue";
+import { ref, reactive, onBeforeUnmount } from "vue";
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
 
 export default {
@@ -198,6 +201,57 @@ export default {
       { title: "Total tersembunyi", value: "3", subtitle: "Sedang hunting" },
       { title: "Presentase", value: "75%", subtitle: "Presentase keberhasilan" },
     ]);
+    const autoRefreshActive = ref(false);
+    let refreshInterval = null;
+
+    const refreshData = () => {
+      console.log("Refreshing data...");
+    };
+
+    const toggleAutoRefresh = () => {
+      autoRefreshActive.value = !autoRefreshActive.value;
+      if (autoRefreshActive.value) {
+        refreshInterval = setInterval(refreshData, 10000); // 10 detik
+      } else {
+        clearInterval(refreshInterval);
+      }
+    };
+
+    onBeforeUnmount(() => {
+      clearInterval(refreshInterval);
+    });
+    const exportToCSV = () => {
+      const headers = [
+        "ID",
+        "Nama",
+        "Fakultas",
+        "Status",
+        "Lokasi",
+        "Waktu",
+        "Item Ditemukan",
+        "Progres",
+      ];
+      const rows = groups.map((group) => [
+        group.id,
+        group.name,
+        group.faculty,
+        group.status,
+        group.location,
+        group.time,
+        group.itemsFound,
+        group.progress + "%",
+      ]);
+
+      const csvContent = [headers, ...rows].map((e) => e.join(",")).join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.setAttribute("download", "monitoring_progress.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    };
 
     const groups = reactive([
       {
@@ -243,14 +297,24 @@ export default {
     ]);
 
     const menuItems = reactive([
-      { name: "Dashboard", icon: "navbar-1.png", active: false },
-      { name: "Bank Soal", icon: "navbar-2.png", active: false },
-      { name: "Monitoring Progress", icon: "navbar-3.png", active: true },
-      { name: "Leaderboard", icon: "navbar-4.png", active: false },
-      { name: "Treasure Hint", icon: "navbar-5.png", active: false },
-      { name: "Sponsorship", icon: "navbar-6.png", active: false },
-      { name: "Manajemen Kelompok", icon: "navbar-7.png", active: false },
-      { name: "Manajemnt Event", icon: "navbar.png", active: false },
+      { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
+      { name: "Bank Soal", icon: "navbar-2.png", route: "/bank-soal", active: false },
+      {
+        name: "Monitoring Progress",
+        icon: "navbar-3.png",
+        route: "/monitoring-progress",
+        active: false,
+      },
+      { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: true },
+      { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
+      { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
+      {
+        name: "Manajemen Kelompok",
+        icon: "navbar-7.png",
+        route: "/kelompok",
+        active: false,
+      },
+      { name: "Manajemen Event", icon: "navbar.png", route: "/event", active: false },
     ]);
 
     const toggleSidebar = () => {
@@ -270,13 +334,15 @@ export default {
       menuItems,
       toggleSidebar,
       setActiveMenu,
+      toggleAutoRefresh,
+      exportToCSV,
+      autoRefreshActive,
     };
   },
 };
 </script>
 
 <style scoped>
-/* Custom styles for dropdown arrow */
 select {
   background-image: none;
 }

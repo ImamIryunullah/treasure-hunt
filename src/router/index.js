@@ -2,7 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 // import store from "@/store/store";
 const MainPage = () => import("@/views/MainPage.vue");
 const BankSoal = () => import("@/views/BankSoal.vue");
-const MonitoringProgress = () => import('@/views/MonitoringProgress')
+const MonitoringProgress = () => import("@/views/MonitoringProgress");
+const Leaderboard = () => import("@/views/Leaderboard");
+const Treasure = () => import("@/views/Treasure")
 
 
 
@@ -19,11 +21,22 @@ const routes = [
     name: "Bank Soal",
     component: BankSoal,
   },
-  
+
   {
     path: "/monitoring-progress",
     name: "Monitoring Progress",
     component: MonitoringProgress,
+  },
+
+  {
+    path: "/leaderboard",
+    name: "Leaderboard",
+    component: Leaderboard,
+  },
+  {
+    path: "/treasure",
+    name: "Treasure",
+    component: Treasure,
   },
 
 ];
@@ -85,7 +98,7 @@ const router = createRouter({
 // });
 
 router.afterEach((to) => {
-  document.title = to.meta.title || "LPKNI Official";
+  document.title = to.meta.title || "Treasure Hunt Untag";
 });
 
 export default router;
