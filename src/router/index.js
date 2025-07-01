@@ -5,6 +5,7 @@ const BankSoal = () => import("@/views/BankSoal.vue");
 const MonitoringProgress = () => import("@/views/MonitoringProgress");
 const Leaderboard = () => import("@/views/Leaderboard");
 const ManajemenItem = () => import("@/views/ManajemenItem")
+const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship")
 
 
 
@@ -37,6 +38,11 @@ const routes = [
     path: "/treasure",
     name: "Manajemen Item",
     component: ManajemenItem,
+  },
+  {
+    path: "/sponsorship",
+    name: "Manajemen Sponsorship",
+    component: ManajemenSponsorship,
   },
 
 ];

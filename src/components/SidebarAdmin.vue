@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'bg-slate-800 text-white transition-all duration-300 flex flex-col',
+      'bg-slate-900 text-white transition-all duration-300 flex flex-col',
       isCollapsed ? 'w-16' : 'w-64'
     ]"
   >
@@ -44,7 +44,7 @@
         <div class="flex-shrink-0 flex items-center justify-center">
           <img
             :src="getIconUrl(item.icon)"
-            :class="['object-contain', isCollapsed ? 'w-6 h-6' : 'w-8 h-8']"
+            :class="['object-contain', isCollapsed ? 'w-10 h-10' : 'w-10 h-10']"
             :alt="item.name + ' icon'"
           />
         </div>

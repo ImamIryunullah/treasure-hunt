@@ -6,170 +6,147 @@
       @toggle="toggleSidebar"
       @set-active="setActiveMenu"
     />
-    <div class="flex-1 p-8">
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-        <div class="mb-4 md:mb-0">
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">Manajemen Item</h1>
-          <p class="text-gray-600">
+    <div class="flex-1 p-4 md:p-6 lg:p-8">
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 md:mb-8">
+        <div class="mb-4 lg:mb-0">
+          <h1 class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">Manajemen Item</h1>
+          <p class="text-sm md:text-base text-gray-600">
             Peringkat hasil seleksi berdasarkan fakultas dan program studi
           </p>
         </div>
         <div class="flex">
           <button
             @click="showAddModal = true"
-            class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 md:px-6 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2 text-sm md:text-base"
           >
             <span>+</span>
             <span>Tambah Item</span>
           </button>
         </div>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
         <div
           v-for="stat in stats"
           :key="stat.title"
-          class="bg-white rounded-lg p-6 border border-black shadow-sm"
+          class="bg-white rounded-lg p-4 md:p-6 border border-black shadow-sm"
         >
-          <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ stat.title }}</h3>
-          <p class="text-3xl font-bold text-gray-900 mb-2">{{ stat.value }}</p>
-          <p class="text-sm text-gray-500">{{ stat.subtitle }}</p>
+          <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1">{{ stat.title }}</h3>
+          <p class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">{{ stat.value }}</p>
+          <p class="text-xs md:text-sm text-gray-500">{{ stat.subtitle }}</p>
         </div>
       </div>
-
-      <div class="mb-6">
-        <div class="border-b border-gray-200">
-          <nav class="-mb-px flex space-x-8">
-            <button
-              v-for="tab in tabs"
-              :key="tab.id"
-              @click="activeTab = tab.id"
-              :class="[
-                'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
-                activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300',
-              ]"
-            >
-              {{ tab.name }}
-            </button>
-          </nav>
-        </div>
-      </div>
-
       <div class="bg-white rounded-lg border border-black shadow-sm">
         <div class="p-6 border-b border-black">
-          <h2 class="text-xl font-bold text-gray-900 mb-2">Peringkat Lengkap</h2>
-          <p class="text-gray-600 mb-4">Daftar lengkap peringkat semua peserta seleksi</p>
+          <h2 class="text-xl font-bold text-gray-900 mb-2">Daftar Lengkap</h2>
+          <p class="text-gray-600 mb-4">Daftar lengkap Item di semua lokasi</p>
+          
           <div class="flex flex-col md:flex-row gap-4">
             <div class="flex-1">
               <div class="relative">
-                <div
-                  class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                >
-                  <svg
-                    class="h-5 w-5 text-gray-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                    ></path>
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                   </svg>
                 </div>
                 <input
                   v-model="searchQuery"
                   type="text"
-                  placeholder="Cari nama Peserta"
+                  placeholder="Cari nama Item"
                   class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
+            <div class="flex gap-4">
+              <select
+                v-model="selectedLocation"
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Semua Tempat</option>
+                <option v-for="location in faculties" :key="location" :value="location">
+                  {{ location }}
+                </option>
+              </select>
+              <select
+                v-model="selectedStatus"
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="">Semua Status</option>
+                <option v-for="prodi in prodis" :key="prodi" :value="prodi">
+                  {{ prodi }}
+                </option>
+              </select>
+            </div>
           </div>
         </div>
-
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Rank
+                <th class="px-3 md:px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                  Kode
                 </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th class="px-3 md:px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
                   Nama
                 </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Fakultas
+                <th class="hidden sm:table-cell px-3 md:px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                  Lokasi
                 </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Prodi
+                <th class="hidden lg:table-cell px-3 md:px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                  Hint 1
                 </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Total penyelesaian
+                <th class="px-3 md:px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                  Hint 2
                 </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
-                  Waktu
+                <th class="hidden md:table-cell px-3 md:px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
+                  Hint 3
                 </th>
-                <th
-                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th class="px-3 md:px-6 py-3 text-left text-xs font-bold text-black uppercase tracking-wider">
                   Status
                 </th>
-              </tr>
+              </tr> 
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <tr
-                v-for="participant in filteredParticipants"
-                :key="participant.id"
+                v-for="item in filteredItems"
+                :key="item.id"
                 class="hover:bg-gray-50"
               >
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {{ participant.rank }}
+                <td class="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ item.kode }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 md:px-6 py-4">
                   <div class="text-sm font-medium text-gray-900">
-                    {{ participant.name }}
+                    {{ item.name }}
+                  </div>
+                  <div class="sm:hidden text-xs text-gray-500 mt-1">
+                    {{ item.location }}
                   </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">
-                    {{ participant.faculty }}
+                <td class="hidden sm:table-cell px-3 md:px-6 py-4 whitespace-nowrap">
+                  <span class="bg-gray-200 text-gray-800 px-2 md:px-3 py-1 rounded-full text-xs md:text-sm">
+                    {{ item.location }}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {{ participant.prodi }}
+                <td class="hidden lg:table-cell px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ item.hint1 }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {{ participant.totalCompletion }}
+                <td class="px-3 md:px-6 py-4 whitespace-nowrap text-xs md:text-sm text-gray-900">
+                  {{ item.hint2 }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {{ participant.time }}
+                <td class="hidden md:table-cell px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  {{ item.hint3 }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 md:px-6 py-4 whitespace-nowrap">
                   <span
                     :class="[
-                      'px-3 py-1 rounded-full text-sm font-medium',
-                      participant.status === 'Lolos'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800',
+                      'px-2 md:px-3 py-1 rounded-lg text-xs md:text-sm font-medium border border-black',
+                      item.status === 'Ditemukan'
+                        ? 'bg-green-100 text-black'
+                        : 'bg-red-100 text-black',
                     ]"
                   >
-                    {{ participant.status }}
+                    {{ item.status }}
                   </span>
                 </td>
               </tr>
@@ -177,9 +154,8 @@
           </table>
         </div>
 
-        <div
-          class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6"
-        >
+        <!-- Pagination -->
+        <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
           <div class="flex-1 flex justify-between sm:hidden">
             <button
               @click="previousPage"
@@ -200,13 +176,9 @@
             <div>
               <p class="text-sm text-gray-700">
                 Showing
-                <span class="font-medium">{{
-                  (currentPage - 1) * itemsPerPage + 1
-                }}</span>
+                <span class="font-medium">{{ (currentPage - 1) * itemsPerPage + 1 }}</span>
                 to
-                <span class="font-medium">{{
-                  Math.min(currentPage * itemsPerPage, totalItems)
-                }}</span>
+                <span class="font-medium">{{ Math.min(currentPage * itemsPerPage, totalItems) }}</span>
                 of
                 <span class="font-medium">{{ totalItems }}</span>
                 results
@@ -245,119 +217,159 @@
             </div>
           </div>
         </div>
-        <div
+      </div>
+
+      <!-- Add Item Modal -->
+      <div
         v-if="showAddModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+        @click.self="cancelAdd"
       >
-        <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          <div class="p-6">
-            <h2 class="text-2xl font-bold text-gray-800 mb-2">Tambah Soal Baru</h2>
-            <p class="text-gray-600 mb-6">Buat pertanyaan untuk seleksi</p>
-            <form @submit.prevent="saveQuestion">
-              
-              <div class="mb-6">
-                <label class="block text-lg font-medium text-gray-700 mb-2"
-                  >Pertanyaan</label
-                >
-                <textarea
-                  v-model="newQuestion.text"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                  rows="3"
-                  placeholder="Tulis pertanyaan di sini..."
+        <div class="bg-white rounded-xl w-full max-w-md md:max-w-lg lg:max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div class="p-4 md:p-6">
+            <!-- Modal Header -->
+            <div class="mb-6">
+              <h2 class="text-xl md:text-2xl font-bold text-gray-800 mb-1">Tambah item baru</h2>
+              <p class="text-sm md:text-base text-gray-600">Tambah item baru</p>
+            </div>
+
+            <!-- Form -->
+            <form @submit.prevent="saveItem" class="space-y-4 md:space-y-6">
+              <!-- Kode Item -->
+              <div>
+                <label class="block text-sm md:text-base font-bold text-black mb-2">
+                  Kode Item
+                </label>
+                <input
+                  v-model="newItem.code"
+                  type="text"
+                  placeholder="#ItemCode"
+                  class="w-full p-3 border border-black rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm md:text-base"
                   required
-                ></textarea>
+                />
               </div>
 
-              
-              <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Pilihan jawaban</label
-                >
-                <div class="space-y-3">
-                  <div
-                    v-for="(option, index) in newQuestion.options"
-                    :key="index"
-                    class="flex items-center space-x-3"
+              <!-- Nama Item -->
+              <div>
+                <label class="block text-sm md:text-base font-bold text-black mb-2">
+                  Nama Item
+                </label>
+                <input
+                  v-model="newItem.name"
+                  type="text"
+                  placeholder="Nama Item"
+                  class="w-full p-3 border border-black rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm md:text-base"
+                  required
+                />
+              </div>
+
+              <!-- Lokasi -->
+              <div>
+                <label class="block text-sm md:text-base font-bold text-black mb-2">
+                  Lokasi
+                </label>
+                <div class="relative">
+                  <select
+                    v-model="newItem.location"
+                    class="w-full p-3 border border-black rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 appearance-none bg-white text-sm md:text-base"
+                    required
                   >
-                    <span class="font-medium text-gray-700 w-6">{{ option.label }}.</span>
-                    <input
-                      v-model="option.text"
-                      type="text"
-                      class="flex-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                      :placeholder="`Jawaban ${option.label}`"
-                      required
-                    />
+                    <option value="">Lokasi...</option>
+                    <option value="gedung-a">Gedung A</option>
+                    <option value="gedung-b">Gedung B</option>
+                    <option value="gedung-c">Gedung C</option>
+                    <option value="perpustakaan">Perpustakaan</option>
+                    <option value="kantin">Kantin</option>
+                  </select>
+                  <div class="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
                   </div>
                 </div>
               </div>
 
-              
-              <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Jawaban benar</label
-                >
-                <select
-                  v-model="newQuestion.correctAnswer"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+              <!-- Pin Lokasi -->
+              <div>
+                <label class="block text-sm md:text-base font-bold text-black mb-2">
+                  Pin lokasi
+                </label>
+                <input
+                  v-model="newItem.pinLocation"
+                  type="text"
+                  placeholder="Pin Lokasi"
+                  class="w-full p-3 border border-black rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm md:text-base bg-gray-200"
                   required
-                >
-                  <option value="">Pilih jawaban benar</option>
-                  <option
-                    v-for="option in newQuestion.options"
-                    :key="option.label"
-                    :value="option.label"
-                  >
-                    {{ option.label }}
-                  </option>
-                </select>
+                />
               </div>
 
-              
-              <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Tingkat kesulitan</label
-                >
-                <select
-                  v-model="newQuestion.difficulty"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                  required
-                >
-                  <option value="">Pilih tingkat kesulitan</option>
-                  <option value="mudah">Mudah</option>
-                  <option value="sedang">Sedang</option>
-                  <option value="sulit">Sulit</option>
-                </select>
+              <!-- Hint -->
+              <div>
+                <label class="block text-sm md:text-base font-bold text-black mb-2">
+                  Hint
+                </label>
+                <div class="space-y-3">
+                  <input
+                    v-model="newItem.hints[0]"
+                    type="text"
+                    placeholder="Hint 1"
+                    class="w-full p-3 border border-black rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm md:text-base"
+                    required
+                  />
+                  <input
+                    v-model="newItem.hints[1]"
+                    type="text"
+                    placeholder="Hint 2"
+                    class="w-full p-3 border border-black rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm md:text-base"
+                  />
+                  <input
+                    v-model="newItem.hints[2]"
+                    type="text"
+                    placeholder="Hint 3"
+                    class="w-full p-3 border border-black rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm md:text-base"
+                  />
+                </div>
               </div>
 
-              
-              <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Jenis Pertanyaan</label
+              <!-- Hint Foto -->
+              <div>
+                <label class="block text-sm md:text-base font-bold text-black mb-2">
+                  Hint foto
+                </label>
+                <div 
+                  class="w-full h-32 md:h-40 border-2 border-dashed border-black bg-gray-200 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-gray-400 transition-colors"
+                  @click="triggerFileInput"
+                  @dragover.prevent
+                  @drop.prevent="handleFileDrop"
                 >
-                <select
-                  v-model="newQuestion.type"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
-                  required
-                >
-                  <option value="">Pilih Jenis pertanyaan</option>
-                  <option value="multiple-choice">Pilihan Ganda</option>
-                  <option value="essay">Essay</option>
-                  <option value="true-false">Benar/Salah</option>
-                </select>
+                  <input
+                    ref="fileInput"
+                    type="file"
+                    accept="image/*"
+                    @change="handleFileSelect"
+                    class="hidden"
+                  />
+                  <svg class="w-8 h-8 md:w-12 md:h-12 text-gray-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                  </svg>
+                  <p class="text-sm md:text-base text-black text-center">
+                    {{ newItem.photo ? newItem.photo.name : 'Upload Foto' }}
+                  </p>
+                </div>
               </div>
 
-              
-              <div class="flex space-x-3">
+              <!-- Action Buttons -->
+              <div class="flex flex-col sm:flex-row gap-3 pt-4">
                 <button
                   type="submit"
-                  class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-medium transition-colors"
+                  class="flex-1 bg-green-500 hover:bg-green-600 text-black py-3 rounded-lg font-medium transition-colors text-sm md:text-base border border-black"
                 >
-                  Simpan soal
+                  Simpan
                 </button>
                 <button
                   type="button"
                   @click="cancelAdd"
-                  class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  class="bg-red-800 flex-1 sm:flex-none px-6 py-3 border border-black text-white rounded-lg hover:bg-red-600 transition-colors text-sm md:text-base"
                 >
                   Batal
                 </button>
@@ -365,7 +377,6 @@
             </form>
           </div>
         </div>
-      </div>
       </div>
     </div>
   </div>
@@ -382,11 +393,13 @@ export default {
   name: "LeaderboardAdmin",
   setup() {
     const isCollapsed = ref(false);
-    const activeTab = ref("general");
     const searchQuery = ref("");
     const currentPage = ref(1);
     const itemsPerPage = 10;
+    const selectedLocation = ref('');
+    const selectedStatus = ref('');
     const showAddModal = ref(false);
+    const fileInput = ref(null);
 
     const menuItems = reactive([
       { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
@@ -432,160 +445,139 @@ export default {
       },
     ]);
 
-    // Sample participant data
-    const participants = reactive([
+    // Sample item data dengan struktur yang konsisten
+    const items = reactive([
       {
         id: 1,
-        rank: 1,
-        name: "Ahmad Fauzi",
-        faculty: "Fakultas Teknik",
-        prodi: "Teknik Informatika",
-        totalCompletion: "100%",
-        time: "3 menit",
-        status: "Lolos",
+        kode: "ITEM001",
+        name: "Item Pertama",
+        location: "Gedung A",
+        hint1: "Tempat Sejuk",
+        hint2: "Dekat tangga",
+        hint3: "Lantai 2",
+        status: "Ditemukan",
       },
       {
         id: 2,
-        rank: 2,
-        name: "Siti Nurhaliza",
-        faculty: "Fakultas Teknik",
-        prodi: "Sistem Informasi",
-        totalCompletion: "95%",
-        time: "4 menit",
-        status: "Lolos",
+        kode: "ITEM002",
+        name: "Item Kedua",
+        location: "Gedung B",
+        hint1: "Tempat Ramai",
+        hint2: "Dekat kantin",
+        hint3: "Lantai 1",
+        status: "Ditemukan",
       },
       {
         id: 3,
-        rank: 3,
-        name: "Budi Santoso",
-        faculty: "Fakultas Ekonomi",
-        prodi: "Manajemen",
-        totalCompletion: "90%",
-        time: "5 menit",
-        status: "Lolos",
+        kode: "ITEM003",
+        name: "Item Ketiga",
+        location: "Perpustakaan",
+        hint1: "Tempat Sunyi",
+        hint2: "Rak buku",
+        hint3: "Bagian referensi",
+        status: "Ditemukan",
       },
       {
         id: 4,
-        rank: 4,
-        name: "Maya Sari",
-        faculty: "Fakultas Hukum",
-        prodi: "Hukum",
-        totalCompletion: "88%",
-        time: "6 menit",
-        status: "Lolos",
+        kode: "ITEM004",
+        name: "Item Keempat",
+        location: "Kantin",
+        hint1: "Tempat Makan",
+        hint2: "Meja nomor 5",
+        hint3: "Dekat jendela",
+        status: "Ditemukan",
       },
       {
         id: 5,
-        rank: 5,
-        name: "Andi Wijaya",
-        faculty: "Fakultas Teknik",
-        prodi: "Teknik Elektro",
-        totalCompletion: "85%",
-        time: "7 menit",
-        status: "Lolos",
+        kode: "ITEM005",
+        name: "Item Kelima",
+        location: "Gedung C",
+        hint1: "Tempat Olahraga",
+        hint2: "Dekat lapangan",
+        hint3: "Ruang ganti",
+        status: "Ditemukan",
       },
       {
         id: 6,
-        rank: 6,
-        name: "Rina Kartika",
-        faculty: "Fakultas Ekonomi",
-        prodi: "Akuntansi",
-        totalCompletion: "80%",
-        time: "8 menit",
-        status: "Tidak Lolos",
-      },
-      {
-        id: 7,
-        rank: 7,
-        name: "Dedi Kurniawan",
-        faculty: "Fakultas Kedokteran",
-        prodi: "Kedokteran",
-        totalCompletion: "75%",
-        time: "9 menit",
-        status: "Tidak Lolos",
-      },
-      {
-        id: 8,
-        rank: 8,
-        name: "Lisa Permata",
-        faculty: "Fakultas Sastra",
-        prodi: "Sastra Inggris",
-        totalCompletion: "70%",
-        time: "10 menit",
-        status: "Tidak Lolos",
-      },
-      {
-        id: 9,
-        rank: 9,
-        name: "Ravi Pratama",
-        faculty: "Fakultas Teknik",
-        prodi: "Teknik Informatika",
-        totalCompletion: "65%",
-        time: "11 menit",
-        status: "Tidak Lolos",
-      },
-      {
-        id: 10,
-        rank: 10,
-        name: "Indah Sari",
-        faculty: "Fakultas Ekonomi",
-        prodi: "Manajemen",
-        totalCompletion: "60%",
-        time: "12 menit",
-        status: "Tidak Lolos",
+        kode: "ITEM006",
+        name: "Item Keenam",
+        location: "Gedung A",
+        hint1: "Tempat Administrasi",
+        hint2: "Ruang rapat",
+        hint3: "Lantai 3",
+        status: "Tidak Ditemukan",
       },
     ]);
 
-    const filteredParticipants = computed(() => {
-      let filtered = participants;
+    // Data untuk dropdown filter
+    const faculties = computed(() => {
+      const locations = [...new Set(items.map(item => item.location))];
+      return locations;
+    });
 
-      if (searchQuery.value) {
-        filtered = filtered.filter((p) =>
-          p.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    const prodis = computed(() => {
+      const statuses = [...new Set(items.map(item => item.status))];
+      return statuses;
+    });
+
+    const newItem = reactive({
+      code: "",
+      name: "",
+      location: "",
+      pinLocation: "",
+      hints: ["", "", ""],
+      photo: null,
+    });
+
+    // Computed untuk filtering items
+    const filteredItems = computed(() => {
+      let filtered = items;
+
+      // Filter berdasarkan search query
+      if (searchQuery.value.trim()) {
+        filtered = filtered.filter(item => 
+          item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+          item.kode.toLowerCase().includes(searchQuery.value.toLowerCase())
         );
       }
 
-      return filtered;
+      // Filter berdasarkan lokasi
+      if (selectedLocation.value) {
+        filtered = filtered.filter(item => item.location === selectedLocation.value);
+      }
+
+      // Filter berdasarkan status
+      if (selectedStatus.value) {
+        filtered = filtered.filter(item => item.status === selectedStatus.value);
+      }
+
+      // Pagination
+      const start = (currentPage.value - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      return filtered.slice(start, end);
     });
-    const questions = reactive([
-      {
-        id: 1,
-        text: "Siapa pendiri Universitas 17 Agustus 1945 Surabaya?",
-        options: [
-          { label: "A", text: "Dr Soetomo", isCorrect: false },
-          { label: "B", text: "Bung Tomo", isCorrect: false },
-          { label: "C", text: "Prof. Dr. Moestopo", isCorrect: true },
-          { label: "D", text: "K.H. Mas Mansur", isCorrect: false },
-        ],
-        difficulty: "mudah",
-        type: "multiple-choice",
-      },
-      {
-        id: 2,
-        text: "Siapa pendiri Universitas 17 Agustus 1945 Surabaya?",
-        options: [
-          { label: "A", text: "Dr Soetomo", isCorrect: false },
-          { label: "B", text: "Bung Tomo", isCorrect: false },
-          { label: "C", text: "Prof. Dr. Moestopo", isCorrect: true },
-          { label: "D", text: "K.H. Mas Mansur", isCorrect: false },
-        ],
-        difficulty: "sedang",
-        type: "multiple-choice",
-      },
-    ]);
-    const newQuestion = reactive({
-      text: "",
-      options: [
-        { label: "A", text: "" },
-        { label: "B", text: "" },
-        { label: "C", text: "" },
-        { label: "D", text: "" },
-      ],
-      correctAnswer: "",
-      difficulty: "",
-      type: "",
+    
+    const totalItems = computed(() => {
+      let filtered = items;
+
+      if (searchQuery.value.trim()) {
+        filtered = filtered.filter(item => 
+          item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
+          item.kode.toLowerCase().includes(searchQuery.value.toLowerCase())
+        );
+      }
+
+      if (selectedLocation.value) {
+        filtered = filtered.filter(item => item.location === selectedLocation.value);
+      }
+
+      if (selectedStatus.value) {
+        filtered = filtered.filter(item => item.status === selectedStatus.value);
+      }
+
+      return filtered.length;
     });
-    const totalItems = computed(() => filteredParticipants.value.length);
+
     const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage));
 
     const visiblePages = computed(() => {
@@ -599,6 +591,7 @@ export default {
       return pages;
     });
 
+    // Methods
     const toggleSidebar = () => {
       isCollapsed.value = !isCollapsed.value;
     };
@@ -625,20 +618,55 @@ export default {
       currentPage.value = page;
     };
 
-    const saveQuestion = () => {
-      // Create new question object
-      const question = {
+    const triggerFileInput = () => {
+      if (fileInput.value) {
+        fileInput.value.click();
+      }
+    };
+
+    const handleFileSelect = (event) => {
+      const file = event.target.files[0];
+      if (file && file.type.startsWith('image/')) {
+        newItem.photo = file;
+      }
+    };
+
+    const handleFileDrop = (event) => {
+      event.preventDefault();
+      const file = event.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        newItem.photo = file;
+      }
+    };
+
+    const saveItem = () => {
+      // Validasi basic
+      if (!newItem.code || !newItem.name || !newItem.location) {
+        alert('Harap isi semua field yang wajib');
+        return;
+      }
+
+      // Create new item object
+      const item = {
         id: Date.now(),
-        text: newQuestion.text,
-        options: newQuestion.options.map((option) => ({
-          ...option,
-          isCorrect: option.label === newQuestion.correctAnswer,
-        })),
-        difficulty: newQuestion.difficulty,
-        type: newQuestion.type,
+        kode: newItem.code,
+        name: newItem.name,
+        location: newItem.location,
+        hint1: newItem.hints[0] || '',
+        hint2: newItem.hints[1] || '',
+        hint3: newItem.hints[2] || '',
+        status: "Tidak Ditemukan", // Default status
       };
 
-      questions.push(question);
+      // Add to items array
+      items.push(item);
+
+      console.log("Item berhasil disimpan:", item);
+
+      // Update stats
+      stats[0].value = items.length.toString();
+      const foundItems = items.filter(item => item.status === "Ditemukan").length;
+      stats[1].value = foundItems.toString();
 
       resetForm();
       showAddModal.value = false;
@@ -650,42 +678,70 @@ export default {
     };
 
     const resetForm = () => {
-      newQuestion.text = "";
-      newQuestion.options.forEach((option) => (option.text = ""));
-      newQuestion.correctAnswer = "";
-      newQuestion.difficulty = "";
-      newQuestion.type = "";
+      newItem.code = "";
+      newItem.name = "";
+      newItem.location = "";
+      newItem.pinLocation = "";
+      newItem.hints = ["", "", ""];
+      newItem.photo = null;
+      if (fileInput.value) {
+        fileInput.value.value = "";
+      }
     };
 
+    // Watch untuk reset pagination saat filter berubah
+    const resetPagination = () => {
+      currentPage.value = 1;
+    };
 
+    // Return semua yang diperlukan template
     return {
+      // Reactive refs
       isCollapsed,
-      activeTab,
       searchQuery,
       currentPage,
       itemsPerPage,
-      toggleSidebar,
+      selectedLocation,
+      selectedStatus,
+      showAddModal,
+      fileInput,
+      
+      // Reactive data
       menuItems,
-      setActiveMenu,
       stats,
-      participants,
-      filteredParticipants,
+      items,
+      newItem,
+      
+      // Computed
+      faculties,
+      prodis,
+      filteredItems,
       totalItems,
       totalPages,
       visiblePages,
+      
+      // Methods
+      toggleSidebar,
+      setActiveMenu,
       previousPage,
       nextPage,
       goToPage,
-      saveQuestion,
-      newQuestion,
+      triggerFileInput,
+      handleFileSelect,
+      handleFileDrop,
+      saveItem,
       cancelAdd,
-
-
+      resetForm,
+      resetPagination,
     };
   },
 };
 </script>
 
 <style scoped>
-/* Additional custom styles if needed */
+@media (max-width: 640px) {
+  .table-responsive {
+    font-size: 0.875rem;
+  }
+}
 </style>

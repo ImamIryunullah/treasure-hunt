@@ -179,7 +179,7 @@
                   <div class="text-sm font-medium text-gray-900">{{ participant.name }}</div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">
+                  <span class="bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm">
                     {{ participant.faculty }}
                   </span>
                 </td>

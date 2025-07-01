@@ -114,7 +114,7 @@ export default {
       {
         name: "Monitoring Progress",
         icon: "navbar-3.png",
-        route: "/monitoring",
+        route: "/monitoring-progress",
         active: false,
       },
       { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: true },
