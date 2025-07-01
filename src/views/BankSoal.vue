@@ -263,14 +263,24 @@ export default {
     ]);
 
     const menuItems = reactive([
-      { name: "Dashboard", icon: "navbar-1.png", active: false },
-      { name: "Bank Soal", icon: "navbar-2.png", active: true },
-      { name: "Monitoring Progress", icon: "navbar-3.png", active: false },
-      { name: "Leaderboard", icon: "navbar-4.png", active: false },
-      { name: "Treasure Hint", icon: "navbar-5.png", active: false },
-      { name: "Sponsorship", icon: "navbar-6.png", active: false },
-      { name: "Manajemen Kelompok", icon: "navbar-7.png", active: false },
-      { name: "Manajemnt Event", icon: "navbar.png", active: false },
+      { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
+      { name: "Bank Soal", icon: "navbar-2.png", route: "/bank-soal", active: true },
+      {
+        name: "Monitoring Progress",
+        icon: "navbar-3.png",
+        route: "/monitoring-progress",
+        active: false,
+      },
+      { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: false },
+      { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
+      { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
+      {
+        name: "Manajemen Kelompok",
+        icon: "navbar-7.png",
+        route: "/kelompok",
+        active: false,
+      },
+      { name: "Manajemen Event", icon: "navbar.png", route: "/event", active: false },
     ]);
 
     const questions = reactive([
@@ -343,7 +353,6 @@ export default {
 
       questions.push(question);
 
-      // Reset form
       resetForm();
       showAddModal.value = false;
     };

@@ -303,9 +303,9 @@ export default {
         name: "Monitoring Progress",
         icon: "navbar-3.png",
         route: "/monitoring-progress",
-        active: false,
+        active: true,
       },
-      { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: true },
+      { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: false },
       { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
       { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
       {

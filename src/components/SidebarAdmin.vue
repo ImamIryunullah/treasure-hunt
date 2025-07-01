@@ -75,7 +75,6 @@ export default {
     const route = useRoute();
 
     const toggleSidebar = () => emit('toggle');
-    const setActiveMenu = (name) => emit('set-active', name);
 
     const getIconUrl = (filename) => {
       try {
@@ -92,7 +91,6 @@ export default {
 
     return {
       toggleSidebar,
-      setActiveMenu,
       getIconUrl,
       isRouteActive
     };
@@ -101,7 +99,6 @@ export default {
 </script>
 
 <style scoped>
-/* Same styling as sebelumnya, tidak berubah */
 .transition-all {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }

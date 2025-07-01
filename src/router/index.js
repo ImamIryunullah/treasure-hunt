@@ -4,7 +4,7 @@ const MainPage = () => import("@/views/MainPage.vue");
 const BankSoal = () => import("@/views/BankSoal.vue");
 const MonitoringProgress = () => import("@/views/MonitoringProgress");
 const Leaderboard = () => import("@/views/Leaderboard");
-const Treasure = () => import("@/views/Treasure")
+const ManajemenItem = () => import("@/views/ManajemenItem")
 
 
 
@@ -35,8 +35,8 @@ const routes = [
   },
   {
     path: "/treasure",
-    name: "Treasure",
-    component: Treasure,
+    name: "Manajemen Item",
+    component: ManajemenItem,
   },
 
 ];
