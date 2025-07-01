@@ -4,7 +4,9 @@
       'bg-slate-900 text-white transition-all duration-300 flex flex-col',
       isCollapsed ? 'w-16' : 'w-64'
     ]"
+    class="min-h-screen"
   >
+    <!-- Header -->
     <div class="p-4 border-b border-slate-700">
       <div class="flex items-center justify-between">
         <div v-if="!isCollapsed">
@@ -39,12 +41,11 @@
           isCollapsed ? 'p-2 justify-center hover:bg-slate-700' : 'p-3 hover:bg-slate-700'
         ]"
         :title="isCollapsed ? item.name : ''"
-        @click="$emit('set-active', item.name)"
       >
         <div class="flex-shrink-0 flex items-center justify-center">
           <img
             :src="getIconUrl(item.icon)"
-            :class="['object-contain', isCollapsed ? 'w-10 h-10' : 'w-10 h-10']"
+            :class="['object-contain', 'w-8 h-8']"
             :alt="item.name + ' icon'"
           />
         </div>
@@ -56,23 +57,46 @@
         </span>
       </router-link>
     </nav>
-    <div v-if="!isCollapsed" class="p-4 border-t border-slate-700">
-      <p class="text-xs text-slate-400">©Treasure Hunt Untag 2025</p>
+
+    <!-- Logout (paling bawah) -->
+    <div class="p-4 mt-auto border-t border-slate-700">
+      <button
+        @click="handleLogout"
+        class="flex items-center w-full text-left transition-colors rounded-lg hover:bg-red-600"
+        :class="isCollapsed ? 'p-2 justify-center' : 'p-3'"
+        :title="isCollapsed ? 'Logout' : ''"
+      >
+        <svg
+          class="w-6 h-6 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+          />
+        </svg>
+        <span v-if="!isCollapsed" class="ml-3 whitespace-nowrap">Logout</span>
+      </button>
     </div>
   </div>
 </template>
 
 <script>
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default {
   props: {
     isCollapsed: Boolean,
     menuItems: Array
   },
-  emits: ['toggle', 'set-active'],
+  emits: ['toggle'],
   setup(props, { emit }) {
     const route = useRoute();
+    const router = useRouter();
 
     const toggleSidebar = () => emit('toggle');
 
@@ -85,65 +109,21 @@ export default {
       }
     };
 
-    const isRouteActive = (menuRoute) => {
-      return route.path === menuRoute;
+    const isRouteActive = (menuRoute) => route.path === menuRoute;
+
+    const handleLogout = () => {
+      // Bersihkan token/login
+      localStorage.clear();
+      // Arahkan ke login
+      router.push('/login');
     };
 
     return {
       toggleSidebar,
       getIconUrl,
-      isRouteActive
+      isRouteActive,
+      handleLogout
     };
   }
 };
 </script>
-
-<style scoped>
-.transition-all {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.hover\:bg-slate-700:hover {
-  background-color: rgb(51 65 85);
-}
-
-.bg-slate-700 {
-  background-color: rgb(51 65 85);
-}
-
-[title]:hover::after {
-  content: attr(title);
-  position: absolute;
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgb(15 23 42);
-  color: white;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 14px;
-  white-space: nowrap;
-  z-index: 1000;
-  margin-left: 8px;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
-}
-
-[title]:hover::before {
-  content: '';
-  position: absolute;
-  left: 100%;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 6px solid transparent;
-  border-right-color: rgb(15 23 42);
-  z-index: 1001;
-  margin-left: 2px;
-}
-
-@media (max-width: 768px) {
-  [title]:hover::after,
-  [title]:hover::before {
-    display: none;
-  }
-}
-</style>

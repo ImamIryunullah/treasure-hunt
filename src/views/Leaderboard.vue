@@ -6,17 +6,17 @@
       @toggle="toggleSidebar"
       @set-active="setActiveMenu"
     />
-    <div class="flex-1 p-8">
+    <div class="flex-1 p-4 sm:p-6 lg:p-8">
       
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 lg:mb-8">
         <div class="mb-4 md:mb-0">
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">Leaderboard Seleksi</h1>
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Leaderboard Seleksi</h1>
           <p class="text-gray-600">Kelola item untuk diburu</p>
         </div>
         <div class="flex">
           <button
             @click="exportToCSV"
-            class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-lg font-medium transition-colors"
+            class="bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base"
           >
             Export leaderboard
           </button>
@@ -24,67 +24,67 @@
       </div>
 
       
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 lg:mb-8">
         
-        <div class="bg-gradient-to-br from-yellow-200 to-yellow-300 rounded-xl p-6 text-center border border-yellow-400 shadow-lg">
-          <div class="text-4xl mb-4">👑</div>
-          <h3 class="text-xl font-bold text-gray-800 mb-2">{{ winners.first.name }}</h3>
-          <p class="text-gray-700 mb-1">{{ winners.first.prodi }}</p>
-          <p class="text-sm text-gray-600 mb-2">{{ winners.first.faculty }}</p>
-          <p class="text-sm text-gray-600 mb-2">Beul berapa waktu</p>
-          <span class="bg-yellow-400 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+        <div class="bg-gradient-to-br from-yellow-200 to-yellow-300 rounded-xl p-4 sm:p-6 text-center border border-yellow-400 shadow-lg">
+          <div class="text-3xl sm:text-4xl mb-4">👑</div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.first.name }}</h3>
+          <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.first.prodi }}</p>
+          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.first.faculty }}</p>
+          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.first.time }}</p>
+          <span class="bg-yellow-400 text-yellow-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
             Lolos
           </span>
         </div>
 
         
-        <div class="bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl p-6 text-center border border-gray-400 shadow-lg">
-          <div class="text-4xl mb-4">🥈</div>
-          <h3 class="text-xl font-bold text-gray-800 mb-2">{{ winners.second.name }}</h3>
-          <p class="text-gray-700 mb-1">{{ winners.second.prodi }}</p>
-          <p class="text-sm text-gray-600 mb-2">{{ winners.second.faculty }}</p>
-          <p class="text-sm text-gray-600 mb-2">Beul berapa waktu</p>
-          <span class="bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+        <div class="bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl p-4 sm:p-6 text-center border border-gray-400 shadow-lg">
+          <div class="text-3xl sm:text-4xl mb-4">🥈</div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.second.name }}</h3>
+          <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.second.prodi }}</p>
+          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.second.faculty }}</p>
+          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.second.time }}</p>
+          <span class="bg-gray-400 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
             Lolos
           </span>
         </div>
 
         
-        <div class="bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl p-6 text-center border border-orange-400 shadow-lg">
-          <div class="text-4xl mb-4">🥉</div>
-          <h3 class="text-xl font-bold text-gray-800 mb-2">{{ winners.third.name }}</h3>
-          <p class="text-gray-700 mb-1">{{ winners.third.prodi }}</p>
-          <p class="text-sm text-gray-600 mb-2">{{ winners.third.faculty }}</p>
-          <p class="text-sm text-gray-600 mb-2">Beul berapa waktu</p>
-          <span class="bg-orange-400 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">
+        <div class="bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl p-4 sm:p-6 text-center border border-orange-400 shadow-lg">
+          <div class="text-3xl sm:text-4xl mb-4">🥉</div>
+          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.third.name }}</h3>
+          <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.third.prodi }}</p>
+          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.third.faculty }}</p>
+          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.third.time }}</p>
+          <span class="bg-orange-400 text-orange-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
             Lolos
           </span>
         </div>
       </div>
 
       
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 lg:mb-8">
         <div
           v-for="stat in stats"
           :key="stat.title"
-          class="bg-white rounded-lg p-6 border border-black shadow-sm"
+          class="bg-white rounded-lg p-4 sm:p-6 border border-black shadow-sm"
         >
-          <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ stat.title }}</h3>
-          <p class="text-3xl font-bold text-gray-900 mb-2">{{ stat.value }}</p>
-          <p class="text-sm text-gray-500">{{ stat.subtitle }}</p>
+          <h3 class="text-sm sm:text-lg font-semibold text-gray-900 mb-1">{{ stat.title }}</h3>
+          <p class="text-xl sm:text-3xl font-bold text-gray-900 mb-2">{{ stat.value }}</p>
+          <p class="text-xs sm:text-sm text-gray-500">{{ stat.subtitle }}</p>
         </div>
       </div>
 
       
       <div class="mb-6">
         <div class="border-b border-gray-200">
-          <nav class="-mb-px flex space-x-8">
+          <nav class="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto">
             <button
               v-for="tab in tabs"
               :key="tab.id"
               @click="activeTab = tab.id"
               :class="[
-                'py-2 px-1 border-b-2 font-medium text-sm transition-colors',
+                'py-2 px-1 border-b-2 font-medium text-sm transition-colors whitespace-nowrap',
                 activeTab === tab.id
                   ? 'border-blue-500 text-blue-600'
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -98,12 +98,12 @@
 
       
       <div class="bg-white rounded-lg border border-black shadow-sm">
-        <div class="p-6 border-b border-black">
-          <h2 class="text-xl font-bold text-gray-900 mb-2">Peringkat Lengkap</h2>
-          <p class="text-gray-600 mb-4">Daftar lengkap peringkat semua peserta seleksi</p>
+        <div class="p-4 sm:p-6 border-b border-black">
+          <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">Peringkat Lengkap</h2>
+          <p class="text-gray-600 mb-4 text-sm sm:text-base">Daftar lengkap peringkat semua peserta seleksi</p>
           
           
-          <div class="flex flex-col md:flex-row gap-4">
+          <div class="flex flex-col lg:flex-row gap-4">
             <div class="flex-1">
               <div class="relative">
                 <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -115,14 +115,14 @@
                   v-model="searchQuery"
                   type="text"
                   placeholder="Cari nama Peserta"
-                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
                 />
               </div>
             </div>
-            <div class="flex gap-4">
+            <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
               <select
                 v-model="selectedFaculty"
-                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
               >
                 <option value="">Semua fakultas</option>
                 <option v-for="faculty in faculties" :key="faculty" :value="faculty">
@@ -131,7 +131,7 @@
               </select>
               <select
                 v-model="selectedProdi"
-                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
               >
                 <option value="">Semua prodi</option>
                 <option v-for="prodi in prodis" :key="prodi" :value="prodi">
@@ -147,55 +147,56 @@
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Rank
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Nama
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                   Fakultas
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Prodi
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                   Total penyelesaian
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
                   Waktu
                 </th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               <tr v-for="(participant) in filteredParticipants" :key="participant.id" class="hover:bg-gray-50">
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                   {{ participant.rank }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
                   <div class="text-sm font-medium text-gray-900">{{ participant.name }}</div>
+                  <div class="text-xs text-gray-500 sm:hidden">{{ participant.faculty }}</div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <span class="bg-gray-400 text-gray-800 px-3 py-1 rounded-full text-sm">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                  <span class="bg-gray-400 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
                     {{ participant.faculty }}
                   </span>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
                   {{ participant.prodi }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden md:table-cell">
                   {{ participant.totalCompletion }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden lg:table-cell">
                   {{ participant.time }}
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
+                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
                   <span
                     :class="[
-                      'px-3 py-1 rounded-full text-sm font-medium',
+                      'px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium',
                       participant.status === 'Lolos'
                         ? 'bg-green-100 text-green-800'
                         : 'bg-red-100 text-red-800'
@@ -310,10 +311,10 @@ export default {
       {
         name: "Manajemen Kelompok",
         icon: "navbar-7.png",
-        route: "/kelompok",
+        route: "/manajemen-kelompok",
         active: false,
       },
-      { name: "Manajemen Event", icon: "navbar.png", route: "/event", active: false },
+      { name: "Manajemen Event", icon: "navbar.png", route: "/manajemen-event", active: false },
     ]);
 
     const stats = reactive([

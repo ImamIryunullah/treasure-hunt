@@ -4,8 +4,10 @@ const MainPage = () => import("@/views/MainPage.vue");
 const BankSoal = () => import("@/views/BankSoal.vue");
 const MonitoringProgress = () => import("@/views/MonitoringProgress");
 const Leaderboard = () => import("@/views/Leaderboard");
-const ManajemenItem = () => import("@/views/ManajemenItem")
-const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship")
+const ManajemenItem = () => import("@/views/ManajemenItem");
+const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
+const ManajemenKelompok = () => import("@/views/ManajemenKelompok");
+const ManajementEvent = () => import("@/views/ManajemenEvent");
 
 
 
@@ -43,6 +45,16 @@ const routes = [
     path: "/sponsorship",
     name: "Manajemen Sponsorship",
     component: ManajemenSponsorship,
+  },
+  {
+    path: "/manajemen-kelompok",
+    name: "Manajemen Kelompok",
+    component: ManajemenKelompok,
+  },
+  {
+    path: "/manajemen-event",
+    name: "Manajemen Event",
+    component: ManajementEvent,
   },
 
 ];

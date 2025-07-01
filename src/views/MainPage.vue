@@ -123,10 +123,10 @@ export default {
       {
         name: "Manajemen Kelompok",
         icon: "navbar-7.png",
-        route: "/kelompok",
+        route: "/manajemen-kelompok",
         active: false,
       },
-      { name: "Manajemen Event", icon: "navbar.png", route: "/event", active: false },
+      { name: "Manajemen Event", icon: "navbar.png", route: "/manajemen-event", active: false },
     ]);
 
     const activities = reactive([
