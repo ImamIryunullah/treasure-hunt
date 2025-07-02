@@ -26,7 +26,7 @@
       
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 lg:mb-8">
         
-        <div class="bg-gradient-to-br from-yellow-200 to-yellow-300 rounded-xl p-4 sm:p-6 text-center border border-yellow-400 shadow-lg">
+        <div class="bg-[#FAEE6C] rounded-xl p-4 sm:p-6 text-center border border-yellow-400 shadow-lg">
           <div class="text-3xl sm:text-4xl mb-4">👑</div>
           <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.first.name }}</h3>
           <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.first.prodi }}</p>
@@ -38,7 +38,7 @@
         </div>
 
         
-        <div class="bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl p-4 sm:p-6 text-center border border-gray-400 shadow-lg">
+        <div class="bg-[#C0C0C0] rounded-xl p-4 sm:p-6 text-center border border-gray-400 shadow-lg">
           <div class="text-3xl sm:text-4xl mb-4">🥈</div>
           <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.second.name }}</h3>
           <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.second.prodi }}</p>
@@ -50,7 +50,7 @@
         </div>
 
         
-        <div class="bg-gradient-to-br from-orange-200 to-orange-300 rounded-xl p-4 sm:p-6 text-center border border-orange-400 shadow-lg">
+        <div class="bg-[#CD7F32] to-orange-300 rounded-xl p-4 sm:p-6 text-center border border-orange-400 shadow-lg">
           <div class="text-3xl sm:text-4xl mb-4">🥉</div>
           <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.third.name }}</h3>
           <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.third.prodi }}</p>

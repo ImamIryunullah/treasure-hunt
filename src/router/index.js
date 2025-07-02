@@ -10,6 +10,8 @@ const ManajemenKelompok = () => import("@/views/ManajemenKelompok");
 const ManajementEvent = () => import("@/views/ManajemenEvent");
 
 
+const LoginTreasureHunt = () => import("@/views/LoginTreasureHunt");
+
 
 const routes = [
 
@@ -55,6 +57,13 @@ const routes = [
     path: "/manajemen-event",
     name: "Manajemen Event",
     component: ManajementEvent,
+  },
+
+
+  {
+    path: "/login",
+    name: "Login Treasure Hunt",
+    component: LoginTreasureHunt,
   },
 
 ];

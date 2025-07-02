@@ -6,7 +6,7 @@
       @toggle="toggleSidebar"
       @set-active="setActiveMenu"
     />
-    
+
     <div class="flex-1 p-8">
       <div class="flex justify-between items-center mb-8">
         <div>
@@ -46,14 +46,20 @@
         >
           <div class="flex justify-between items-start mb-4">
             <div class="flex-1">
-              <h3 class="text-lg font-semibold text-gray-800 mb-2">{{ question.text }}</h3>
+              <h3 class="text-lg font-semibold text-gray-800 mb-2">
+                {{ question.text }}
+              </h3>
               <div class="flex space-x-4 text-sm text-gray-500">
-                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">{{ question.type }}</span>
-                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">{{ question.difficulty }}</span>
+                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded">{{
+                  question.type
+                }}</span>
+                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded">{{
+                  question.difficulty
+                }}</span>
               </div>
             </div>
           </div>
-          
+
           <p class="text-sm text-gray-600 mb-4">Pilihan jawaban</p>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
@@ -134,15 +140,21 @@
         <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
           <div class="p-6">
             <h2 class="text-2xl font-bold text-gray-800 mb-2">
-              {{ showEditModal ? 'Edit Soal' : 'Tambah Soal Baru' }}
+              {{ showEditModal ? "Edit Soal" : "Tambah Soal Baru" }}
             </h2>
             <p class="text-gray-600 mb-6">
-              {{ showEditModal ? 'Ubah pertanyaan untuk seleksi' : 'Buat pertanyaan untuk seleksi' }}
+              {{
+                showEditModal
+                  ? "Ubah pertanyaan untuk seleksi"
+                  : "Buat pertanyaan untuk seleksi"
+              }}
             </p>
             <form @submit.prevent="saveQuestion">
               <!-- Question Text -->
               <div class="mb-6">
-                <label class="block text-lg font-medium text-gray-700 mb-2">Pertanyaan</label>
+                <label class="block text-lg font-medium text-gray-700 mb-2"
+                  >Pertanyaan</label
+                >
                 <textarea
                   v-model="newQuestion.text"
                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -154,7 +166,9 @@
 
               <!-- Answer Options -->
               <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Pilihan jawaban</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Pilihan jawaban</label
+                >
                 <div class="space-y-3">
                   <div
                     v-for="(option, index) in newQuestion.options"
@@ -175,7 +189,9 @@
 
               <!-- Correct Answer -->
               <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Jawaban benar</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Jawaban benar</label
+                >
                 <select
                   v-model="newQuestion.correctAnswer"
                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -194,7 +210,9 @@
 
               <!-- Difficulty Level -->
               <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Tingkat kesulitan</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Tingkat kesulitan</label
+                >
                 <select
                   v-model="newQuestion.difficulty"
                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -209,7 +227,9 @@
 
               <!-- Question Type -->
               <div class="mb-6">
-                <label class="block text-sm font-medium text-gray-700 mb-2">Jenis Pertanyaan</label>
+                <label class="block text-sm font-medium text-gray-700 mb-2"
+                  >Jenis Pertanyaan</label
+                >
                 <select
                   v-model="newQuestion.type"
                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
@@ -228,7 +248,7 @@
                   type="submit"
                   class="flex-1 bg-red-500 hover:bg-red-600 text-white py-3 rounded-lg font-medium transition-colors"
                 >
-                  {{ showEditModal ? 'Update Soal' : 'Simpan Soal' }}
+                  {{ showEditModal ? "Update Soal" : "Simpan Soal" }}
                 </button>
                 <button
                   type="button"
@@ -256,22 +276,38 @@
                 @click="showPreviewModal = false"
                 class="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                <svg
+                  class="w-6 h-6"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M6 18L18 6M6 6l12 12"
+                  ></path>
                 </svg>
               </button>
             </div>
-            
+
             <div v-if="previewData" class="space-y-6">
               <!-- Question Info -->
               <div class="flex space-x-4 text-sm">
-                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">{{ previewData.type }}</span>
-                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">{{ previewData.difficulty }}</span>
+                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">{{
+                  previewData.type
+                }}</span>
+                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">{{
+                  previewData.difficulty
+                }}</span>
               </div>
 
               <!-- Question Text -->
               <div class="bg-gray-50 p-4 rounded-lg">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">{{ previewData.text }}</h3>
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                  {{ previewData.text }}
+                </h3>
               </div>
 
               <!-- Answer Options -->
@@ -284,13 +320,17 @@
                     'p-3 border-2 rounded-lg cursor-pointer transition-colors',
                     option.isCorrect
                       ? 'bg-green-50 border-green-300 text-green-800'
-                      : 'bg-white border-gray-200 hover:border-gray-300'
+                      : 'bg-white border-gray-200 hover:border-gray-300',
                   ]"
                 >
                   <div class="flex items-center space-x-3">
                     <span class="font-medium">{{ option.label }}.</span>
                     <span>{{ option.text }}</span>
-                    <span v-if="option.isCorrect" class="ml-auto text-green-600 font-medium">✓ Benar</span>
+                    <span
+                      v-if="option.isCorrect"
+                      class="ml-auto text-green-600 font-medium"
+                      >✓ Benar</span
+                    >
                   </div>
                 </div>
               </div>
@@ -306,14 +346,27 @@
       >
         <div class="bg-white rounded-xl max-w-md w-full p-6">
           <div class="text-center">
-            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-              <svg class="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+            <div
+              class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4"
+            >
+              <svg
+                class="h-6 w-6 text-red-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"
+                ></path>
               </svg>
             </div>
             <h3 class="text-lg font-medium text-gray-900 mb-2">Hapus Soal</h3>
             <p class="text-sm text-gray-500 mb-6">
-              Apakah Anda yakin ingin menghapus soal ini? Tindakan ini tidak dapat dibatalkan.
+              Apakah Anda yakin ingin menghapus soal ini? Tindakan ini tidak dapat
+              dibatalkan.
             </p>
             <div class="flex space-x-3">
               <button
@@ -333,20 +386,41 @@
         </div>
       </div>
 
-      <!-- Success/Error Toast -->
       <div
         v-if="toast.show"
         :class="[
           'fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 transition-all duration-300',
-          toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white'
+          toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white',
         ]"
       >
         <div class="flex items-center space-x-2">
-          <svg v-if="toast.type === 'success'" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+          <svg
+            v-if="toast.type === 'success'"
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M5 13l4 4L19 7"
+            ></path>
           </svg>
-          <svg v-else class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          <svg
+            v-else
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            ></path>
           </svg>
           <span>{{ toast.message }}</span>
         </div>
@@ -376,8 +450,8 @@ export default {
 
     const toast = reactive({
       show: false,
-      type: 'success',
-      message: ''
+      type: "success",
+      message: "",
     });
 
     const stats = reactive([
@@ -405,7 +479,12 @@ export default {
         route: "/manajemen-kelompok",
         active: false,
       },
-      { name: "Manajemen Event", icon: "navbar.png", route: "/manajemen-event", active: false },
+      {
+        name: "Manajemen Event",
+        icon: "navbar.png",
+        route: "/manajemen-event",
+        active: false,
+      },
     ]);
 
     const questions = reactive([
@@ -448,11 +527,11 @@ export default {
       type: "",
     });
 
-    const showToast = (message, type = 'success') => {
+    const showToast = (message, type = "success") => {
       toast.message = message;
       toast.type = type;
       toast.show = true;
-      
+
       setTimeout(() => {
         toast.show = false;
       }, 3000);
@@ -463,7 +542,7 @@ export default {
     };
 
     const setActiveMenu = (menuName) => {
-      menuItems.forEach(item => {
+      menuItems.forEach((item) => {
         item.active = item.name === menuName;
       });
     };
@@ -477,7 +556,8 @@ export default {
       editingQuestionId.value = question.id;
       newQuestion.text = question.text;
       newQuestion.options = [...question.options];
-      newQuestion.correctAnswer = question.options.find(opt => opt.isCorrect)?.label || "";
+      newQuestion.correctAnswer =
+        question.options.find((opt) => opt.isCorrect)?.label || "";
       newQuestion.difficulty = question.difficulty;
       newQuestion.type = question.type;
       showEditModal.value = true;
@@ -493,7 +573,7 @@ export default {
         const index = questions.findIndex((q) => q.id === questionToDelete.value.id);
         if (index > -1) {
           questions.splice(index, 1);
-          showToast('Soal berhasil dihapus', 'success');
+          showToast("Soal berhasil dihapus", "success");
           updateStats();
         }
       }
@@ -504,7 +584,7 @@ export default {
     const saveQuestion = () => {
       if (showEditModal.value) {
         // Update existing question
-        const index = questions.findIndex(q => q.id === editingQuestionId.value);
+        const index = questions.findIndex((q) => q.id === editingQuestionId.value);
         if (index > -1) {
           questions[index] = {
             id: editingQuestionId.value,
@@ -516,7 +596,7 @@ export default {
             difficulty: newQuestion.difficulty,
             type: newQuestion.type,
           };
-          showToast('Soal berhasil diupdate', 'success');
+          showToast("Soal berhasil diupdate", "success");
         }
       } else {
         // Create new question
@@ -531,7 +611,7 @@ export default {
           type: newQuestion.type,
         };
         questions.push(question);
-        showToast('Soal berhasil ditambahkan', 'success');
+        showToast("Soal berhasil ditambahkan", "success");
       }
 
       updateStats();
@@ -555,9 +635,9 @@ export default {
 
     const updateStats = () => {
       const total = questions.length;
-      const mudah = questions.filter(q => q.difficulty === 'mudah').length;
-      const sedang = questions.filter(q => q.difficulty === 'sedang').length;
-      const sulit = questions.filter(q => q.difficulty === 'sulit').length;
+      const mudah = questions.filter((q) => q.difficulty === "mudah").length;
+      const sedang = questions.filter((q) => q.difficulty === "sedang").length;
+      const sulit = questions.filter((q) => q.difficulty === "sulit").length;
 
       stats[0].value = total.toString();
       stats[1].value = mudah.toString();
@@ -565,9 +645,9 @@ export default {
       stats[3].value = sulit.toString();
 
       if (total > 0) {
-        stats[1].subtitle = `${Math.round((mudah/total) * 100)}% dari total soal`;
-        stats[2].subtitle = `${Math.round((sedang/total) * 100)}% dari total soal`;
-        stats[3].subtitle = `${Math.round((sulit/total) * 100)}% dari total soal`;
+        stats[1].subtitle = `${Math.round((mudah / total) * 100)}% dari total soal`;
+        stats[2].subtitle = `${Math.round((sedang / total) * 100)}% dari total soal`;
+        stats[3].subtitle = `${Math.round((sulit / total) * 100)}% dari total soal`;
       }
     };
 
@@ -593,7 +673,7 @@ export default {
       menuItems,
       toggleSidebar,
       setActiveMenu,
-      isCollapsed
+      isCollapsed,
     };
   },
 };
