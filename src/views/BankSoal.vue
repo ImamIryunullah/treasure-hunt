@@ -645,7 +645,7 @@ export default {
       stats[3].value = sulit.toString();
 
       if (total > 0) {
-        stats[1].subtitle = `${Math.round((mudah / total) * 100)}% dari total soal`;
+        stats[1].subtitle = `${Math.round((mudah / total) * 100)}% dari total soal`; 
         stats[2].subtitle = `${Math.round((sedang / total) * 100)}% dari total soal`;
         stats[3].subtitle = `${Math.round((sulit / total) * 100)}% dari total soal`;
       }

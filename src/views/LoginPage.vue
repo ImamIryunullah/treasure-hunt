@@ -9,22 +9,6 @@
       <div class="absolute inset-0"></div>
     </div>
 
-    <!-- Countdown Overlay -->
-    <div 
-      v-if="showCountdown" 
-      class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-    >
-      <div class="text-center">
-        <div class="countdown-circle">
-          <div class="countdown-number">{{ countdown }}</div>
-        </div>
-        <h2 class="text-white text-2xl font-bold mt-6 animate-pulse">
-          GET READY TO HUNT!
-        </h2>
-        <p class="text-gray-300 mt-2">Game dimulai dalam {{ countdown }} detik...</p>
-      </div>
-    </div>
-
     <div class="relative bg-[#545454] rounded-2xl shadow-2xl p-4 w-full max-w-md">
       <div class="text-center mb-8">
         <div class="w-16 h-16 flex items-center justify-center mx-auto mb-4">
@@ -172,7 +156,7 @@
                 d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
               ></path>
             </svg>
-            {{ isLoading ? "START HUNTING..." : "START HUNTING" }}
+            {{ isLoading ? "LOGIN..." : "LOGIN" }}
           </button>
         </div>
 
@@ -202,6 +186,7 @@
 
 <script>
 import { ref, reactive } from "vue";
+import { useRouter } from 'vue-router';
 
 export default {
   name: "LoginPage",
@@ -209,8 +194,9 @@ export default {
     const isLoading = ref(false);
     const showPassword = ref(false);
     const errorMessage = ref("");
-    const showCountdown = ref(false);
-    const countdown = ref(5);
+        
+    const router = useRouter();
+
 
     const loginForm = reactive({
       nim: "",
@@ -222,22 +208,6 @@ export default {
       showPassword.value = !showPassword.value;
     };
 
-    const startCountdown = () => {
-      showCountdown.value = true;
-      countdown.value = 5;
-      
-      const countdownInterval = setInterval(() => {
-        countdown.value--;
-        
-        if (countdown.value <= 0) {
-          clearInterval(countdownInterval);
-          // Redirect ke question-page
-          window.location.href = "/question-page";
-          // Atau jika menggunakan Vue Router:
-          // this.$router.push('/question-page');
-        }
-      }, 1000);
-    };
 
     const handleLogin = async () => {
       try {
@@ -254,10 +224,9 @@ export default {
         await new Promise((resolve) => setTimeout(resolve, 1500));
 
         // Simulasi validasi login
-        if (loginForm.nim === "admin" && loginForm.password === "password") {
+        if (loginForm.nim === "12345678" && loginForm.password === "password") {
           console.log("Login berhasil:", loginForm);
-          // Mulai countdown setelah login berhasil
-          startCountdown();
+          router.push("/");
         } else {
           errorMessage.value = "nim atau password salah";
         }
@@ -274,8 +243,6 @@ export default {
       isLoading,
       showPassword,
       errorMessage,
-      showCountdown,
-      countdown,
       togglePassword,
       handleLogin,
     };
@@ -299,42 +266,6 @@ export default {
   animation: float 3s ease-in-out infinite;
 }
 
-/* Countdown circle animation */
-.countdown-circle {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-  position: relative;
-  animation: countdownPulse 1s ease-in-out infinite;
-  box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
-}
-
-.countdown-number {
-  font-size: 3rem;
-  font-weight: bold;
-  color: white;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes countdownPulse {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
-  }
-  50% {
-    transform: scale(1.1);
-    box-shadow: 0 0 40px rgba(239, 68, 68, 0.8);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 30px rgba(239, 68, 68, 0.6);
-  }
-}
 
 /* Custom focus styles */
 input:focus {

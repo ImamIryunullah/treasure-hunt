@@ -8,10 +8,11 @@ const ManajemenItem = () => import("@/views/ManajemenItem");
 const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
 const ManajemenKelompok = () => import("@/views/ManajemenKelompok");
 const ManajementEvent = () => import("@/views/ManajemenEvent");
-const QuestionPage = () => import("@/views/QuestionPage");
+
+const LoginPage = () => import("@/views/LoginPage");
 
 
-const LoginTreasureHunt = () => import("@/views/LoginTreasureHunt");
+const MahasiswaDashboard = () => import("@/views/MahasiswaDashboard")
 
 
 const routes = [
@@ -63,13 +64,14 @@ const routes = [
 
   {
     path: "/login",
-    name: "Login Treasure Hunt",
-    component: LoginTreasureHunt,
+    name: "Login Page",
+    component: LoginPage,
   },
+
   {
-    path: "/question-page",
-    name: "Question Page",
-    component: QuestionPage,
+    path: "/mahasiswa-dashboard",
+    name: "Mahasiswa Dashboard",
+    component: MahasiswaDashboard ,
   },
 
 ];
