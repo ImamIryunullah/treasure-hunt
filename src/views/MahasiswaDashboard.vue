@@ -74,11 +74,11 @@ export default {
     const isCollapsed = ref(false);
     const menuItems = reactive([
       { name: "Dashboard", icon: "fas fa-home", route: "/", active: true },
-      { name: "Seleksi Quiz", icon: "fas fa-book", route: "/bank-soal", active: false },
+      { name: "Seleksi Quiz", icon: "fas fa-book", route: "/mahasiswa-seleksi-quiz", active: false },
       {
         name: "Pengumuman",
         icon: "fas fa-trophy",
-        route: "/monitoring-progress",
+        route: "/mahasiswa-pengemuman",
         active: false,
       },
       {

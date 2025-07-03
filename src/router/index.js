@@ -13,7 +13,8 @@ const LoginPage = () => import("@/views/LoginPage");
 
 
 const MahasiswaDashboard = () => import("@/views/MahasiswaDashboard")
-
+const MahasiswaSeleksiQuiz = () => import("@/views/MahasiswaSeleksiQuiz")
+const MahasiswaPengumuman = () => import("@/views/MahasiswaPengumuman")
 
 const routes = [
 
@@ -72,6 +73,16 @@ const routes = [
     path: "/mahasiswa-dashboard",
     name: "Mahasiswa Dashboard",
     component: MahasiswaDashboard ,
+  },
+  {
+    path: "/mahasiswa-seleksi-quiz",
+    name: "Mahasiswa Seleksi Quiz",
+    component: MahasiswaSeleksiQuiz ,
+  },
+  {
+    path: "/mahasiswa-pengumuman",
+    name: "Mahasiswa Pengumuman",
+    component: MahasiswaPengumuman,
   },
 
 ];
