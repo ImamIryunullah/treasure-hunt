@@ -7,24 +7,24 @@
         @set-active="setActiveMenu"
       />
   
-      <!-- Main Content -->
+      
       <div class="flex-1 p-8">
         <div class="max-w-2xl mx-auto">
-          <!-- Header Card -->
+          
           <div class="bg-white rounded-lg shadow-sm border p-8 text-center mb-6">
-            <!-- Check Icon -->
+            
             <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
   
-            <!-- Title -->
+            
             <h1 class="text-2xl font-bold text-gray-800 mb-2">Seleksi Cepat Mahasiswa Baru</h1>
             <p class="text-gray-600">Jawab 7 pertanyaan tentang universitas untuk melanjutkan ke tahap berikutnya</p>
           </div>
   
-          <!-- Instructions Card -->
+          
           <div class="bg-white rounded-lg shadow-sm border p-6 mb-6">
             <h2 class="text-lg font-semibold text-gray-800 mb-4">Instruksi:</h2>
             <ul class="space-y-2 text-gray-700">
@@ -47,7 +47,7 @@
             </ul>
           </div>
   
-          <!-- Time Warning -->
+          
           <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 flex items-center">
             <svg class="w-5 h-5 text-yellow-600 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -58,7 +58,6 @@
             </div>
           </div>
   
-          <!-- Start Button -->
           <button 
             @click="startQuiz"
             class="w-full bg-gray-800 hover:bg-gray-700 text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
@@ -66,10 +65,9 @@
             Mulai Seleksi
           </button>
   
-          <!-- Quiz Modal -->
           <div v-if="showQuizModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
             <div class="bg-white rounded-lg shadow-xl max-w-3xl w-full mx-4 max-h-[90vh] overflow-y-auto">
-              <!-- Quiz Header -->
+              
               <div class="bg-gray-50 px-6 py-4 border-b flex justify-between items-center">
                 <h3 class="text-lg font-semibold text-gray-800">
                   Pertanyaan {{ currentQuestion + 1 }} dari {{ questions.length }}
@@ -85,10 +83,8 @@
                   </button>
                 </div>
               </div>
-  
-              <!-- Quiz Content -->
+              
               <div class="p-6">
-                <!-- Progress Bar -->
                 <div class="mb-6">
                   <div class="flex justify-between text-sm text-gray-600 mb-2">
                     <span>Progress</span>
@@ -101,8 +97,7 @@
                     ></div>
                   </div>
                 </div>
-  
-                <!-- Question -->
+
                 <div class="mb-6">
                   <h4 class="text-lg font-medium text-gray-800 mb-4">
                     {{ questions[currentQuestion].question }}
@@ -126,7 +121,6 @@
                   </div>
                 </div>
   
-                <!-- Navigation Buttons -->
                 <div class="flex justify-between">
                   <button 
                     @click="previousQuestion"
@@ -153,7 +147,7 @@
                   >
                     Submit Quiz
                   </button>
-                </div>
+                </div>  
               </div>
             </div>
           </div>
@@ -182,7 +176,7 @@
         { name: "Dashboard", icon: "fas fa-home", route: "/mahasiswa-dashboard", active: false },
         { name: "Seleksi Quiz", icon: "fas fa-book", route: "/mahasiswa-seleksi-quiz", active: true },
         { name: "Pengumuman", icon: "fas fa-trophy", route: "/mahasiswa-pengumuman", active: false },
-        { name: "Daftar Kelompok", icon: "fas fa-users", route: "/leaderboard", active: false },
+        { name: "Daftar Kelompok", icon: "fas fa-users", route: "/mahasiswa-daftar-kelompok", active: false },
         { name: "Treasure Hunt", icon: "fas fa-map", route: "/treasure", active: false },
         { name: "Hunt Sponsorship", icon: "fas fa-gift", route: "/sponsorship", active: false },
         { name: "Progres Kelompok", icon: "fas fa-chart-bar", route: "/manajemen-kelompok", active: false },

@@ -73,18 +73,18 @@ export default {
   setup() {
     const isCollapsed = ref(false);
     const menuItems = reactive([
-      { name: "Dashboard", icon: "fas fa-home", route: "/", active: true },
+      { name: "Dashboard", icon: "fas fa-home", route: "/mahasiswa-dashboard", active: true },
       { name: "Seleksi Quiz", icon: "fas fa-book", route: "/mahasiswa-seleksi-quiz", active: false },
       {
         name: "Pengumuman",
         icon: "fas fa-trophy",
-        route: "/mahasiswa-pengemuman",
+        route: "/mahasiswa-pengumuman",
         active: false,
       },
       {
         name: "Daftar Kelompok",
         icon: "fas fa-users",
-        route: "/leaderboard",
+        route: "/mahasiswa-daftar-kelompok",
         active: false,
       },
       { name: "Treasure Hunt", icon: "fas fa-map", route: "/treasure", active: false },
