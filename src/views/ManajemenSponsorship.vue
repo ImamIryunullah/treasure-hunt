@@ -347,21 +347,51 @@
                 }}</span>
               </div>
               <div class="text-xs text-gray-500 space-y-1">
-                <div class="flex items-center justify-between">
-                  <button>👁 {{ popup.views }}</button>
-                  <span>{{ popup.clicks }}</span>
-                </div>
-                <div class="flex items-center justify-between">
-                  <span>📊 {{ popup.engagement }}</span>
-                  <div class="flex space-x-1">
-                    <button class="text-gray-400 hover:text-gray-600">👁</button>
-                    <button class="text-gray-400 hover:text-gray-600">✏️</button>
-                    <button class="bg-red-500 text-white p-1 rounded text-xs">
-                      Aktifkan
-                    </button>
-                  </div>
-                </div>
-              </div>
+  <div class="flex items-center justify-between">
+    <span class="flex items-center space-x-1">
+      <!-- Eye icon -->
+      <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M1.5 12s4.5-7.5 10.5-7.5S22.5 12 22.5 12s-4.5 7.5-10.5 7.5S1.5 12 1.5 12z" />
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" />
+      </svg>
+      <span>{{ popup.views }}</span>
+    </span>
+    <span>{{ popup.clicks }}</span>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <span class="flex items-center space-x-1">
+      <!-- Chart icon -->
+      <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6v12M12 10v8M20 4v16" />
+      </svg>
+      <span>{{ popup.engagement }}</span>
+    </span>
+
+    <div class="flex space-x-1">
+      <!-- Eye button -->
+      <button class="text-gray-400 hover:text-gray-600">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M1.5 12s4.5-7.5 10.5-7.5S22.5 12 22.5 12s-4.5 7.5-10.5 7.5S1.5 12 1.5 12z" />
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" />
+        </svg>
+      </button>
+
+      <!-- Edit button -->
+      <button class="text-gray-400 hover:text-gray-600">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536M4 20h4l11-11-4-4L4 20z" />
+        </svg>
+      </button>
+
+      <!-- Activate button -->
+      <button class="bg-red-500 text-white p-1 rounded text-xs">
+        Aktifkan
+      </button>
+    </div>
+  </div>
+</div>
+
             </div>
           </div>
         </div>
@@ -377,7 +407,7 @@
             </h3>
             <p class="text-sm text-gray-600 mb-4">
               Performa event sponsor dalam periode tertentu
-            </p>
+            </p>  
             <div class="space-y-3">
               <div class="flex justify-between">
                 <span class="text-sm text-gray-600">Total peserta event</span>

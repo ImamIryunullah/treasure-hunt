@@ -8,6 +8,7 @@ const ManajemenItem = () => import("@/views/ManajemenItem");
 const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
 const ManajemenKelompok = () => import("@/views/ManajemenKelompok");
 const ManajementEvent = () => import("@/views/ManajemenEvent");
+const QuestionPage = () => import("@/views/QuestionPage");
 
 
 const LoginTreasureHunt = () => import("@/views/LoginTreasureHunt");
@@ -64,6 +65,11 @@ const routes = [
     path: "/login",
     name: "Login Treasure Hunt",
     component: LoginTreasureHunt,
+  },
+  {
+    path: "/question-page",
+    name: "Question Page",
+    component: QuestionPage,
   },
 
 ];
