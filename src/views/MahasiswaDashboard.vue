@@ -22,27 +22,28 @@
           v-for="stat in stats"
           :key="stat.title"
           :class="[
-            'rounded-lg p-6 border border-black shadow-sm',
+            'rounded-lg p-5 border shadow-sm relative overflow-hidden',
             stat.bgColor,
-            stat.borderColor,
           ]"
         >
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            <span class="w-8 h-8">{{ stat.icon }}</span>
-            <h3 class="text-sm font-bold" :class="stat.statusColor">{{ stat.status }}</h3>
+          <!-- Icon dan Status -->
+          <div class="flex justify-between items-start mb-4">
+            <font-awesome-icon
+              :icon="['fas', stat.icon]"
+              class="text-2xl"
+              :class="stat.statusColor"
+            />
+            <span
+              class="text-xs font-medium px-2 py-1 rounded-full bg-white/70"
+              :class="stat.statusColor"
+            >
+              {{ stat.status }}
+            </span>
           </div>
-          <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ stat.title }}</h3>
-          <p class="text-sm text-gray-500">{{ stat.subtitle }}</p>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-2 mb-8">
-        <div
-          v-for="progresi in progresis"
-          :key="progresi.title"
-          class="bg-white rounded-lg p-6 border border-black shadow-sm"
-        >
-          <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ progresi.title }}</h3>
-          <p class="text-sm text-gray-500">{{ progresi.subtitle }}</p>
+
+          <!-- Judul dan Subjudul -->
+          <h3 class="text -base font-semibold text-gray-800">{{ stat.title }}</h3>
+          <p class="text-sm text-gray-600">{{ stat.subtitle }}</p>
         </div>
       </div>
     </div>
@@ -51,13 +52,26 @@
 
 <script>
 import SidebarMahasiswa from "@/components/SidebarMahasiswa.vue";
-import { reactive } from "vue";
+import { ref, reactive } from "vue";
+import "@fortawesome/fontawesome-free/css/all.css";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {
+  faCheckCircle,
+  faUsers,
+  faMapMarkedAlt,
+  faTrophy,
+} from "@fortawesome/free-solid-svg-icons";
+import { library } from "@fortawesome/fontawesome-svg-core";
+
+library.add(faCheckCircle, faUsers, faMapMarkedAlt, faTrophy);
 export default {
   components: {
     SidebarMahasiswa,
+    FontAwesomeIcon,
   },
   name: "MahasiswaDashboard",
   setup() {
+    const isCollapsed = ref(false);
     const menuItems = reactive([
       { name: "Dashboard", icon: "fas fa-home", route: "/", active: true },
       { name: "Seleksi Quiz", icon: "fas fa-book", route: "/bank-soal", active: false },
@@ -91,42 +105,49 @@ export default {
 
     const stats = reactive([
       {
-        title: "Seleksi QUiz",
+        title: "Seleksi Quiz",
         subtitle: "Skor: 85/100",
-        bgColor: "bg-green-100",
-        icon: "",
+        bgColor: "bg-green-50",
+        icon: "check-circle",
         status: "Selesai",
-        statusColor: "text-green-600 bg-co",
+        statusColor: "text-green-600",
       },
       {
         title: "Kelompok",
         subtitle: "Tim Explorer",
-        bgColor: "bg-blue-100",
-        icon: "👥",
+        bgColor: "bg-blue-50",
+        icon: "users",
         status: "Aktif",
         statusColor: "text-blue-600",
       },
       {
         title: "Treasure Hunt",
         subtitle: "6/10 Area",
-        bgColor: "bg-purple-100",
-        icon: "",
+        bgColor: "bg-purple-50",
+        icon: "map-marked-alt",
         status: "Berlangsung",
         statusColor: "text-purple-600",
       },
       {
         title: "Posisi",
-        subtitle: "#3 dari 25 Tim",
-        bgColor: "bg-yellow-100",
-        icon: "",
-        status: "Rangking",
-        statusColor: "text-yellow-600",
+        subtitle: "#3 dari 25 tim",
+        bgColor: "bg-orange-50",
+        icon: "trophy",
+        status: "Ranking",
+        statusColor: "text-orange-600",
       },
     ]);
+
+    const toggleSidebar = () => {
+      isCollapsed.value = !isCollapsed.value;
+    };
+
     return {
       menuItems,
       reactive,
       stats,
+      isCollapsed,
+      toggleSidebar,
     };
   },
 };
