@@ -177,10 +177,10 @@
         { name: "Seleksi Quiz", icon: "fas fa-book", route: "/mahasiswa-seleksi-quiz", active: true },
         { name: "Pengumuman", icon: "fas fa-trophy", route: "/mahasiswa-pengumuman", active: false },
         { name: "Daftar Kelompok", icon: "fas fa-users", route: "/mahasiswa-daftar-kelompok", active: false },
-        { name: "Treasure Hunt", icon: "fas fa-map", route: "/treasure", active: false },
-        { name: "Hunt Sponsorship", icon: "fas fa-gift", route: "/sponsorship", active: false },
-        { name: "Progres Kelompok", icon: "fas fa-chart-bar", route: "/manajemen-kelompok", active: false },
-        { name: "Profil", icon: "fas fa-user", route: "/manajemen-event", active: false },
+        { name: "Treasure Hunt", icon: "fas fa-map", route: "/mahasiswa-treasure-hunt", active: false },
+        { name: "Hunt Sponsorship", icon: "fas fa-gift", route: "/mahasiswa-hunt-sponsorship", active: false },
+        { name: "Progres Kelompok", icon: "fas fa-chart-bar", route: "/mahasiswa-progress-kelompok", active: false },
+        { name: "Profil", icon: "fas fa-user", route: "/mahasiswa-profil", active: false },
       ]);
   
       const questions = reactive([

@@ -16,6 +16,10 @@ const MahasiswaDashboard = () => import("@/views/MahasiswaDashboard")
 const MahasiswaSeleksiQuiz = () => import("@/views/MahasiswaSeleksiQuiz")
 const MahasiswaPengumuman = () => import("@/views/MahasiswaPengumuman")
 const MahasiswaDaftarKelompok = () => import("@/views/MahasiswaDaftarKelompok")
+const MahasiswaTreasureHunt = () => import("@/views/MahasiswaTreasureHunt")
+const MahasiswaProgressKelompok = () => import("@/views/MahasiswaProgressKelompok")
+const MahasiswaHuntSponsorship = () => import("@/views/MahasiswaHuntSponsorship")
+const MahasiswaProfil = () => import("@/views/MahasiswaProfil")
 
 const routes = [
 
@@ -89,6 +93,26 @@ const routes = [
     path: "/mahasiswa-daftar-kelompok",
     name: "Mahasiswa Daftar Kelompok",
     component: MahasiswaDaftarKelompok,
+  },
+  {
+    path: "/mahasiswa-treasure-hunt",
+    name: "Mahasiswa Treasure Hunt",
+    component: MahasiswaTreasureHunt,
+  },
+  {
+    path: "/mahasiswa-progress-kelompok",
+    name: "Mahasiswa Progress Kelompok",
+    component: MahasiswaProgressKelompok,
+  },
+  {
+    path: "/mahasiswa-hunt-sponsorship",
+    name: "Mahasiswa Hunt Sponsorship",
+    component: MahasiswaHuntSponsorship,
+  },
+  {
+    path: "/mahasiswa-profil",
+    name: "Mahasiswa Profile",
+    component: MahasiswaProfil,
   },
 
 ];

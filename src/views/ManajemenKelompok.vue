@@ -33,7 +33,7 @@
         </div>
       </div> 
       
-      <!-- Stats Cards -->
+      
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
         <div
           v-for="stat in stats"
@@ -46,14 +46,14 @@
         </div>
       </div>
 
-      <!-- Group List Section -->
+      
       <div class="bg-white rounded-lg border border-black shadow-sm">
         <div class="p-6 border-b border-black">
           <h2 class="text-xl font-semibold text-gray-900 mb-1">Daftar kelompok</h2>
           <p class="text-gray-600">Daftar lengkap kelompok pada event</p>
         </div>
 
-        <!-- Search and Filter -->
+        
         <div class="p-6 border-b border-black">
           <div class="flex flex-col md:flex-row gap-4">
             <div class="flex-1">
@@ -91,7 +91,7 @@
           </div>
         </div>
 
-        <!-- Group Cards -->
+        
         <div class="p-6">
           <div v-if="filteredGroups.length === 0" class="text-center py-8">
             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -107,7 +107,7 @@
               :key="group.id"
               class="bg-white border border-black rounded-lg p-4 hover:shadow-md transition-shadow"
             >
-              <!-- Group Header -->
+              
               <div class="flex items-start justify-between mb-3">
                 <div class="flex items-center">
                   <div class="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center mr-2">
@@ -127,7 +127,7 @@
                 </span>
               </div>
 
-              <!-- Group Info -->
+              
               <div class="space-y-2 mb-4">
                 <p class="text-sm text-gray-600">{{ group.faculty }}</p>
                 <p class="text-sm text-gray-600">{{ group.prodi }}</p>
@@ -141,7 +141,7 @@
                 <p class="text-sm text-gray-500">{{ group.rewards }}</p>
               </div>
 
-              <!-- Members -->
+              
               <div class="mb-4">
                 <h4 class="text-sm font-semibold text-gray-900 mb-2">Anggota ({{ group.members.filter(m => m.nim && m.name).length }}/5)</h4>
                 <div class="space-y-1">
@@ -155,7 +155,7 @@
                 </div>
               </div>
 
-              <!-- Action Buttons -->
+              
               <div class="flex gap-2">
                 <button
                   @click="editGroup(group)"
@@ -181,14 +181,14 @@
       </div>
     </div>
 
-    <!-- Add Group Modal -->
+    
     <div v-if="showAddModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div class="bg-white rounded-lg p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
         <h2 class="text-xl font-semibold text-gray-900 mb-4">Tambah kelompok baru</h2>
         <p class="text-gray-600 mb-6">Daftarkan kelompok baru untuk EVENT</p>
 
         <form @submit.prevent="addGroup">
-          <!-- Group Name -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Nama kelompok *</label>
             <input
@@ -200,7 +200,7 @@
             />
           </div>
 
-          <!-- Faculty -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Fakultas *</label>
             <select v-model="newGroup.faculty" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
@@ -211,7 +211,7 @@
             </select>
           </div>
 
-          <!-- Program Studi -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Program Studi *</label>
             <select v-model="newGroup.prodi" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
@@ -231,7 +231,7 @@
             </select>
           </div>
 
-          <!-- Location -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Lokasi</label>
             <select v-model="newGroup.location" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
@@ -243,7 +243,7 @@
             </select>
           </div>
 
-          <!-- Members -->
+          
           <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-2">Anggota kelompok</label>
             <div class="space-y-2">
@@ -265,7 +265,7 @@
             <p class="text-xs text-gray-500 mt-2">Minimal 1 anggota harus diisi</p>
           </div>
 
-          <!-- Action Buttons -->
+          
           <div class="flex gap-3">
             <button
               type="submit"
@@ -286,14 +286,14 @@
       </div>
     </div>
 
-    <!-- Edit Group Modal -->
+    
     <div v-if="showEditModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div class="bg-white rounded-lg p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
         <h2 class="text-xl font-semibold text-gray-900 mb-4">Edit kelompok</h2>
         <p class="text-gray-600 mb-6">Ubah informasi kelompok</p>
 
         <form @submit.prevent="updateGroup">
-          <!-- Group Name -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Nama kelompok *</label>
             <input
@@ -305,7 +305,7 @@
             />
           </div>
 
-          <!-- Faculty -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Fakultas *</label>
             <select v-model="editedGroup.faculty" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
@@ -316,7 +316,7 @@
             </select>
           </div>
 
-          <!-- Program Studi -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Program Studi *</label>
             <select v-model="editedGroup.prodi" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500" required>
@@ -336,7 +336,7 @@
             </select>
           </div>
 
-          <!-- Location -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Lokasi</label>
             <select v-model="editedGroup.location" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
@@ -348,7 +348,7 @@
             </select>
           </div>
 
-          <!-- Status -->
+          
           <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
             <select v-model="editedGroup.status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500">
@@ -359,7 +359,7 @@
             </select>
           </div>
 
-          <!-- Members -->
+          
           <div class="mb-6">
             <label class="block text-sm font-medium text-gray-700 mb-2">Anggota kelompok</label>
             <div class="space-y-2">
@@ -380,7 +380,7 @@
             </div>
           </div>
 
-          <!-- Action Buttons -->
+          
           <div class="flex gap-3">
             <button
               type="submit"
@@ -400,7 +400,7 @@
       </div>
     </div>
 
-    <!-- Delete Confirmation Modal -->
+    
     <div v-if="showDeleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div class="bg-white rounded-lg p-6 w-full max-w-md">
         <div class="flex items-center mb-4">
@@ -436,7 +436,7 @@
       </div>
     </div>
 
-    <!-- Success Toast -->
+    
     <div v-if="showToast" class="fixed top-4 right-4 z-50">
       <div class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -73,8 +73,18 @@ export default {
   setup() {
     const isCollapsed = ref(false);
     const menuItems = reactive([
-      { name: "Dashboard", icon: "fas fa-home", route: "/mahasiswa-dashboard", active: true },
-      { name: "Seleksi Quiz", icon: "fas fa-book", route: "/mahasiswa-seleksi-quiz", active: false },
+      {
+        name: "Dashboard",
+        icon: "fas fa-home",
+        route: "/mahasiswa-dashboard",
+        active: true,
+      },
+      {
+        name: "Seleksi Quiz",
+        icon: "fas fa-book",
+        route: "/mahasiswa-seleksi-quiz",
+        active: false,
+      },
       {
         name: "Pengumuman",
         icon: "fas fa-trophy",
@@ -87,20 +97,25 @@ export default {
         route: "/mahasiswa-daftar-kelompok",
         active: false,
       },
-      { name: "Treasure Hunt", icon: "fas fa-map", route: "/treasure", active: false },
+      {
+        name: "Treasure Hunt",
+        icon: "fas fa-map",
+        route: "/mahasiswa-treasure-hunt",
+        active: false,
+      },
       {
         name: "Hunt Sponsorship",
         icon: "fas fa-gift",
-        route: "/sponsorship",
+        route: "/mahasiswa-hunt-sponsorship",
         active: false,
       },
       {
         name: "Progres Kelompok",
         icon: "fas fa-chart-bar",
-        route: "/manajemen-kelompok",
+        route: "/mahasiswa-progress-kelompok",
         active: false,
       },
-      { name: "Profil", icon: "fas fa-user", route: "/manajemen-event", active: false },
+      { name: "Profil", icon: "fas fa-user", route: "/mahasiswa-profil", active: false },
     ]);
 
     const stats = reactive([

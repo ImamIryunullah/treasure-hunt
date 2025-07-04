@@ -435,7 +435,7 @@
           id: 1,
           name: 'Treasure Hunt Untag 2025',
           type: 'Event Umum',
-          timeRemaining: 1800, // 30 minutes in seconds
+          timeRemaining: 1800,
           status: 'running'
         },
         {
