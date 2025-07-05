@@ -9,44 +9,54 @@
 
     <div class="flex-1 p-8">
       <div class="flex justify-between items-center mb-8 relative">
-    <h2 class="text-2xl font-bold text-gray-800">Dashboard</h2>
+        <h2 class="text-2xl font-bold text-gray-800">Admin Dashboard</h2>
+        <!-- <div class="justify-start items-start flex-1">
+          <p class="font-semibold text-gray-200 ">
+            Treasure Hunt - 5 Basis Nilai UNTAG SURABAYA
+          </p>
+        </div> -->
 
-    <div class="relative">
-      <div class="flex items-center space-x-3 cursor-pointer" @click="toggleDropdown">
-        <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
-        <div class="text-left">
-          <p class="text-sm font-medium text-gray-800">Admin Untag</p>
-          <p class="text-xs text-gray-500">0288201</p>
-        </div>
-        <svg
-          class="w-4 h-4 text-gray-500 transform transition-transform duration-200"
-          :class="{ 'rotate-180': dropdownOpen }"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </div>
-
-      <!-- Dropdown Menu -->
-      <div
-        v-if="dropdownOpen"
-        class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border z-50"
-      >
-        <ul>
-          <li>
-            <button
-              @click="logout"
-              class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+        <div class="relative">
+          <div class="flex items-center space-x-3 cursor-pointer" @click="toggleDropdown">
+            <div class="w-10 h-10 bg-gray-300 rounded-full"></div>
+            <div class="text-left">
+              <p class="text-sm font-medium text-gray-800">Admin Untag</p>
+              <p class="text-xs text-gray-500">0288201</p>
+            </div>
+            <svg
+              class="w-4 h-4 text-gray-500 transform transition-transform duration-200"
+              :class="{ 'rotate-180': dropdownOpen }"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
             >
-              Logout
-            </button>
-          </li>
-        </ul>
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </div>
+
+          <!-- Dropdown Menu -->
+          <div
+            v-if="dropdownOpen"
+            class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg border z-50"
+          >
+            <ul>
+              <li>
+                <button
+                  @click="logout"
+                  class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div
           v-for="stat in stats"
@@ -154,18 +164,45 @@ export default {
     const menuItems = reactive([
       { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
       { name: "Bank Soal", icon: "navbar-2.png", route: "/bank-soal", active: false },
-      { name: "Monitoring Progress", icon: "navbar-3.png", route: "/monitoring-progress", active: false },
+      {
+        name: "Monitoring Progress",
+        icon: "navbar-3.png",
+        route: "/monitoring-progress",
+        active: false,
+      },
       { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: true },
       { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
       { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
-      { name: "Manajemen Kelompok", icon: "navbar-7.png", route: "/manajemen-kelompok", active: false },
-      { name: "Manajemen Event", icon: "navbar.png", route: "/manajemen-event", active: false },
+      {
+        name: "Manajemen Kelompok",
+        icon: "navbar-7.png",
+        route: "/manajemen-kelompok",
+        active: false,
+      },
+      {
+        name: "Manajemen Event",
+        icon: "navbar.png",
+        route: "/manajemen-event",
+        active: false,
+      },
     ]);
 
     const activities = reactive([
-      { id: 1, message: "Kelompok Raden rahmat menemukan '1piece'", time: "5 menit yang lalu" },
-      { id: 2, message: "Kelompok Raden rahmat menemukan '1piece'", time: "5 menit yang lalu" },
-      { id: 3, message: "Kelompok Raden rahmat menemukan '1piece'", time: "5 menit yang lalu" },
+      {
+        id: 1,
+        message: "Kelompok Raden rahmat menemukan '1piece'",
+        time: "5 menit yang lalu",
+      },
+      {
+        id: 2,
+        message: "Kelompok Raden rahmat menemukan '1piece'",
+        time: "5 menit yang lalu",
+      },
+      {
+        id: 3,
+        message: "Kelompok Raden rahmat menemukan '1piece'",
+        time: "5 menit yang lalu",
+      },
     ]);
 
     const setActiveMenu = (name) => {
@@ -189,4 +226,3 @@ export default {
   },
 };
 </script>
-

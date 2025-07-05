@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import store from "@/store/store";
-const MainPage = () => import("@/views/MainPage.vue");
+const AdminDashboard = () => import("@/views/AdminDashboard");
 const BankSoal = () => import("@/views/BankSoal.vue");
 const MonitoringProgress = () => import("@/views/MonitoringProgress");
 const Leaderboard = () => import("@/views/Leaderboard");
@@ -25,8 +25,8 @@ const routes = [
 
   {
     path: "/",
-    name: "Dasboard",
-    component: MainPage,
+    name: "Admin Dashboard",
+    component: AdminDashboard,
   },
 
   {
