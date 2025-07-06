@@ -1,16 +1,15 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import store from "@/store/store";
 const AdminDashboard = () => import("@/views/AdminDashboard");
-const BankSoal = () => import("@/views/BankSoal.vue");
+const AdminKelolaSoal = () => import("@/views/AdminKelolaSoal");
 const MonitoringProgress = () => import("@/views/MonitoringProgress");
 const Leaderboard = () => import("@/views/Leaderboard");
 const ManajemenItem = () => import("@/views/ManajemenItem");
 const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
-const ManajemenKelompok = () => import("@/views/ManajemenKelompok");
+const AdminManajemenKelompok = () => import("@/views/AdminManajemenKelompok");
 const ManajementEvent = () => import("@/views/ManajemenEvent");
-
+const AdminKelolaLokasi = () => import("@/views/AdminKelolaLokasi");
 const LoginPage = () => import("@/views/LoginPage");
-
 
 const MahasiswaDashboard = () => import("@/views/MahasiswaDashboard")
 const MahasiswaSeleksiQuiz = () => import("@/views/MahasiswaSeleksiQuiz")
@@ -31,8 +30,13 @@ const routes = [
 
   {
     path: "/bank-soal",
-    name: "Bank Soal",
-    component: BankSoal,
+    name: "Kelola Soal",
+    component: AdminKelolaSoal,
+  },
+  {
+    path: "/manajemen-lokasi",
+    name: "Admin Manajemen Lokasi",
+    component: AdminKelolaLokasi,
   },
 
   {
@@ -59,7 +63,7 @@ const routes = [
   {
     path: "/manajemen-kelompok",
     name: "Manajemen Kelompok",
-    component: ManajemenKelompok,
+    component: AdminManajemenKelompok,
   },
   {
     path: "/manajemen-event",

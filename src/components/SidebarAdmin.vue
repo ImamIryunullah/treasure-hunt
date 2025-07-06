@@ -6,7 +6,7 @@
     ]"
     class="min-h-screen"
   >
-    <!-- Header -->
+    
     <div class="p-4 border-b border-slate-700">
       <div class="flex items-center justify-between">
         <div v-if="!isCollapsed">
@@ -29,7 +29,7 @@
       </div>
     </div>
 
-    <!-- Menu Items -->
+    
     <nav class="flex-1 p-4 space-y-2">
       <router-link
         v-for="item in menuItems"
@@ -43,11 +43,10 @@
         :title="isCollapsed ? item.name : ''"
       >
         <div class="flex-shrink-0 flex items-center justify-center">
-          <img
-            :src="getIconUrl(item.icon)"
-            :class="['object-contain', 'w-8 h-8']"
-            :alt="item.name + ' icon'"
-          />
+          <i 
+            :class="[item.icon, 'text-xl', 'text-white']"
+            :style="{ width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }"
+          ></i>
         </div>
         <span
           v-if="!isCollapsed"
@@ -58,7 +57,7 @@
       </router-link>
     </nav>
 
-    <!-- Logout (paling bawah) -->
+    
     <div class="p-4 mt-auto border-t border-slate-700">
       <button
         @click="handleLogout"
@@ -66,19 +65,7 @@
         :class="isCollapsed ? 'p-2 justify-center' : 'p-3'"
         :title="isCollapsed ? 'Logout' : ''"
       >
-        <svg
-          class="w-6 h-6 text-white"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
-          />
-        </svg>
+        <i class="fas fa-sign-out-alt text-xl text-white" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"></i>
         <span v-if="!isCollapsed" class="ml-3 whitespace-nowrap">Logout</span>
       </button>
     </div>
@@ -100,15 +87,6 @@ export default {
 
     const toggleSidebar = () => emit('toggle');
 
-    const getIconUrl = (filename) => {
-      try {
-        return require(`@/assets/sidebar/${filename}`);
-      } catch (error) {
-        console.error(`Icon not found: ${filename}`);
-        return '';
-      }
-    };
-
     const isRouteActive = (menuRoute) => route.path === menuRoute;
 
     const handleLogout = () => {
@@ -120,7 +98,6 @@ export default {
 
     return {
       toggleSidebar,
-      getIconUrl,
       isRouteActive,
       handleLogout
     };

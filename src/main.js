@@ -6,6 +6,7 @@ import router from '@/router';
 import 'font-awesome/css/font-awesome.min.css';
 import store from './store';
 
+
 // Initialize the app and use the router and store
 createApp(App)
   .use(store)  // Ensure Vuex store is used before mounting the app

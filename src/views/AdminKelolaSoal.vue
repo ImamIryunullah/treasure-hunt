@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-screen bg-gray-50">
+  <div class="flex min-h-screen bg-purple-50">
     <SidebarAdmin
       :is-collapsed="isCollapsed"
       :menu-items="menuItems"
@@ -462,31 +462,32 @@ export default {
     ]);
 
     const menuItems = reactive([
-      { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
-      { name: "Bank Soal", icon: "navbar-2.png", route: "/bank-soal", active: true },
+      { name: "Dashboard", icon: "fas fa-tachometer-alt", route: "/", active: false },
+      { name: "Kelola Lokasi", icon: "fas fa-map-marker-alt", route: "/manajemen-lokasi", active: false },
       {
-        name: "Monitoring Progress",
-        icon: "navbar-3.png",
-        route: "/monitoring-progress",
-        active: false,
-      },
-      { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: false },
-      { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
-      { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
-      {
-        name: "Manajemen Kelompok",
-        icon: "navbar-7.png",
+        name: "Kelola Kelompok",
+        icon: "fas fa-users",
         route: "/manajemen-kelompok",
         active: false,
       },
+      { name: "Kelola Soal", icon: "fas fa-question-circle", route: "/bank-soal", active: true },
+      {
+        name: "Monitoring Progress",
+        icon: "fas fa-chart-line",
+        route: "/monitoring-progress",
+        active: false,
+      },
+      { name: "Leaderboard", icon: "fas fa-trophy", route: "/leaderboard", active: false },
+      { name: "Treasure Hint", icon: "fas fa-map-marked-alt", route: "/treasure", active: false },
+      { name: "Sponsorship", icon: "fas fa-handshake", route: "/sponsorship", active: false },
+
       {
         name: "Manajemen Event",
-        icon: "navbar.png",
+        icon: "fas fa-calendar-alt",
         route: "/manajemen-event",
         active: false,
       },
     ]);
-
     const questions = reactive([
       {
         id: 1,
