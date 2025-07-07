@@ -379,7 +379,7 @@ export default {
     });
 
     const menuItems = reactive([
-      { name: "Dashboard", icon: "fas fa-tachometer-alt", route: "/", active: true },
+      { name: "Dashboard", icon: "fas fa-home", route: "/", active: true },
       { name: "Kelola Lokasi", icon: "fas fa-map-marker-alt", route: "/manajemen-lokasi", active: false },
       {
         name: "Kelola Kelompok",
@@ -394,16 +394,13 @@ export default {
         route: "/monitoring-progress",
         active: false,
       },
-      { name: "Leaderboard", icon: "fas fa-trophy", route: "/leaderboard", active: false },
-      { name: "Treasure Hint", icon: "fas fa-map-marked-alt", route: "/treasure", active: false },
-      { name: "Sponsorship", icon: "fas fa-handshake", route: "/sponsorship", active: false },
-
       {
-        name: "Manajemen Event",
-        icon: "fas fa-calendar-alt",
-        route: "/manajemen-event",
+        name: "Laporan",
+        icon: "fas fa-file-alt",
+        route: "/laporan-dan-rekapan-akhir",
         active: false,
       },
+
     ]);
 
     const activities = reactive([

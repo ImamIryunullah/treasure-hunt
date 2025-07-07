@@ -55,7 +55,7 @@
           <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1">Total Hadiah</h3>
           <p class="text-2xl md:text-3xl font-bold text-orange-600 mb-2">{{ totalRewards }}</p>
           <p class="text-xs md:text-sm text-gray-500">hadiah terkumpul</p>
-        </div>
+        </div>   
       </div>
 
       <!-- Groups Grid -->
@@ -446,15 +446,13 @@ export default {
         route: "/monitoring-progress",
         active: false,
       },
-      { name: "Leaderboard", icon: "fas fa-trophy", route: "/leaderboard", active: false },
-      { name: "Treasure Hint", icon: "fas fa-map-marked-alt", route: "/treasure", active: false },
-      { name: "Sponsorship", icon: "fas fa-handshake", route: "/sponsorship", active: false },
       {
-        name: "Manajemen Event",
-        icon: "fas fa-calendar-alt",
-        route: "/manajemen-event",
+        name: "Laporan",
+        icon: "fas fa-file-alt",
+        route: "/laporan-dan-rekapan-akhir",
         active: false,
       },
+
     ]);
     // Sample data for groups
     const groups = reactive([

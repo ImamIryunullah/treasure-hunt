@@ -2,13 +2,13 @@ import { createRouter, createWebHistory } from "vue-router";
 // import store from "@/store/store";
 const AdminDashboard = () => import("@/views/AdminDashboard");
 const AdminKelolaSoal = () => import("@/views/AdminKelolaSoal");
-const MonitoringProgress = () => import("@/views/MonitoringProgress");
+const AdminMonitoringProgress = () => import("@/views/AdminMonitoringProgress");
 const Leaderboard = () => import("@/views/Leaderboard");
-const ManajemenItem = () => import("@/views/ManajemenItem");
 const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
 const AdminManajemenKelompok = () => import("@/views/AdminManajemenKelompok");
 const ManajementEvent = () => import("@/views/ManajemenEvent");
 const AdminKelolaLokasi = () => import("@/views/AdminKelolaLokasi");
+const AdminLaporan = () => import("@/views/AdminLaporan");
 const LoginPage = () => import("@/views/LoginPage");
 
 const MahasiswaDashboard = () => import("@/views/MahasiswaDashboard")
@@ -42,7 +42,13 @@ const routes = [
   {
     path: "/monitoring-progress",
     name: "Monitoring Progress",
-    component: MonitoringProgress,
+    component: AdminMonitoringProgress,
+  },
+
+  {
+    path: "/laporan-dan-rekapan-akhir",
+    name: "Laporan & Rekapan Akhir",
+    component: AdminLaporan,
   },
 
   {
@@ -50,11 +56,7 @@ const routes = [
     name: "Leaderboard",
     component: Leaderboard,
   },
-  {
-    path: "/treasure",
-    name: "Manajemen Item",
-    component: ManajemenItem,
-  },
+
   {
     path: "/sponsorship",
     name: "Manajemen Sponsorship",

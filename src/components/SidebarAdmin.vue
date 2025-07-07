@@ -9,9 +9,16 @@
     
     <div class="p-4 border-b border-slate-700">
       <div class="flex items-center justify-between">
-        <div v-if="!isCollapsed">
+        <div v-if="!isCollapsed" class="flex items-center space-x-3">
+          <img
+            src="@/assets/logo_untag.png"
+            alt="Logo"
+            class="w-10 h-10 object-contain"
+          />
+          <div>
           <h1 class="text-lg font-semibold">Admin Panel</h1>
           <p class="text-sm text-slate-400">Treasure hunt</p>
+          </div>
         </div>
         <button
           @click="toggleSidebar"
