@@ -15,8 +15,6 @@
           <span>💰 {{ points }} Poin</span>
         </div>
       </div>
-
-      
       <div class="mb-6">
         <div class="flex justify-between text-sm text-gray-600 mb-2">
           <span>Progress</span>
@@ -30,7 +28,6 @@
         </div>
       </div>
 
-      
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <h2 class="text-lg font-semibold mb-4">🎯 Cara Bermain</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
