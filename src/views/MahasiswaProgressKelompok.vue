@@ -228,7 +228,7 @@
   
   <script>
   import SidebarMahasiswa from "@/components/SidebarMahasiswa.vue";
-  import { ref, reactive } from "vue";
+  import { reactive } from "vue";
   import "@fortawesome/fontawesome-free/css/all.css";
   import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
   import {
@@ -260,69 +260,6 @@
       FontAwesomeIcon
     },
     setup() {
-      const isCollapsed = ref(false);
-      
-      const menuItems = reactive([
-        {
-          name: "Dashboard",
-          icon: "fas fa-home",
-          route: "/mahasiswa-dashboard",
-          active: false,
-        },
-        {
-          name: "Seleksi Quiz",
-          icon: "fas fa-book",
-          route: "/mahasiswa-seleksi-quiz",
-          active: false,
-        },
-        {
-          name: "Pengumuman",
-          icon: "fas fa-trophy",
-          route: "/mahasiswa-pengumuman",
-          active: false,
-        },
-        {
-          name: "Daftar Kelompok",
-          icon: "fas fa-users",
-          route: "/mahasiswa-daftar-kelompok",
-          active: false,
-        },
-        {
-          name: "Treasure Hunt",
-          icon: "fas fa-map",
-          route: "/mahasiswa-treasure-hunt",
-          active: false,
-        },
-        {
-          name: "Hunt Sponsorship",
-          icon: "fas fa-gift",
-          route: "/mahasiswa-hunt-sponsorship",
-          active: false,
-        },
-        {
-          name: "Progres Kelompok",
-          icon: "fas fa-chart-bar",
-          route: "/mahasiswa-progress-kelompok",
-          active: true,
-        },
-        {
-          name: "Profil",
-          icon: "fas fa-user",
-          route: "/mahasiswa-profil",
-          active: false,
-        },
-      ]);
-  
-      const toggleSidebar = () => {
-        isCollapsed.value = !isCollapsed.value;
-      };
-  
-      const setActiveMenu = (menuName) => {
-        menuItems.forEach(item => {
-          item.active = item.name === menuName;
-        });
-      };
-  
       const stats = reactive([
         {
           value: "6/10",
@@ -547,10 +484,6 @@
       };
   
       return {
-        isCollapsed,
-        menuItems,
-        toggleSidebar,
-        setActiveMenu,
         stats,
         areas,
         leaderboard,

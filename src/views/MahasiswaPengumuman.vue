@@ -1,11 +1,6 @@
 <template>
   <div class="flex min-h-screen bg-green-50">
-    <SidebarMahasiswa
-      :is-collapsed="isCollapsed"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @set-active="setActiveMenu"
-    />
+    <SidebarMahasiswa />
 
     <div class="flex-1 p-8 transition-all duration-300">
       <div class="mb-8">
@@ -13,55 +8,6 @@
           Hasil Seleksi Mahasiswa Baru
         </h1>
         <p class="text-gray-600">Hasil seleksi quiz dan penilaian calon himpunan</p>
-      </div>
-
-      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex items-center justify-center mb-4">
-          <div
-            class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center"
-          >
-            <svg
-              class="w-8 h-8 text-green-500"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M5 13l4 4L19 7"
-              ></path>
-            </svg>
-          </div>
-        </div>
-
-        <div class="text-center mb-6">
-          <h2 class="text-xl font-semibold text-gray-800 mb-2">
-            🎉 Selamat! Anda Lolos Seleksi!
-          </h2>
-          <p class="text-gray-600 text-sm">
-            Anda berhasil melewati tahap seleksi dan dapat melanjutkan ke tahap berikutnya
-          </p>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-          <div class="bg-blue-50 rounded-lg p-4 text-center">
-            <div class="text-2xl font-bold text-blue-600">85</div>
-            <div class="text-sm text-gray-600">Nilai Quiz</div>
-            <div class="text-xs text-gray-500">dari 100</div>
-          </div>
-          <div class="bg-purple-50 rounded-lg p-4 text-center">
-            <div class="text-2xl font-bold text-purple-600">#15</div>
-            <div class="text-sm text-gray-600">Ranking</div>
-            <div class="text-xs text-gray-500">dari 150 peserta</div>
-          </div>
-          <div class="bg-green-50 rounded-lg p-4 text-center">
-            <div class="text-2xl font-bold text-green-600">✓</div>
-            <div class="text-sm text-gray-600">Status</div>
-            <div class="text-xs text-gray-500">Lolos</div>
-          </div>
-        </div>
       </div>
 
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
@@ -257,8 +203,59 @@
         </div>
       </div>
 
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <div class="flex items-center justify-center mb-4">
+          <div
+            class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center"
+          >
+            <svg
+              class="w-8 h-8 text-green-500"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+          </div>
+        </div>
+
+        <div class="text-center mb-6">
+          <h2 class="text-xl font-semibold text-gray-800 mb-2">
+            🎉 Selamat! Anda Lolos Seleksi!
+          </h2>
+          <p class="text-gray-600 text-sm">
+            Anda berhasil melewati tahap seleksi dan dapat melanjutkan ke tahap berikutnya
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div class="bg-blue-50 rounded-lg p-4 text-center">
+            <div class="text-2xl font-bold text-blue-600">85</div>
+            <div class="text-sm text-gray-600">Nilai Quiz</div>
+            <div class="text-xs text-gray-500">dari 100</div>
+          </div>
+          <div class="bg-purple-50 rounded-lg p-4 text-center">
+            <div class="text-2xl font-bold text-purple-600">#15</div>
+            <div class="text-sm text-gray-600">Ranking</div>
+            <div class="text-xs text-gray-500">dari 150 peserta</div>
+          </div>
+          <div class="bg-green-50 rounded-lg p-4 text-center">
+            <div class="text-2xl font-bold text-green-600">✓</div>
+            <div class="text-sm text-gray-600">Status</div>
+            <div class="text-xs text-gray-500">Lolos</div>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-8 text-center">
-        <div class="bg-gray-600 hover:bg-gray-900 text-white px-4 py-2 rounded-lg inline-block">
+        <div
+          class="bg-gray-600 hover:bg-gray-900 text-white px-4 py-2 rounded-lg inline-block"
+        >
           <a href="/mahasiswa-daftar-kelompok" class="flex items-center space-x-2">
             <font-awesome-icon :icon="['fas', 'users']" class="w-4 h-4 text-white" />
             <p class="text-sm">Lanjut Daftar Kelompok</p>
@@ -267,7 +264,9 @@
         <p class="text-xs text-gray-500 mt-2">
           Jangan lupa untuk melakukan step berikutnya dengan daftar kelompok terlebih
           dahulu -
-          <a href="/mahasiswa-daftar-kelompok" class="text-blue-600 hover:underline">Daftar Kelompok Saat Ini</a>
+          <a href="/mahasiswa-daftar-kelompok" class="text-blue-600 hover:underline"
+            >Daftar Kelompok Saat Ini</a
+          >
         </p>
       </div>
     </div>
@@ -276,7 +275,6 @@
 
 <script>
 import SidebarMahasiswa from "@/components/SidebarMahasiswa.vue";
-import { ref, reactive } from "vue";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { faUsers } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -286,66 +284,7 @@ export default {
     SidebarMahasiswa,
     FontAwesomeIcon,
   },
-  setup() {
-    const isCollapsed = ref(false);
-    const menuItems = reactive([
-      {
-        name: "Dashboard",
-        icon: "fas fa-home",
-        route: "/mahasiswa-dashboard",
-        active: false,
-      },
-      {
-        name: "Seleksi Quiz",
-        icon: "fas fa-book",
-        route: "/mahasiswa-seleksi-quiz",
-        active: false,
-      },
-      {
-        name: "Pengumuman",
-        icon: "fas fa-trophy",
-        route: "/mahasiswa-pengumuman",
-        active: true,
-      },
-      {
-        name: "Daftar Kelompok",
-        icon: "fas fa-users",
-        route: "/mahasiswa-daftar-kelompok",
-        active: false,
-      },
-      { name: "Treasure Hunt", icon: "fas fa-map", route: "/mahasiswa-treasure-hunt", active: false },
-      {
-        name: "Hunt Sponsorship",
-        icon: "fas fa-gift",
-        route: "/mahasiswa-hunt-sponsorship",
-        active: false,
-      },
-      {
-        name: "Progres Kelompok",
-        icon: "fas fa-chart-bar",
-        route: "/mahasiswa-progress-kelompok",
-        active: false,
-      },
-      { name: "Profil", icon: "fas fa-user", route: "/mahasiswa-profil", active: false },
-    ]);
-
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
-    };
-
-    const setActiveMenu = (index) => {
-      menuItems.forEach((item, i) => {
-        item.active = i === index;
-      });
-    };
-
-    return {
-      isCollapsed,
-      menuItems,
-      toggleSidebar,
-      setActiveMenu,
-    };
-  },
+  setup() {},
 };
 </script>
 

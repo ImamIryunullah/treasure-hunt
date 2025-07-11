@@ -2,28 +2,21 @@
   <div
     :class="[
       'bg-slate-900 text-white transition-all duration-300 flex flex-col',
-      isCollapsed ? 'w-16' : 'w-64'
+      isCollapsed ? 'w-16' : 'w-64',
     ]"
     class="min-h-screen"
   >
-    
+    <!-- Header -->
     <div class="p-4 border-b border-slate-700">
       <div class="flex items-center justify-between">
         <div v-if="!isCollapsed" class="flex items-center space-x-3">
-          <img
-            src="@/assets/logo_untag.png"
-            alt="Logo"
-            class="w-10 h-10 object-contain"
-          />
+          <img src="@/assets/logo_untag.png" alt="Logo" class="w-10 h-10 object-contain" />
           <div>
-          <h1 class="text-lg font-semibold">Admin Panel</h1>
-          <p class="text-sm text-slate-400">Treasure hunt</p>
+            <h1 class="text-lg font-semibold">Treasure Hunt UNTAG</h1>
+            <p class="text-sm text-slate-400">Admin Panel</p>
           </div>
         </div>
-        <button
-          @click="toggleSidebar"
-          class="p-1 rounded hover:bg-slate-700 transition-colors"
-        >
+        <button @click="toggleSidebar" class="p-1 rounded hover:bg-slate-700 transition-colors">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               stroke-linecap="round"
@@ -36,35 +29,73 @@
       </div>
     </div>
 
-    
+    <!-- Menu Items -->
     <nav class="flex-1 p-4 space-y-2">
-      <router-link
-        v-for="item in menuItems"
-        :key="item.name"
-        :to="item.route"
-        class="flex items-center transition-colors rounded-lg"
-        :class="[
-          isRouteActive(item.route) ? 'bg-slate-700' : '',
-          isCollapsed ? 'p-2 justify-center hover:bg-slate-700' : 'p-3 hover:bg-slate-700'
-        ]"
-        :title="isCollapsed ? item.name : ''"
-      >
-        <div class="flex-shrink-0 flex items-center justify-center">
-          <i 
-            :class="[item.icon, 'text-xl', 'text-white']"
-            :style="{ width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center' }"
-          ></i>
+
+      <!-- Render Items -->
+      <template v-for="item in menuItems" :key="item.name">
+        <!-- Item with children (dropdown) -->
+        <div v-if="item.children" class="space-y-1">
+          <button
+            @click="toggleDropdown(item.name)"
+            class="flex items-center w-full transition-colors rounded-lg hover:bg-slate-700"
+            :class="isCollapsed ? 'p-2 justify-center' : 'p-3'"
+          >
+            <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center">
+              <i :class="item.icon" class="text-white text-lg"></i>
+            </div>
+            <span v-if="!isCollapsed" class="ml-3 flex-1 text-left">{{ item.name }}</span>
+            <svg
+              v-if="!isCollapsed"
+              class="w-4 h-4 ml-auto transform transition-transform"
+              :class="{ 'rotate-90': dropdownOpen[item.name] }"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          <!-- Submenus -->
+          <div v-show="dropdownOpen[item.name] && !isCollapsed" class="pl-8 space-y-1">
+            <router-link
+              v-for="sub in item.children"
+              :key="sub.route"
+              :to="sub.route"
+              class="block rounded-lg p-2 text-sm hover:bg-slate-700"
+              :class="{ 'bg-slate-700': isRouteActive(sub.route) }"
+            >
+              {{ sub.name }}
+            </router-link>
+          </div>
         </div>
-        <span
-          v-if="!isCollapsed"
-          class="ml-3 whitespace-nowrap overflow-hidden text-ellipsis"
+
+        <!-- Normal Item -->
+        <router-link
+          v-else
+          :to="item.route"
+          class="flex items-center transition-colors rounded-lg"
+          :class="[
+            isRouteActive(item.route) ? 'bg-slate-700' : '',
+            isCollapsed ? 'p-2 justify-center hover:bg-slate-700' : 'p-3 hover:bg-slate-700',
+          ]"
+          :title="isCollapsed ? item.name : ''"
         >
-          {{ item.name }}
-        </span>
-      </router-link>
+          <div class="flex-shrink-0 flex items-center justify-center w-6 h-6">
+            <i :class="item.icon" class="text-white text-lg"></i>
+          </div>
+          <span
+            v-if="!isCollapsed"
+            class="ml-3 whitespace-nowrap overflow-hidden text-ellipsis"
+          >
+            {{ item.name }}
+          </span>
+        </router-link>
+      </template>
     </nav>
 
-    
+    <!-- Logout -->
     <div class="p-4 mt-auto border-t border-slate-700">
       <button
         @click="handleLogout"
@@ -72,7 +103,14 @@
         :class="isCollapsed ? 'p-2 justify-center' : 'p-3'"
         :title="isCollapsed ? 'Logout' : ''"
       >
-        <i class="fas fa-sign-out-alt text-xl text-white" style="width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;"></i>
+        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h6a2 2 0 012 2v1"
+          />
+        </svg>
         <span v-if="!isCollapsed" class="ml-3 whitespace-nowrap">Logout</span>
       </button>
     </div>
@@ -80,34 +118,56 @@
 </template>
 
 <script>
-import { useRoute, useRouter } from 'vue-router';
+import { reactive } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   props: {
     isCollapsed: Boolean,
-    menuItems: Array
   },
-  emits: ['toggle'],
+  emits: ["toggle"],
   setup(props, { emit }) {
     const route = useRoute();
     const router = useRouter();
 
-    const toggleSidebar = () => emit('toggle');
+    const toggleSidebar = () => emit("toggle");
+
+    const dropdownOpen = reactive({});
+
+    const toggleDropdown = (name) => {
+      dropdownOpen[name] = !dropdownOpen[name];
+    };
+
+    const menuItems = reactive([
+      { name: "Dashboard", icon: "fas fa-home", route: "/" },
+      {
+        name: "Kelola Game",
+        icon: "fas fa-calendar-alt",
+        children: [
+          { name: "Kelola Lokasi", route: "/manajemen-lokasi" },
+          { name: "Kelola Kelompok", route: "/manajemen-kelompok" },
+          { name: "Kelola Soal", route: "/bank-soal" },
+        ],
+      },
+      { name: "Progress Kelompok", icon: "fas fa-chart-line", route: "/monitoring-progress" },
+      { name: "Laporan", icon: "fas fa-file-alt", route: "/laporan-dan-rekapan-akhir" },
+    ]);
 
     const isRouteActive = (menuRoute) => route.path === menuRoute;
 
     const handleLogout = () => {
-      // Bersihkan token/login
       localStorage.clear();
-      // Arahkan ke login
-      router.push('/login');
+      router.push("/login");
     };
 
     return {
       toggleSidebar,
+      handleLogout,
       isRouteActive,
-      handleLogout
+      toggleDropdown,
+      menuItems,
+      dropdownOpen,
     };
-  }
+  },
 };
 </script>

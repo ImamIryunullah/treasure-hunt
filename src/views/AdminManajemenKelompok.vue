@@ -1,609 +1,348 @@
 <template>
-  <div class="flex min-h-screen bg-green-50">
+  <div class="flex min-h-screen bg-gray-50">
     <SidebarAdmin
       :is-collapsed="isCollapsed"
       :menu-items="menuItems"
       @toggle="toggleSidebar"
       @set-active="setActiveMenu"
     />
-
     <div class="flex-1 p-8">
-      <!-- Header -->
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-        <div class="mb-4 md:mb-0">
-          <h1 class="text-3xl font-bold text-gray-900 mb-2">Manajemen Kelompok</h1>
-          <p class="text-gray-600">Kelola 26 kelompok mahasiswa treasure hunt</p>
-        </div>
-        <div class="flex gap-2">
-          <button
-            @click="randomAssignment"
-            class="bg-gray-500 hover:bg-gray-600 text-white px-4 md:px-6 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2 text-sm md:text-base"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 9.172V5L8 4z"
-              ></path>
-            </svg>
-            <span>Random Assignment</span>
-          </button>
-          <button
-            @click="showAddModal = true"
-            class="bg-green-500 hover:bg-green-600 text-white px-4 md:px-6 py-2 rounded-lg font-medium transition-colors flex items-center space-x-2 text-sm md:text-base"
-          >
-            <span>+</span>
-            <span>Tambah Kelompok</span>
-          </button>
-        </div>
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">Kelola Kelompok Treasure Hunt</h1>
+        <p class="text-gray-600">Buat kelompok baru dan kelola data anggota kelompok</p>
       </div>
 
       <!-- Stats Cards -->
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8"
-      >
-        <div class="bg-white rounded-lg p-4 md:p-6 border shadow-sm">
-          <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1">
-            Total Kelompok
-          </h3>
-          <p class="text-2xl md:text-3xl font-bold text-blue-600 mb-2">
-            {{ groups.length }}
-          </p>
-          <p class="text-xs md:text-sm text-gray-500">dari target 26 kelompok</p>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">Total Kelompok</p>
+              <p class="text-2xl font-bold text-gray-800">{{ totalTeams }}</p>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-lg">
+              <i class="fas fa-users text-blue-600"></i>
+            </div>
+          </div>
         </div>
-        <div class="bg-white rounded-lg p-4 md:p-6 border shadow-sm">
-          <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1">
-            Kelompok Aktif
-          </h3>
-          <p class="text-2xl md:text-3xl font-bold text-green-600 mb-2">
-            {{ activeGroups }}
-          </p>
-          <p class="text-xs md:text-sm text-gray-500">sedang berburu hadiah</p>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">Total Peserta</p>
+              <p class="text-2xl font-bold text-gray-800">{{ totalParticipants }}</p>
+            </div>
+            <div class="bg-green-100 p-3 rounded-lg">
+              <i class="fas fa-user-friends text-green-600"></i>
+            </div>
+          </div>
         </div>
-        <div class="bg-white rounded-lg p-4 md:p-6 border shadow-sm">
-          <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1">
-            Kelompok Selesai
-          </h3>
-          <p class="text-2xl md:text-3xl font-bold text-purple-600 mb-2">
-            {{ completedGroups }}
-          </p>
-          <p class="text-xs md:text-sm text-gray-500">telah menyelesaikan</p>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">Kelompok Penuh</p>
+              <p class="text-2xl font-bold text-gray-800">{{ fullTeams }}</p>
+            </div>
+            <div class="bg-red-100 p-3 rounded-lg">
+              <i class="fas fa-exclamation-triangle text-red-600"></i>
+            </div>
+          </div>
         </div>
-        <div class="bg-white rounded-lg p-4 md:p-6 border shadow-sm">
-          <h3 class="text-base md:text-lg font-semibold text-gray-900 mb-1">
-            Total Hadiah
-          </h3>
-          <p class="text-2xl md:text-3xl font-bold text-orange-600 mb-2">
-            {{ totalRewards }}
-          </p>
-          <p class="text-xs md:text-sm text-gray-500">hadiah terkumpul</p>
+        
+        <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">Slot Tersedia</p>
+              <p class="text-2xl font-bold text-gray-800">{{ availableSlots }}</p>
+            </div>
+            <div class="bg-yellow-100 p-3 rounded-lg">
+              <i class="fas fa-clock text-yellow-600"></i>
+            </div>
+          </div>
         </div>
       </div>
 
-      <!-- Groups Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8">
-        <div
-          v-for="group in groups"
-          :key="group.id"
-          class="bg-white rounded-lg p-6 border shadow-sm hover:shadow-md transition-shadow"
-        >
-          <!-- Group Header -->
-          <div class="flex items-start justify-between mb-4">
-            <div class="flex items-center">
-              <div
-                class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-3"
-              >
-                <svg
-                  class="w-5 h-5 text-gray-600"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+        <!-- Form Buat Kelompok -->
+        <div class="xl:col-span-1">
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="bg-blue-100 p-2 rounded-lg">
+                <i class="fas fa-plus text-blue-600"></i>
+              </div>
+              <h2 class="text-xl font-bold text-gray-800">Buat Kelompok Baru</h2>
+            </div>
+            
+            <form @submit.prevent="createTeam">
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Nama Kelompok
+                </label>
+                <input 
+                  v-model="newTeam.name"
+                  type="text" 
+                  placeholder="Masukkan nama kelompok"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Deskripsi
+                </label>
+                <textarea 
+                  v-model="newTeam.description"
+                  placeholder="Deskripsi kelompok"
+                  rows="3"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                ></textarea>
+              </div>
+
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  Maksimal Anggota
+                </label>
+                <select 
+                  v-model="newTeam.maxMembers"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
                 >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
+                  <option value="">Pilih limit anggota</option>
+                  <option value="4">4 Anggota</option>
+                  <option value="6">6 Anggota</option>
+                  <option value="8">8 Anggota</option>
+                  <option value="10">10 Anggota</option>
+                </select>
               </div>
-              <div>
-                <h3 class="font-semibold text-gray-900">{{ group.name }}</h3>
-                <p class="text-sm text-gray-600">{{ group.faculty }}</p>
-              </div>
-            </div>
-            <span
-              class="px-2 py-1 text-xs rounded-full font-medium"
-              :class="getStatusClass(group.status)"
-            >
-              {{ group.status }}
-            </span>
-          </div>
 
-          <!-- Group Info -->
-          <div class="space-y-2 mb-4">
-            <div class="flex items-center text-sm text-gray-600">
-              <svg
-                class="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+              <button 
+                type="submit"
+                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
               >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                ></path>
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                ></path>
-              </svg>
-              {{ group.location }}
-            </div>
-            <div class="flex items-center text-sm text-gray-600">
-              <svg
-                class="w-4 h-4 mr-2"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
-                ></path>
-              </svg>
-              {{ group.rewards }}
-            </div>
-          </div>
-
-          <!-- Members -->
-          <div class="mb-4">
-            <h4 class="text-sm font-semibold text-gray-900 mb-2">Anggota:</h4>
-            <div class="space-y-1 text-sm">
-              <div
-                v-for="member in group.members.filter((m) => m.nim && m.name)"
-                :key="member.id"
-                class="text-gray-600"
-              >
-                {{ member.nim }} - {{ member.name }}
-              </div>
-              <div
-                v-if="group.members.filter((m) => m.nim && m.name).length === 0"
-                class="text-gray-400 italic"
-              >
-                Belum ada anggota
-              </div>
-            </div>
-          </div>
-
-          <!-- Actions -->
-          <div class="flex gap-2">
-            <button
-              @click="editGroup(group)"
-              class="flex-1 px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center"
-            >
-              <svg
-                class="w-4 h-4 mr-1"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                ></path>
-              </svg>
-              Edit
-            </button>
-            <button
-              @click="generateQRCode(group)"
-              class="px-3 py-2 text-sm border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-                ></path>
-              </svg>
-            </button>
-            <button
-              @click="showDeleteConfirm(group)"
-              class="px-3 py-2 text-sm text-red-600 border border-red-300 rounded-lg hover:bg-red-50 transition-colors"
-            >
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                ></path>
-              </svg>
-            </button>
+                <i class="fas fa-plus-circle mr-2"></i>
+                Buat Kelompok
+              </button>
+            </form>
           </div>
         </div>
-      </div>
 
-      <!-- Quick Actions -->
-      <div class="bg-white rounded-lg p-6 border shadow-sm">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">Aksi Cepat</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <button
-            @click="exportData"
-            class="flex items-center justify-center px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
-          >
-            <svg
-              class="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-              ></path>
-            </svg>
-            Export Data Kelompok
-          </button>
-          <button
-            @click="generateAllQRCodes"
-            class="flex items-center justify-center px-4 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg font-medium transition-colors"
-          >
-            <svg
-              class="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-              ></path>
-            </svg>
-            Generate QR Codes
-          </button>
-          <button
-            @click="printGroupSummary"
-            class="flex items-center justify-center px-4 py-3 bg-purple-500 hover:bg-purple-600 text-white rounded-lg font-medium transition-colors"
-          >
-            <svg
-              class="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
-              ></path>
-            </svg>
-            Cetak Rekap Kelompok
-          </button>
-          <button
-            @click="validateGroupData"
-            class="flex items-center justify-center px-4 py-3 bg-orange-500 hover:bg-orange-600 text-white rounded-lg font-medium transition-colors"
-          >
-            <svg
-              class="w-5 h-5 mr-2"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              ></path>
-            </svg>
-            Validasi Data Kelompok
-          </button>
+        <!-- Daftar Kelompok -->
+        <div class="xl:col-span-2">
+          <div class="bg-white rounded-lg shadow-sm p-6">
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center gap-3">
+                <div class="bg-green-100 p-2 rounded-lg">
+                  <i class="fas fa-list text-green-600"></i>
+                </div>
+                <h2 class="text-xl font-bold text-gray-800">Daftar Kelompok</h2>
+              </div>
+              
+              <div class="flex items-center gap-3">
+                <div class="relative">
+                  <input 
+                    v-model="searchTerm"
+                    type="text" 
+                    placeholder="Cari kelompok..."
+                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                </div>
+              </div>
+            </div>
+
+            <div class="space-y-4">
+              <div 
+                v-for="team in filteredTeams" 
+                :key="team.id"
+                class="border rounded-lg p-4 hover:border-blue-300 transition-colors"
+              >
+                <div class="flex items-center justify-between mb-3">
+                  <div class="flex items-center gap-3">
+                    <h3 class="font-semibold text-gray-800">{{ team.name }}</h3>
+                    <span 
+                      class="text-xs px-2 py-1 rounded-full"
+                      :class="getTeamStatusClass(team)"
+                    >
+                      {{ getTeamStatus(team) }}
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm text-gray-500">
+                      {{ team.members.length }}/{{ team.maxMembers }}
+                    </span>
+                    <button 
+                      @click="toggleTeamDetails(team.id)"
+                      class="text-blue-600 hover:text-blue-800"
+                    >
+                      <i class="fas fa-chevron-down transition-transform"
+                         :class="{ 'rotate-180': expandedTeams.includes(team.id) }"></i>
+                    </button>
+                  </div>
+                </div>
+
+                <p class="text-sm text-gray-600 mb-3">{{ team.description }}</p>
+
+                <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
+                  <div 
+                    class="h-2 rounded-full transition-all duration-300"
+                    :class="getProgressBarClass(team)"
+                    :style="{ width: getProgressPercentage(team) + '%' }"
+                  ></div>
+                </div>
+
+                <!-- Detail Anggota -->
+                <div 
+                  v-if="expandedTeams.includes(team.id)"
+                  class="mt-4 border-t pt-4"
+                >
+                  <div class="flex items-center justify-between mb-3">
+                    <h4 class="font-medium text-gray-700">Anggota Kelompok</h4>
+                    <button 
+                      @click="exportTeamData(team)"
+                      class="text-sm text-blue-600 hover:text-blue-800"
+                    >
+                      <i class="fas fa-download mr-1"></i>
+                      Export Data
+                    </button>
+                  </div>
+                  
+                  <div v-if="team.members.length > 0" class="space-y-2">
+                    <div 
+                      v-for="member in team.members" 
+                      :key="member.id"
+                      class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                    >
+                      <div class="flex-1">
+                        <div class="flex items-center gap-3">
+                          <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-blue-600 text-xs"></i>
+                          </div>
+                          <div>
+                            <p class="font-medium text-gray-800">{{ member.name }}</p>
+                            <p class="text-sm text-gray-600">{{ member.nim }}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="text-right">
+                        <p class="text-sm font-medium text-gray-700">{{ member.whatsapp }}</p>
+                        <p class="text-xs text-gray-500">{{ formatDate(member.joinDate) }}</p>
+                      </div>
+                      <button 
+                        @click="removeMember(team.id, member.id)"
+                        class="ml-3 text-red-600 hover:text-red-800"
+                      >
+                        <i class="fas fa-trash text-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  <div v-else class="text-center py-8 text-gray-500">
+                    <i class="fas fa-users text-3xl mb-2"></i>
+                    <p>Belum ada anggota yang terdaftar</p>
+                  </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex items-center gap-2 mt-4">
+                  <button 
+                    @click="editTeam(team)"
+                    class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                  >
+                    <i class="fas fa-edit mr-1"></i>
+                    Edit
+                  </button>
+                  <button 
+                    @click="deleteTeam(team.id)"
+                    class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors text-sm"
+                  >
+                    <i class="fas fa-trash mr-1"></i>
+                    Hapus
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Add Group Modal -->
-    <div
-      v-if="showAddModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+    <!-- Modal Edit Kelompok -->
+    <div 
+      v-if="showEditModal" 
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      @click="closeEditModal"
     >
-      <div class="bg-white rounded-lg p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-xl font-semibold text-gray-900">Tambah Kelompok Baru</h2>
-          <button @click="closeAddModal" class="text-gray-500 hover:text-gray-700">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              ></path>
-            </svg>
+      <div 
+        class="bg-white rounded-lg shadow-xl p-6 w-96 max-w-lg mx-4"
+        @click.stop
+      >
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold text-gray-800">Edit Kelompok</h2>
+          <button @click="closeEditModal" class="text-gray-400 hover:text-gray-600">
+            <i class="fas fa-times"></i>
           </button>
         </div>
-        <p class="text-gray-600 mb-6">Daftarkan kelompok baru untuk treasure hunt</p>
 
-        <form @submit.prevent="addGroup">
-          <!-- Group Name -->
+        <form @submit.prevent="updateTeam">
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Nama Kelompok (Pahlawan)</label
-            >
-            <input
-              type="text"
-              v-model="newGroup.name"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              placeholder="Contoh: Diponegoro"
-              required
-            />
-          </div>
-
-          <!-- Faculty -->
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Fakultas</label>
-            <select
-              v-model="newGroup.faculty"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-              required
-            >
-              <option value="">Pilih fakultas</option>
-              <option value="Fakultas Teknik">Fakultas Teknik</option>
-              <option value="Fakultas Ekonomi dan Bisnis">
-                Fakultas Ekonomi dan Bisnis
-              </option>
-              <option value="Fakultas Hukum">Fakultas Hukum</option>
-              <option value="Fakultas Ilmu Sosial dan Ilmu Politik">
-                Fakultas Ilmu Sosial dan Ilmu Politik
-              </option>
-              <option value="Fakultas Ilmu Budaya">Fakultas Ilmu Budaya</option>
-              <option value="Fakultas Psikologi">Fakultas Psikologi</option>
-              <option value="Fakultas Vokasi">Fakultas Vokasi</option>
-            </select>
-          </div>
-
-          <!-- Members -->
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Anggota Kelompok (5 mahasiswa)</label
-            >
-            <div class="space-y-2">
-              <div
-                v-for="(member, index) in newGroup.members"
-                :key="index"
-                class="grid grid-cols-2 gap-2"
-              >
-                <input
-                  type="text"
-                  :placeholder="`NIM Anggota ${index + 1}`"
-                  v-model="member.nim"
-                  class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                />
-                <input
-                  type="text"
-                  :placeholder="`Nama Anggota ${index + 1}`"
-                  v-model="member.name"
-                  class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                />
-              </div>
-            </div>
-          </div>
-
-          <!-- Actions -->
-          <div class="flex gap-3">
-            <button
-              type="submit"
-              class="flex-1 bg-black hover:bg-gray-800 text-white py-2 px-4 rounded-lg font-medium transition-colors"
-            >
-              Simpan Kelompok
-            </button>
-            <button
-              type="button"
-              @click="closeAddModal"
-              class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
-            >
-              Batal
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Edit Group Modal -->
-    <div
-      v-if="showEditModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-    >
-      <div class="bg-white rounded-lg p-6 w-full max-w-md max-h-[80vh] overflow-y-auto">
-        <h2 class="text-xl font-semibold text-gray-900 mb-4">Edit kelompok</h2>
-        <p class="text-gray-600 mb-6">Ubah informasi kelompok</p>
-
-        <form @submit.prevent="updateGroup">
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Nama kelompok *</label
-            >
-            <input
-              type="text"
-              v-model="editedGroup.name"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Nama Kelompok
+            </label>
+            <input 
+              v-model="editingTeam.name"
+              type="text" 
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Fakultas *</label>
-            <select
-              v-model="editedGroup.faculty"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Deskripsi
+            </label>
+            <textarea 
+              v-model="editingTeam.description"
+              rows="3"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
-            >
-              <option value="">Pilih fakultas</option>
-              <option value="Fakultas Teknik">Fakultas Teknik</option>
-              <option value="Fakultas Ekonomi dan Bisnis">
-                Fakultas Ekonomi dan Bisnis
-              </option>
-              <option value="Fakultas Hukum">Fakultas Hukum</option>
-              <option value="Fakultas Ilmu Sosial dan Ilmu Politik">
-                Fakultas Ilmu Sosial dan Ilmu Politik
-              </option>
-              <option value="Fakultas Ilmu Budaya">Fakultas Ilmu Budaya</option>
-              <option value="Fakultas Psikologi">Fakultas Psikologi</option>
-              <option value="Fakultas Vokasi">Fakultas Vokasi</option>
-            </select>
-          </div>
-
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Lokasi</label>
-            <select
-              v-model="editedGroup.location"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-            >
-              <option value="Gedung Q Lantai 1">Gedung Q Lantai 1</option>
-              <option value="Perpustakaan Pusat">Perpustakaan Pusat</option>
-              <option value="Joglo Kampus">Joglo Kampus</option>
-              <option value="Aula">Aula</option>
-              <option value="Lab Komputer">Lab Komputer</option>
-            </select>
-          </div>
-
-          <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
-            <select
-              v-model="editedGroup.status"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-            >
-              <option value="Aktif">Aktif</option>
-              <option value="Selesai">Selesai</option>
-              <option value="Menunggu">Menunggu</option>
-            </select>
+            ></textarea>
           </div>
 
           <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Anggota kelompok</label
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Maksimal Anggota
+            </label>
+            <select 
+              v-model="editingTeam.maxMembers"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
             >
-            <div class="space-y-2">
-              <div
-                v-for="(member, index) in editedGroup.members"
-                :key="index"
-                class="grid grid-cols-2 gap-2"
-              >
-                <input
-                  type="text"
-                  placeholder="NIM"
-                  v-model="member.nim"
-                  class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                />
-                <input
-                  type="text"
-                  placeholder="Nama"
-                  v-model="member.name"
-                  class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                />
-              </div>
-            </div>
+              <option value="4">4 Anggota</option>
+              <option value="6">6 Anggota</option>
+              <option value="8">8 Anggota</option>
+              <option value="10">10 Anggota</option>
+            </select>
           </div>
 
           <div class="flex gap-3">
-            <button
-              type="submit"
-              class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
-            >
-              Update
-            </button>
-            <button
+            <button 
               type="button"
               @click="closeEditModal"
-              class="px-6 py-2 bg-gray-500 hover:bg-gray-600 text-white rounded-lg font-medium transition-colors"
+              class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
             >
               Batal
             </button>
+            <button 
+              type="submit"
+              class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Simpan
+            </button>
           </div>
         </form>
-      </div>
-    </div>
-
-    <!-- Delete Confirmation Modal -->
-    <div
-      v-if="showDeleteModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-    >
-      <div class="bg-white rounded-lg p-6 w-full max-w-md">
-        <div class="flex items-center mb-4">
-          <div
-            class="flex-shrink-0 w-10 h-10 rounded-full bg-red-100 flex items-center justify-center"
-          >
-            <svg
-              class="w-6 h-6 text-red-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.382 16.5c-.77.833.192 2.5 1.732 2.5z"
-              ></path>
-            </svg>
-          </div>
-          <div class="ml-4">
-            <h3 class="text-lg font-medium text-gray-900">Hapus Kelompok</h3>
-          </div>
-        </div>
-        <div class="mb-4">
-          <p class="text-sm text-gray-500">
-            Apakah Anda yakin ingin menghapus kelompok "<strong>{{
-              groupToDelete?.name
-            }}</strong
-            >"? Tindakan ini tidak dapat dibatalkan.
-          </p>
-        </div>
-        <div class="flex justify-end gap-3">
-          <button
-            @click="closeDeleteModal"
-            class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50"
-          >
-            Batal
-          </button>
-          <button
-            @click="confirmDelete"
-            class="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700"
-          >
-            Hapus
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div v-if="showToast" class="fixed top-4 right-4 z-50">
-      <div
-        class="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center"
-      >
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M5 13l4 4L19 7"
-          ></path>
-        </svg>
-        {{ toastMessage }}
       </div>
     </div>
   </div>
@@ -612,33 +351,87 @@
 <script>
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
 import { ref, reactive, computed } from "vue";
-import { onMounted } from "vue";
-import API from "@/service/api";
 
 export default {
   components: {
     SidebarAdmin,
   },
-
   setup() {
     const isCollapsed = ref(false);
-    const showAddModal = ref(false);
+    const searchTerm = ref('');
+    const expandedTeams = ref([]);
     const showEditModal = ref(false);
-    const showDeleteModal = ref(false);
-    const showToast = ref(false);
-    const toastMessage = ref("");
-    const groupToDelete = ref(null);
-    const groups = ref([]);
+    
+    const newTeam = reactive({
+      name: '',
+      description: '',
+      maxMembers: ''
+    });
 
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
-    };
+    const editingTeam = reactive({
+      id: null,
+      name: '',
+      description: '',
+      maxMembers: ''
+    });
 
-    const setActiveMenu = (name) => {
-      menuItems.forEach((item) => {
-        item.active = item.name === name;
-      });
-    };
+    // Sample data - in real app, this would come from API
+    const teams = ref([
+      {
+        id: 1,
+        name: 'Tim Explorer',
+        description: 'Petualang sejati yang suka tantangan',
+        maxMembers: 8,
+        members: [
+          { id: 1, name: 'Ahmad Rizki', nim: '210441100001', whatsapp: '081234567890', joinDate: '2024-01-15' },
+          { id: 2, name: 'Siti Nurhaliza', nim: '210441100002', whatsapp: '081234567891', joinDate: '2024-01-16' },
+          { id: 3, name: 'Budi Santoso', nim: '210441100003', whatsapp: '081234567892', joinDate: '2024-01-17' },
+          { id: 4, name: 'Maya Sari', nim: '210441100004', whatsapp: '081234567893', joinDate: '2024-01-18' },
+          { id: 5, name: 'Dedi Kurniawan', nim: '210441100005', whatsapp: '081234567894', joinDate: '2024-01-19' },
+          { id: 6, name: 'Rina Wati', nim: '210441100006', whatsapp: '081234567895', joinDate: '2024-01-20' }
+        ]
+      },
+      {
+        id: 2,
+        name: 'Tim Navigator',
+        description: 'Ahli navigasi dan strategi',
+        maxMembers: 8,
+        members: [
+          { id: 7, name: 'Eko Prasetyo', nim: '210441100007', whatsapp: '081234567896', joinDate: '2024-01-21' },
+          { id: 8, name: 'Lina Marlina', nim: '210441100008', whatsapp: '081234567897', joinDate: '2024-01-22' },
+          { id: 9, name: 'Fadli Rahman', nim: '210441100009', whatsapp: '081234567898', joinDate: '2024-01-23' },
+          { id: 10, name: 'Dewi Anggraeni', nim: '210441100010', whatsapp: '081234567899', joinDate: '2024-01-24' },
+          { id: 11, name: 'Rudi Hartono', nim: '210441100011', whatsapp: '081234567900', joinDate: '2024-01-25' },
+          { id: 12, name: 'Sari Indah', nim: '210441100012', whatsapp: '081234567901', joinDate: '2024-01-26' },
+          { id: 13, name: 'Agus Setiawan', nim: '210441100013', whatsapp: '081234567902', joinDate: '2024-01-27' },
+          { id: 14, name: 'Tina Kartika', nim: '210441100014', whatsapp: '081234567903', joinDate: '2024-01-28' }
+        ]
+      },
+      {
+        id: 3,
+        name: 'Tim Discoverer',
+        description: 'Pencari harta karun handal',
+        maxMembers: 8,
+        members: [
+          { id: 15, name: 'Hadi Wijaya', nim: '210441100015', whatsapp: '081234567904', joinDate: '2024-01-29' },
+          { id: 16, name: 'Yuni Astuti', nim: '210441100016', whatsapp: '081234567905', joinDate: '2024-01-30' },
+          { id: 17, name: 'Doni Setiawan', nim: '210441100017', whatsapp: '081234567906', joinDate: '2024-01-31' },
+          { id: 18, name: 'Fitri Handayani', nim: '210441100018', whatsapp: '081234567907', joinDate: '2024-02-01' }
+        ]
+      },
+      {
+        id: 4,
+        name: 'Tim Quest',
+        description: 'Spesialis menyelesaikan misi',
+        maxMembers: 6,
+        members: [
+          { id: 19, name: 'Bambang Sutrisno', nim: '210441100019', whatsapp: '081234567908', joinDate: '2024-02-02' },
+          { id: 20, name: 'Lia Permata', nim: '210441100020', whatsapp: '081234567909', joinDate: '2024-02-03' },
+          { id: 21, name: 'Iwan Setiawan', nim: '210441100021', whatsapp: '081234567910', joinDate: '2024-02-04' }
+        ]
+      }
+    ]);
+
     const menuItems = reactive([
       { name: "Dashboard", icon: "fas fa-home", route: "/", active: false },
       {
@@ -672,302 +465,207 @@ export default {
         active: false,
       },
     ]);
-    // Sample data for groups
-
-    const fetchGroups = async () => {
-      try {
-        const res = await API.getGroups();
-        groups.value = Array.isArray(res.data.data?.data) ? res.data.data.data : [];
-      } catch (error) {
-        console.error("Gagal mengambil data kelompok:", error);
-      }
-    };
-    onMounted(() => {
-      fetchGroups();
+    const filteredTeams = computed(() => {
+      if (!searchTerm.value) return teams.value;
+      return teams.value.filter(team => 
+        team.name.toLowerCase().includes(searchTerm.value.toLowerCase()) ||
+        team.description.toLowerCase().includes(searchTerm.value.toLowerCase())
+      );
     });
 
-    // Form data for new group
-    const newGroup = reactive({
-      name: "",
-      faculty: "",
-      location: "Gedung Q Lantai 1",
-      status: "Menunggu",
-      rewards: "0 hadiah",
-      members: [
-        { id: null, nim: "", name: "" },
-        { id: null, nim: "", name: "" },
-        { id: null, nim: "", name: "" },
-        { id: null, nim: "", name: "" },
-        { id: null, nim: "", name: "" },
-      ],
-    });
+    const totalTeams = computed(() => teams.value.length);
+    const totalParticipants = computed(() => 
+      teams.value.reduce((sum, team) => sum + team.members.length, 0)
+    );
+    const fullTeams = computed(() => 
+      teams.value.filter(team => team.members.length >= team.maxMembers).length
+    );
+    const availableSlots = computed(() => 
+      teams.value.reduce((sum, team) => sum + (team.maxMembers - team.members.length), 0)
+    );
 
-    // Form data for editing group
-    const editedGroup = reactive({
-      id: null,
-      name: "",
-      faculty: "",
-      location: "",
-      status: "",
-      rewards: "",
-      members: [],
-    });
-
-    // Computed properties
-    const activeGroups = computed(() => {
-      return Array.isArray(groups.value)
-        ? groups.value.filter((group) => group.status === "Aktif").length
-        : 0;
-    });
-
-    const completedGroups = computed(() => {
-      return Array.isArray(groups.value)
-        ? groups.value.filter((group) => group.status === "Selesai").length
-        : 0;
-    });
-
-    const totalRewards = computed(() => {
-      return groups.value.reduce((total, group) => {
-        const rewardCount = parseInt(group.rewards.split(" ")[0]) || 0;
-        return total + rewardCount;
-      }, 0);
-    });
-
-    // Helper functions
-    const getStatusClass = (status) => {
-      switch (status) {
-        case "Aktif":
-          return "bg-green-100 text-green-800";
-        case "Selesai":
-          return "bg-blue-100 text-blue-800";
-        case "Menunggu":
-          return "bg-yellow-100 text-yellow-800";
-        default:
-          return "bg-gray-100 text-gray-800";
-      }
+    const toggleSidebar = () => {
+      isCollapsed.value = !isCollapsed.value;
     };
 
-    const showToastMessage = (message) => {
-      toastMessage.value = message;
-      showToast.value = true;
-      setTimeout(() => {
-        showToast.value = false;
-      }, 3000);
-    };
-
-    // Modal functions
-    const closeAddModal = () => {
-      showAddModal.value = false;
-      // Reset form
-      newGroup.name = "";
-      newGroup.faculty = "";
-      newGroup.location = "Gedung Q Lantai 1";
-      newGroup.status = "Menunggu";
-      newGroup.rewards = "0 hadiah";
-      newGroup.members.forEach((member) => {
-        member.nim = "";
-        member.name = "";
+    const setActiveMenu = (menuName) => {
+      menuItems.forEach(item => {
+        item.active = item.name === menuName;
       });
+    };
+
+    const createTeam = () => {
+      const newId = Math.max(...teams.value.map(t => t.id)) + 1;
+      teams.value.push({
+        id: newId,
+        name: newTeam.name,
+        description: newTeam.description,
+        maxMembers: parseInt(newTeam.maxMembers),
+        members: []
+      });
+      
+      // Reset form
+      newTeam.name = '';
+      newTeam.description = '';
+      newTeam.maxMembers = '';
+    };
+
+    const editTeam = (team) => {
+      editingTeam.id = team.id;
+      editingTeam.name = team.name;
+      editingTeam.description = team.description;
+      editingTeam.maxMembers = team.maxMembers;
+      showEditModal.value = true;
+    };
+
+    const updateTeam = () => {
+      const teamIndex = teams.value.findIndex(t => t.id === editingTeam.id);
+      if (teamIndex !== -1) {
+        teams.value[teamIndex] = {
+          ...teams.value[teamIndex],
+          name: editingTeam.name,
+          description: editingTeam.description,
+          maxMembers: parseInt(editingTeam.maxMembers)
+        };
+      }
+      closeEditModal();
     };
 
     const closeEditModal = () => {
       showEditModal.value = false;
-      editedGroup.id = null;
-      editedGroup.name = "";
-      editedGroup.faculty = "";
-      editedGroup.location = "";
-      editedGroup.status = "";
-      editedGroup.rewards = "";
-      editedGroup.members = [];
+      editingTeam.id = null;
+      editingTeam.name = '';
+      editingTeam.description = '';
+      editingTeam.maxMembers = '';
     };
 
-    const closeDeleteModal = () => {
-      showDeleteModal.value = false;
-      groupToDelete.value = null;
-    };
-
-    // Group management functions
-    const addGroup = async () => {
-      try {
-        const payload = {
-          name: newGroup.name,
-          faculty: newGroup.faculty,
-          location: newGroup.location,
-          status: newGroup.status,
-          rewards: newGroup.rewards,
-          members: newGroup.members.map((m) => ({
-            nim: m.nim,
-            name: m.name,
-          })),
-        };
-
-        await API.createGroup(payload);
-        showToastMessage("Kelompok berhasil ditambahkan!");
-        closeAddModal();
-        fetchGroups(); // refresh list
-      } catch (err) {
-        alert("Gagal menambahkan kelompok: " + err.message);
+    const deleteTeam = (teamId) => {
+      if (confirm('Apakah Anda yakin ingin menghapus kelompok ini?')) {
+        teams.value = teams.value.filter(t => t.id !== teamId);
       }
     };
 
-    const editGroup = (group) => {
-      editedGroup.id = group.id;
-      editedGroup.name = group.name;
-      editedGroup.faculty = group.faculty;
-      editedGroup.location = group.location;
-      editedGroup.status = group.status;
-      editedGroup.rewards = group.rewards;
-      editedGroup.members = JSON.parse(JSON.stringify(group.members));
-
-      showEditModal.value = true;
-    };
-
-    const updateGroup = async () => {
-      try {
-        const payload = {
-          name: editedGroup.name,
-          faculty: editedGroup.faculty,
-          location: editedGroup.location,
-          status: editedGroup.status,
-          rewards: editedGroup.rewards,
-          members: editedGroup.members.map((m) => ({
-            nim: m.nim,
-            name: m.name,
-          })),
-        };
-
-        await API.updateGroup(editedGroup.id, payload);
-        showToastMessage("Kelompok berhasil diperbarui!");
-        closeEditModal();
-        fetchGroups(); // refresh list
-      } catch (err) {
-        alert("Gagal memperbarui kelompok: " + err.message);
+    const removeMember = (teamId, memberId) => {
+      if (confirm('Apakah Anda yakin ingin mengeluarkan anggota ini?')) {
+        const team = teams.value.find(t => t.id === teamId);
+        if (team) {
+          team.members = team.members.filter(m => m.id !== memberId);
+        }
       }
     };
 
-    const showDeleteConfirm = (group) => {
-      groupToDelete.value = group;
-      showDeleteModal.value = true;
-    };
-
-    const confirmDelete = async () => {
-      try {
-        await API.deleteGroup(groupToDelete.value.id);
-        showToastMessage("Kelompok berhasil dihapus!");
-        closeDeleteModal();
-        fetchGroups(); // refresh
-      } catch (err) {
-        alert("Gagal menghapus kelompok: " + err.message);
-      }
-    };
-
-    // Quick action functions
-    const randomAssignment = () => {
-      const locations = [
-        "Gedung Q Lantai 1",
-        "Perpustakaan Pusat",
-        "Joglo Kampus",
-        "Aula",
-        "Lab Komputer",
-      ];
-
-      groups.value.forEach((group) => {
-        const randomLocation = locations[Math.floor(Math.random() * locations.length)];
-        group.location = randomLocation;
-      });
-
-      showToastMessage("Random assignment berhasil!");
-    };
-
-    const exportData = () => {
-      const dataStr = JSON.stringify(groups, null, 2);
-      const dataUri =
-        "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
-
-      const exportFileDefaultName = "data_kelompok.json";
-
-      const linkElement = document.createElement("a");
-      linkElement.setAttribute("href", dataUri);
-      linkElement.setAttribute("download", exportFileDefaultName);
-      linkElement.click();
-
-      showToastMessage("Data kelompok berhasil diekspor!");
-    };
-
-    const generateQRCode = (group) => {
-      // Simulate QR code generation
-      showToastMessage(`QR Code untuk kelompok ${group.name} berhasil dibuat!`);
-    };
-
-    const generateAllQRCodes = () => {
-      showToastMessage("Semua QR Code berhasil dibuat!");
-    };
-
-    const printGroupSummary = () => {
-      window.print();
-      showToastMessage("Rekap kelompok siap dicetak!");
-    };
-
-    const validateGroupData = () => {
-      let validationErrors = [];
-
-      groups.value.forEach((group) => {
-        if (!group.name || group.name.trim() === "") {
-          validationErrors.push(`Kelompok ID ${group.id}: Nama kelompok kosong`);
-        }
-
-        if (!group.faculty || group.faculty.trim() === "") {
-          validationErrors.push(`Kelompok ${group.name}: Fakultas tidak dipilih`);
-        }
-
-        const validMembers = group.members.filter((member) => member.nim && member.name);
-        if (validMembers.length < 5) {
-          validationErrors.push(
-            `Kelompok ${group.name}: Anggota tidak lengkap (${validMembers.length}/5)`
-          );
-        }
-      });
-
-      if (validationErrors.length === 0) {
-        showToastMessage("Validasi berhasil! Semua data kelompok sudah lengkap.");
+    const toggleTeamDetails = (teamId) => {
+      const index = expandedTeams.value.indexOf(teamId);
+      if (index > -1) {
+        expandedTeams.value.splice(index, 1);
       } else {
-        alert("Validasi gagal!\n\nError yang ditemukan:\n" + validationErrors.join("\n"));
+        expandedTeams.value.push(teamId);
       }
+    };
+
+    const getTeamStatus = (team) => {
+      if (team.members.length >= team.maxMembers) return 'Penuh';
+      if (team.members.length === 0) return 'Kosong';
+      return 'Tersedia';
+    };
+
+    const getTeamStatusClass = (team) => {
+      if (team.members.length >= team.maxMembers) return 'bg-red-100 text-red-800';
+      if (team.members.length === 0) return 'bg-gray-100 text-gray-800';
+      return 'bg-green-100 text-green-800';
+    };
+
+    const getProgressPercentage = (team) => {
+      return (team.members.length / team.maxMembers) * 100;
+    };
+
+    const getProgressBarClass = (team) => {
+      const percentage = getProgressPercentage(team);
+      if (percentage >= 100) return 'bg-red-500';
+      if (percentage >= 75) return 'bg-yellow-500';
+      return 'bg-blue-500';
+    };
+
+    const formatDate = (dateString) => {
+      return new Date(dateString).toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      });
+    };
+
+    const exportTeamData = (team) => {
+      const data = team.members.map(member => ({
+        'Nama': member.name,
+        'NIM': member.nim,
+        'WhatsApp': member.whatsapp,
+        'Tanggal Bergabung': formatDate(member.joinDate)
+      }));
+      
+      const csv = [
+        Object.keys(data[0]).join(','),
+        ...data.map(row => Object.values(row).join(','))
+      ].join('\n');
+      
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${team.name}_anggota.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
     };
 
     return {
       isCollapsed,
-      showAddModal,
+      searchTerm,
+      expandedTeams,
       showEditModal,
-      showDeleteModal,
-      showToast,
-      toastMessage,
-      groupToDelete,
+      newTeam,
+      editingTeam,
+      teams,
       menuItems,
-      groups,
-      newGroup,
-      editedGroup,
-      activeGroups,
-      completedGroups,
-      totalRewards,
+      filteredTeams,
+      totalTeams,
+      totalParticipants,
+      fullTeams,
+      availableSlots,
       toggleSidebar,
       setActiveMenu,
-      getStatusClass,
-      closeAddModal,
+      createTeam,
+      editTeam,
+      updateTeam,
       closeEditModal,
-      closeDeleteModal,
-      addGroup,
-      editGroup,
-      updateGroup,
-      showDeleteConfirm,
-      confirmDelete,
-      randomAssignment,
-      exportData,
-      generateQRCode,
-      generateAllQRCodes,
-      printGroupSummary,
-      validateGroupData,
+      deleteTeam,
+      removeMember,
+      toggleTeamDetails,
+      getTeamStatus,
+      getTeamStatusClass,
+      getProgressPercentage,
+      getProgressBarClass,
+      formatDate,
+      exportTeamData,
     };
   },
 };
 </script>
+
+<style scoped>
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+</style>

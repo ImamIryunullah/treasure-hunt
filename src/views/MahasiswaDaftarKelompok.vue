@@ -1,11 +1,6 @@
 <template>
     <div class="flex min-h-screen bg-gray-50">
-      <SidebarMahasiswa
-        :is-collapsed="isCollapsed"
-        :menu-items="menuItems"
-        @toggle="toggleSidebar"
-        @set-active="setActiveMenu"
-      />
+      <SidebarMahasiswa />
       <div class="flex-1 p-8">
         <div class="mb-8">
           <h1 class="text-2xl font-bold text-gray-800 mb-2">Daftar Kelompok Treasure Hunt</h1>
@@ -67,7 +62,7 @@
                     <div class="bg-blue-500 h-2 rounded-full" style="width: 50%"></div>
                   </div>
                 </div>
-  
+
                 
                 <div class="border rounded-lg p-4 hover:border-blue-400 transition-colors cursor-pointer"
                      :class="{ 'border-blue-500 bg-blue-50': selectedTeam === 'adventure' }"
@@ -95,7 +90,6 @@
                     <div class="bg-blue-500 h-2 rounded-full" style="width: 37.5%"></div>
                   </div>
                 </div>
-  
                 
                 <div class="border rounded-lg p-4 hover:border-blue-400 transition-colors cursor-pointer"
                      :class="{ 'border-blue-500 bg-blue-50': selectedTeam === 'hunter' }"
@@ -112,7 +106,6 @@
               </div>
             </div>
           </div>
-  
           
           <div class="w-96">
             <div class="bg-white rounded-lg shadow-sm p-6">
@@ -313,7 +306,6 @@
       SidebarMahasiswa,
     },
     setup() {
-      const isCollapsed = ref(false);
       const selectedTeam = ref('');
       const showModal = ref(false);
       
@@ -323,57 +315,6 @@
         nim: '',
         whatsapp: ''
       });
-  
-      const menuItems = reactive([
-        {
-          name: "Dashboard",
-          icon: "fas fa-home",
-          route: "/mahasiswa-dashboard",
-          active: false,
-        },
-        {
-          name: "Seleksi Quiz",
-          icon: "fas fa-book",
-          route: "/mahasiswa-seleksi-quiz",
-          active: false,
-        },
-        {
-          name: "Pengumuman",
-          icon: "fas fa-trophy",
-          route: "/mahasiswa-pengumuman",
-          active: false,
-        },
-        {
-          name: "Daftar Kelompok",
-          icon: "fas fa-users",
-          route: "/mahasiswa-daftar-kelompok",
-          active: true,
-        },
-        { 
-          name: "Treasure Hunt", 
-          icon: "fas fa-map", 
-          route: "/mahasiswa-treasure-hunt", 
-          active: false 
-        },
-        {
-          name: "Hunt Sponsorship",
-          icon: "fas fa-gift",
-          route: "/mahasiswa-hunt-sponsorship",
-          active: false,
-        },
-        {
-          name: "Progres Kelompok",
-          icon: "fas fa-chart-bar",
-          route: "/mahasiswa-progress-kelompok",
-          active: false,
-        },
-        { 
-          name: "Profil", 
-          icon: "fas fa-user", 
-          route: "/mahasiswa-profil", 
-          active: false 
-        },
-      ]);
   
       const isFormValid = computed(() => {
         return formData.selectedTeam && 
@@ -387,16 +328,6 @@
           selectedTeam.value = team;
           formData.selectedTeam = team;
         }
-      };
-  
-      const toggleSidebar = () => {
-        isCollapsed.value = !isCollapsed.value;
-      };
-  
-      const setActiveMenu = (menuName) => {
-        menuItems.forEach(item => {
-          item.active = item.name === menuName;
-        });
       };
   
       const getTeamName = (team) => {
@@ -439,15 +370,11 @@
       });
   
       return {
-        isCollapsed,
         selectedTeam,
         showModal,
         formData,
-        menuItems,
         isFormValid,
         selectTeam,
-        toggleSidebar,
-        setActiveMenu,
         getTeamName,
         submitForm,
         closeModal,

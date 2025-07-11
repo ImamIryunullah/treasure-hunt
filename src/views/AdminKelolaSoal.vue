@@ -10,7 +10,7 @@
     <div class="flex-1 p-8">
       <div class="flex justify-between items-center mb-8">
         <div>
-          <h1 class="text-3xl font-bold text-gray-800">Manajemen Soal & Hint</h1>
+          <h1 class="text-3xl font-bold text-gray-800">Manajemen Soal</h1>
           <p class="text-gray-600 mt-1">
             Kelola pertanyaan untuk setiap lokasi treasure hunt
           </p>
@@ -75,11 +75,6 @@
                 <span :class="getDifficultyClass(question.difficulty)">
                   {{ getDifficultyLabel(question.difficulty) }}
                 </span>
-                <span
-                  class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-medium"
-                >
-                  {{ question.location || "Gedung G Lantai 1" }}
-                </span>
               </div>
             </div>
           </div>
@@ -106,17 +101,6 @@
                 </div>
               </div>
             </div>
-          </div>
-
-          <div
-            v-if="question.hint"
-            class="mb-4 p-3 bg-blue-50 rounded-lg border border-blue-200"
-          >
-            <p class="text-sm font-medium text-blue-800 mb-1">
-              <i class="fas fa-lightbulb mr-1"></i>
-              Hint Lokasi Hadiah:
-            </p>
-            <p class="text-sm text-blue-700">{{ question.hint }}</p>
           </div>
 
           <div class="flex flex-wrap gap-2">
@@ -214,24 +198,6 @@
             <form @submit.prevent="saveQuestion" class="space-y-6">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                  <i class="fas fa-map-marker-alt text-red-500 mr-1"></i>
-                  Lokasi
-                </label>
-                <select
-                  v-model="newQuestion.location"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                  required
-                >
-                  <option value="">Pilih Lokasi</option>
-                  <option value="Gedung G Lantai 1">Gedung G Lantai 1</option>
-                  <option value="Perpustakaan Pusat">Perpustakaan Pusat</option>
-                  <option value="Aula Kampus">Aula Kampus</option>
-                  <option value="Laboratorium">Laboratorium</option>
-                </select>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
                   <i class="fas fa-question-circle text-purple-500 mr-1"></i>
                   Pertanyaan
                 </label>
@@ -286,19 +252,6 @@
                     {{ option.label }} - {{ option.text }}
                   </option>
                 </select>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">
-                  <i class="fas fa-lightbulb text-yellow-500 mr-1"></i>
-                  Hint Lokasi Hadiah
-                </label>
-                <textarea
-                  v-model="newQuestion.hint"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
-                  rows="2"
-                  placeholder="Berikan petunjuk lokasi hadiah setelah jawaban benar..."
-                ></textarea>
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -417,11 +370,6 @@
                 <span :class="getDifficultyClass(previewData.difficulty)">
                   {{ getDifficultyLabel(previewData.difficulty) }}
                 </span>
-                <span
-                  class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full font-medium"
-                >
-                  {{ previewData.location }}
-                </span>
               </div>
 
               <div class="bg-gray-50 p-4 rounded-lg">
@@ -455,17 +403,6 @@
                     </span>
                   </div>
                 </div>
-              </div>
-
-              <div
-                v-if="previewData.hint"
-                class="bg-blue-50 p-4 rounded-lg border border-blue-200"
-              >
-                <h4 class="font-medium text-blue-800 mb-2">
-                  <i class="fas fa-lightbulb mr-1"></i>
-                  Hint Lokasi Hadiah:
-                </h4>
-                <p class="text-blue-700">{{ previewData.hint }}</p>
               </div>
             </div>
           </div>
@@ -505,7 +442,6 @@
           </div>
         </div>
       </div>
-
       <div
         v-if="toast.show"
         :class="[
@@ -566,7 +502,7 @@ export default {
       isLoading.value = true;
       try {
         const res = await API.getQuestions(); // Panggil endpoint get
-        questions.splice(0, questions.length, ...res.data.data); // Replace reactive array
+        questions.splice(0, questions.length, ...res.data.data.data); // Replace reactive array
         updateStats();
       } catch (err) {
         showToast("Gagal memuat soal", "error");
@@ -623,8 +559,6 @@ export default {
       ],
       correctAnswer: "",
       difficulty: "",
-      location: "",
-      hint: "",
     });
 
     const showToast = (message, type = "success") => {
@@ -644,12 +578,6 @@ export default {
         essay: "Essay",
       };
       return labels[type] || type;
-    };
-
-    const setActiveMenu = (name) => {
-      menuItems.forEach((item) => {
-        item.active = item.name === name;
-      });
     };
     const getDifficultyLabel = (difficulty) => {
       const labels = {
@@ -684,8 +612,6 @@ export default {
       newQuestion.correctAnswer =
         question.options.find((opt) => opt.isCorrect)?.label || "";
       newQuestion.difficulty = question.difficulty;
-      newQuestion.location = question.location || "";
-      newQuestion.hint = question.hint || "";
       showEditModal.value = true;
     };
 
@@ -725,8 +651,7 @@ export default {
         text: newQuestion.text,
         type: "multiple-choice", // default
         difficulty: newQuestion.difficulty,
-        location_id: 1, // nanti disesuaikan dengan pilihan lokasi
-        hint: newQuestion.hint,
+        created_by: 1,
         options: newQuestion.options.map((opt) => ({
           label: opt.label,
           text: opt.text,
@@ -763,43 +688,7 @@ export default {
       newQuestion.options.forEach((option) => (option.text = ""));
       newQuestion.correctAnswer = "";
       newQuestion.difficulty = "";
-      newQuestion.location = "";
-      newQuestion.hint = "";
     };
-
-    const menuItems = reactive([
-      { name: "Dashboard", icon: "fas fa-home", route: "/", active: true },
-      {
-        name: "Kelola Lokasi",
-        icon: "fas fa-map-marker-alt",
-        route: "/manajemen-lokasi",
-        active: false,
-      },
-      {
-        name: "Kelola Kelompok",
-        icon: "fas fa-users",
-        route: "/manajemen-kelompok",
-        active: false,
-      },
-      {
-        name: "Kelola Soal",
-        icon: "fas fa-question-circle",
-        route: "/bank-soal",
-        active: false,
-      },
-      {
-        name: "Monitoring Progress",
-        icon: "fas fa-chart-line",
-        route: "/monitoring-progress",
-        active: false,
-      },
-      {
-        name: "Laporan",
-        icon: "fas fa-file-alt",
-        route: "/laporan-dan-rekapan-akhir",
-        active: false,
-      },
-    ]);
 
     const updateStats = () => {
       const total = questions.length;
@@ -941,8 +830,7 @@ export default {
       validateAllQuestions,
       handleFileUpload,
       processImport,
-      menuItems,
-      setActiveMenu,
+  
     };
   },
 };

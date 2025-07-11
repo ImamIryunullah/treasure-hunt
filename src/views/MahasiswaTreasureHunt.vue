@@ -1,11 +1,6 @@
 <template>
   <div class="flex min-h-screen bg-gray-50">
-    <SidebarMahasiswa 
-      :is-collapsed="isCollapsed"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @set-active="setActiveMenu"
-    />
+    <SidebarMahasiswa />
     <div class="flex-1 p-8">
       <div class="mb-8">
         <h1 class="text-2xl font-bold text-gray-800 mb-2">Treasure Hunt 🗺️</h1>
@@ -33,11 +28,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div class="bg-blue-50 p-4 rounded-lg">
             <h3 class="font-semibold text-blue-800 mb-2">📍 Kunjungi Lokasi</h3>
-            <p class="text-sm text-blue-700">Datang ke lokasi yang ditandai pada peta dan scan QR code yang tersedia</p>
+            <p class="text-sm text-blue-700">Datang ke lokasi yang ditandai pada peta dan cari kode treasure yang tersedia</p>
           </div>
           <div class="bg-green-50 p-4 rounded-lg">
-            <h3 class="font-semibold text-green-800 mb-2">❓ Jawab Pertanyaan</h3>
-            <p class="text-sm text-green-700">Selesaikan quiz atau tantangan yang diberikan di setiap lokasi</p>
+            <h3 class="font-semibold text-green-800 mb-2">🔑 Masukkan Kode</h3>
+            <p class="text-sm text-green-700">Input kode treasure yang Anda temukan di lokasi untuk validasi</p>
           </div>
           <div class="bg-purple-50 p-4 rounded-lg">
             <h3 class="font-semibold text-purple-800 mb-2">🏆 Kumpulkan Poin</h3>
@@ -50,7 +45,6 @@
         </div>
       </div>
 
-      
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg font-semibold">🗺️ Peta Kampus</h2>
@@ -76,7 +70,6 @@
           </div>
         </div>
 
-        
         <div class="relative bg-gradient-to-br from-green-100 to-blue-100 rounded-lg overflow-hidden" style="height: 600px;">
           <div 
             class="absolute inset-0 transition-all duration-300"
@@ -86,7 +79,6 @@
             @mouseup="stopPanning"
             @mouseleave="stopPanning"
           >
-            
             <div 
               v-for="location in locations" 
               :key="location.id"
@@ -94,18 +86,15 @@
               :style="{ left: `${location.x}%`, top: `${location.y}%` }"
               @click="selectLocation(location)"
             >
-              
               <div 
                 class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg"
                 :class="getLocationClass(location)"
               >
                 {{ location.icon }}
               </div>
-              
               <div class="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md text-xs font-medium whitespace-nowrap">
                 {{ location.name }}
               </div>
-              
               <div 
                 v-if="location.completed"
                 class="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs"
@@ -114,7 +103,6 @@
               </div>
             </div>
 
-            
             <svg class="absolute inset-0 w-full h-full pointer-events-none">
               <defs>
                 <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
@@ -126,7 +114,6 @@
           </div>
         </div>
 
-        
         <div class="flex justify-center mt-4 gap-6 text-sm">
           <div class="flex items-center gap-2">
             <div class="w-4 h-4 bg-green-500 rounded-full"></div>
@@ -143,9 +130,7 @@
         </div>
       </div>
 
-      
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-        
         <div class="bg-white rounded-lg shadow-md p-6">
           <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
             🏆 Leaderboard Tim
@@ -167,7 +152,6 @@
           </div>
         </div>
 
-        
         <div class="bg-white rounded-lg shadow-md p-6">
           <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
             📋 Aktivitas Terbaru
@@ -186,7 +170,6 @@
           </div>
         </div>
 
-        
         <div class="bg-white rounded-lg shadow-md p-6">
           <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
             📊 Statistik Tim
@@ -208,7 +191,6 @@
         </div>
       </div>
 
-      
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <h3 class="text-lg font-semibold mb-4">📍 Daftar Lokasi</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -238,7 +220,6 @@
         </div>
       </div>
 
-      
       <div class="bg-white rounded-lg shadow-md p-6">
         <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
           ⏰ Waktu Permainan
@@ -253,7 +234,7 @@
         </div>
       </div>
       
-      
+      <!-- Location Detail Modal -->
       <div v-if="selectedLocation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
           <div class="flex justify-between items-center mb-4">
@@ -280,7 +261,7 @@
               @click="startChallenge(selectedLocation)"
               class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium"
             >
-              🎯 Mulai Tantangan
+              🔑 Masukkan Kode
             </button>
             <button 
               v-if="selectedLocation.completed"
@@ -299,6 +280,66 @@
           </div>
         </div>
       </div>
+
+      <!-- Treasure Code Input Modal -->
+      <div v-if="showCodeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div class="flex justify-between items-center mb-4">
+            <h3 class="text-lg font-semibold">🔑 Masukkan Kode Treasure</h3>
+            <button @click="closeCodeModal" class="text-gray-500 hover:text-gray-700">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          </div>
+          
+          <div class="mb-4">
+            <p class="text-gray-600 mb-4">Masukkan kode treasure yang Anda temukan di <strong>{{ currentLocation?.name }}</strong></p>
+            
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Kode Treasure</label>
+                <input 
+                  v-model="treasureCode"
+                  type="text"
+                  placeholder="Masukkan kode treasure..."
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  :class="{ 'border-red-500': validationError }"
+                />
+                <div v-if="validationError" class="text-red-600 text-sm mt-1">
+                  {{ validationError }}
+                </div>
+                <div v-if="validationSuccess" class="text-green-600 text-sm mt-1">
+                  {{ validationSuccess }}
+                </div>
+              </div>
+
+              <div class="bg-blue-50 p-3 rounded-lg">
+                <p class="text-sm text-blue-800">
+                  <strong>💡 Petunjuk:</strong> Kode treasure biasanya berupa kombinasi huruf dan angka yang dapat ditemukan di lokasi fisik.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex gap-3">
+            <button 
+              @click="closeCodeModal"
+              class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md font-medium"
+            >
+              Batal
+            </button>
+            <button 
+              @click="validateTreasureCode"
+              :disabled="!treasureCode || isValidating"
+              class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md font-medium disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span v-if="isValidating">Memvalidasi...</span>
+              <span v-else>🔍 Validasi</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -312,69 +353,36 @@ export default {
     SidebarMahasiswa
   },
   setup() {
-    const isCollapsed = ref(false);
     const selectedLocation = ref(null);
+    const showCodeModal = ref(false);
+    const currentLocation = ref(null);
+    const treasureCode = ref('');
+    const validationError = ref('');
+    const validationSuccess = ref('');
+    const isValidating = ref(false);
     const zoomLevel = ref(1);
     const panX = ref(0);
     const panY = ref(0);
     const isPanning = ref(false);
     const lastMousePos = ref({ x: 0, y: 0 });
-    const remainingTime = ref(7200); // 2 hours in seconds
+    const remainingTime = ref(7200);
     const totalTime = ref(7200);
     let timer = null;
 
-    const menuItems = reactive([
-      {
-        name: "Dashboard",
-        icon: "fas fa-home",
-        route: "/mahasiswa-dashboard",
-        active: false,
-      },
-      {
-        name: "Seleksi Quiz",
-        icon: "fas fa-book",
-        route: "/mahasiswa-seleksi-quiz",
-        active: false,
-      },
-      {
-        name: "Pengumuman",
-        icon: "fas fa-trophy",
-        route: "/mahasiswa-pengumuman",
-        active: false,
-      },
-      {
-        name: "Daftar Kelompok",
-        icon: "fas fa-users",
-        route: "/mahasiswa-daftar-kelompok",
-        active: false,
-      },
-      { 
-        name: "Treasure Hunt", 
-        icon: "fas fa-map", 
-        route: "/mahasiswa-treasure-hunt", 
-        active: true 
-      },
-      {
-        name: "Hunt Sponsorship",
-        icon: "fas fa-gift",
-        route: "/mahasiswa-hunt-sponsorship",
-        active: false,
-      },
-      {
-        name: "Progres Kelompok",
-        icon: "fas fa-chart-bar",
-        route: "/mahasiswa-progress-kelompok",
-        active: false,
-      },
-      { 
-        name: "Profil", 
-        icon: "fas fa-user", 
-        route: "/mahasiswa-profil", 
-        active: false 
-      },
-    ]);
+    // Treasure codes for each location
+    const treasureCodes = {
+      1: 'BOOK2024',
+      2: 'RECTOR123',
+      3: 'MASJID456',
+      4: 'TEKNIK789',
+      5: 'GARDEN321',
+      6: 'BAHASA654',
+      7: 'KANTIN987',
+      8: 'SPORT012',
+      9: 'SERBAGUNA345',
+      10: 'AUDIO678'
+    };
 
-    // Game locations
     const locations = reactive([
       {
         id: 1,
@@ -386,7 +394,7 @@ export default {
         points: 100,
         completed: true,
         available: true,
-        description: "Temukan buku langka di perpustakaan dan jawab pertanyaan tentang sejarah kampus."
+        description: "Temukan buku langka di perpustakaan dan cari kode treasure yang tersembunyi."
       },
       {
         id: 2,
@@ -398,7 +406,7 @@ export default {
         points: 150,
         completed: true,
         available: true,
-        description: "Kunjungi rektorat dan pelajari visi misi universitas."
+        description: "Kunjungi rektorat, pelajari visi misi universitas, dan temukan kode treasure."
       },
       {
         id: 3,
@@ -410,7 +418,7 @@ export default {
         points: 100,
         completed: true,
         available: true,
-        description: "Temukan keindahan arsitektur masjid kampus dan sejarahnya."
+        description: "Jelajahi arsitektur masjid kampus dan cari kode treasure di area sekitar."
       },
       {
         id: 4,
@@ -422,7 +430,7 @@ export default {
         points: 120,
         completed: true,
         available: true,
-        description: "Jelajahi laboratorium teknik dan temukan inovasi terbaru."
+        description: "Eksplorasi laboratorium teknik dan temukan kode treasure di area inovasi."
       },
       {
         id: 5,
@@ -434,7 +442,7 @@ export default {
         points: 80,
         completed: false,
         available: true,
-        description: "Nikmati keindahan taman kampus dan temukan spot foto terbaik."
+        description: "Nikmati keindahan taman kampus dan cari kode treasure di spot foto terbaik."
       },
       {
         id: 6,
@@ -446,7 +454,7 @@ export default {
         points: 90,
         completed: false,
         available: true,
-        description: "Uji kemampuan bahasa asing Anda di lab bahasa."
+        description: "Uji kemampuan bahasa dan temukan kode treasure di lab bahasa."
       },
       {
         id: 7,
@@ -458,7 +466,7 @@ export default {
         points: 70,
         completed: true,
         available: true,
-        description: "Cicipi kuliner khas kampus dan temukan menu favorit mahasiswa."
+        description: "Cicipi kuliner kampus dan cari kode treasure di area makan favorit."
       },
       {
         id: 8,
@@ -470,7 +478,7 @@ export default {
         points: 110,
         completed: true,
         available: true,
-        description: "Ikuti mini games olahraga di lapangan kampu>s."
+        description: "Ikuti mini games olahraga dan temukan kode treasure di lapangan kampus."
       },
       {
         id: 9,
@@ -482,7 +490,7 @@ export default {
         points: 100,
         completed: false,
         available: false,
-        description: "Gedung serbaguna untuk acara besar kampus."
+        description: "Gedung serbaguna untuk acara besar, cari kode treasure di area utama."
       },
       {
         id: 10,
@@ -494,11 +502,10 @@ export default {
         points: 130,
         completed: false,
         available: false,
-        description: "Tempat pertunjukan dan acara besar kampus."
+        description: "Tempat pertunjukan kampus, temukan kode treasure di area panggung."
       }
     ]);
 
-    // Leaderboard data
     const leaderboard = reactive([
       { id: 1, name: "Tim Explorer", points: 630, completed: 6 },
       { id: 2, name: "Tech Hunters", points: 580, completed: 5 },
@@ -507,12 +514,11 @@ export default {
       { id: 5, name: "Adventure Squad", points: 420, completed: 4 }
     ]);
 
-    // Recent activities
     const recentActivities = reactive([
-      { id: 1, icon: "🎉", title: "Menyelesaikan Lapangan", description: "Tim Explorer berhasil menyelesaikan tantangan di Lapangan", time: "5 menit lalu" },
-      { id: 2, icon: "📚", title: "Mengunjungi Perpustakaan", description: "Menemukan buku langka dan menjawab quiz sejarah", time: "15 menit lalu" },
-      { id: 3, icon: "🏛️", title: "Eksplorasi Rektorat", description: "Mempelajari visi misi universitas", time: "30 menit lalu" },
-      { id: 4, icon: "🕌", title: "Kunjungi Masjid", description: "Menjelajahi arsitektur dan sejarah masjid kampus", time: "45 menit lalu" }
+      { id: 1, icon: "🎉", title: "Kode Berhasil Divalidasi", description: "Tim Explorer berhasil menemukan kode treasure di Lapangan", time: "5 menit lalu" },
+      { id: 2, icon: "🔑", title: "Kode Treasure Ditemukan", description: "Menemukan kode treasure di Perpustakaan", time: "15 menit lalu" },
+      { id: 3, icon: "🏛️", title: "Eksplorasi Rektorat", description: "Berhasil validasi kode treasure di Rektorat", time: "30 menit lalu" },
+      { id: 4, icon: "🕌", title: "Kunjungi Masjid", description: "Menemukan dan memvalidasi kode treasure di Masjid", time: "45 menit lalu" }
     ]);
 
     const completedLocations = computed(() => {
@@ -564,15 +570,73 @@ export default {
     };
 
     const startChallenge = (location) => {
-      alert(`Memulai tantangan di ${location.name}!\n\nInstruksi:\n1. Datang ke lokasi fisik\n2. Scan QR code yang tersedia\n3. Selesaikan quiz atau tantangan\n4. Dapatkan poin!`);
+      currentLocation.value = location;
+      showCodeModal.value = true;
       closeModal();
     };
 
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
+    const closeCodeModal = () => {
+      showCodeModal.value = false;
+      currentLocation.value = null;
+      treasureCode.value = '';
+      validationError.value = '';
+      validationSuccess.value = '';
     };
 
-    // Zoom and Pan functions
+    const validateTreasureCode = async () => {
+      if (!treasureCode.value.trim()) {
+        validationError.value = 'Kode treasure tidak boleh kosong';
+        return;
+      }
+
+      isValidating.value = true;
+      validationError.value = '';
+      validationSuccess.value = '';
+
+      // Simulate validation delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      const expectedCode = treasureCodes[currentLocation.value.id];
+      const inputCode = treasureCode.value.trim().toUpperCase();
+
+      if (inputCode === expectedCode) {
+        // Success
+        validationSuccess.value = `Kode benar! Selamat, Anda telah menyelesaikan tantangan di ${currentLocation.value.name}. +${currentLocation.value.points} poin!`;
+        
+        // Mark location as completed
+        const locationIndex = locations.findIndex(loc => loc.id === currentLocation.value.id);
+        if (locationIndex !== -1) {
+          locations[locationIndex].completed = true;
+        }
+
+        // Update leaderboard
+        const teamIndex = leaderboard.findIndex(team => team.name === "Tim Explorer");
+        if (teamIndex !== -1) {
+          leaderboard[teamIndex].points += currentLocation.value.points;
+          leaderboard[teamIndex].completed += 1;
+        }
+
+        // Add to recent activities
+        recentActivities.unshift({
+          id: Date.now(),
+          icon: "🎉",
+          title: `Berhasil di ${currentLocation.value.name}`,
+          description: `Kode treasure berhasil divalidasi, mendapat ${currentLocation.value.points} poin`,
+          time: "Baru saja"
+        });
+
+        // Close modal after 3 seconds
+        setTimeout(() => {
+          closeCodeModal();
+        }, 3000);
+      } else {
+        // Error
+        validationError.value = 'Kode treasure salah. Pastikan Anda memasukkan kode yang benar dari lokasi ini.';
+      }
+
+      isValidating.value = false;
+    };
+
     const zoomIn = () => {
       zoomLevel.value = Math.min(zoomLevel.value + 0.2, 2);
     };
@@ -608,7 +672,6 @@ export default {
       isPanning.value = false;
     };
 
-    // Timer functionality
     const startTimer = () => {
       timer = setInterval(() => {
         if (remainingTime.value > 0) {
@@ -631,11 +694,14 @@ export default {
     });
 
     return {
-      menuItems,
-      toggleSidebar,
-      isCollapsed,
       locations,
       selectedLocation,
+      showCodeModal,
+      currentLocation,
+      treasureCode,
+      validationError,
+      validationSuccess,
+      isValidating,
       completedLocations,
       totalLocations,
       points,
@@ -650,6 +716,8 @@ export default {
       selectLocation,
       closeModal,
       startChallenge,
+      closeCodeModal,
+      validateTreasureCode,
       zoomLevel,
       panX,
       panY,

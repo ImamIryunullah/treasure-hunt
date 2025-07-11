@@ -63,7 +63,7 @@
         </div>
       </div>
 
-      <!-- Stats Cards -->
+      
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
           <div class="flex items-center justify-between">
@@ -127,7 +127,7 @@
         </div>
       </div>
 
-      <!-- Management Cards -->
+      
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
           <div class="flex items-center mb-4">
@@ -201,8 +201,7 @@
           </button>
         </div>
       </div>
-
-      <!-- Recent Activities -->
+      
       <div class="bg-white rounded-lg p-6 shadow-sm border border-gray-200">
         <h3 class="text-lg font-semibold text-gray-800 mb-2">Aktivitas Terbaru</h3>
         <p class="text-sm text-gray-500 mb-6">Update real-time dari treasure hunt</p>
@@ -244,8 +243,8 @@ export default {
   setup() {
     const isCollapsed = ref(false);
     const dropdownOpen = ref(false);
-    const eventTimer = ref(30 * 60); // 30 minutes in seconds
-    const eventStatus = ref('stopped'); // 'stopped', 'running', 'paused'
+    const eventTimer = ref(30 * 60); 
+    const eventStatus = ref('stopped'); 
     const timerInterval = ref(null);
 
     const toggleSidebar = () => {
@@ -378,31 +377,6 @@ export default {
       totalPrizes: 67
     });
 
-    const menuItems = reactive([
-      { name: "Dashboard", icon: "fas fa-home", route: "/", active: true },
-      { name: "Kelola Lokasi", icon: "fas fa-map-marker-alt", route: "/manajemen-lokasi", active: false },
-      {
-        name: "Kelola Kelompok",
-        icon: "fas fa-users",
-        route: "/manajemen-kelompok",
-        active: false,
-      },
-      { name: "Kelola Soal", icon: "fas fa-question-circle", route: "/bank-soal", active: false },
-      {
-        name: "Monitoring Progress",
-        icon: "fas fa-chart-line",
-        route: "/monitoring-progress",
-        active: false,
-      },
-      {
-        name: "Laporan",
-        icon: "fas fa-file-alt",
-        route: "/laporan-dan-rekapan-akhir",
-        active: false,
-      },
-
-    ]);
-
     const activities = reactive([
       {
         id: 1,
@@ -424,11 +398,6 @@ export default {
       },
     ]);
 
-    const setActiveMenu = (name) => {
-      menuItems.forEach((item) => {
-        item.active = item.name === name;
-      });
-    };
 
     onUnmounted(() => {
       if (timerInterval.value) {
@@ -454,9 +423,7 @@ export default {
       getActivityClass,
       getActivityIconClass,
       stats,
-      menuItems,
       activities,
-      setActiveMenu,
     };
   },
 };

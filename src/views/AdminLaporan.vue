@@ -239,40 +239,6 @@ export default {
     const isCollapsed = ref(false);
     const facultyChart = ref(null);
     const prizeChart = ref(null);
-    
-    const menuItems = reactive([
-      { name: "Dashboard", icon: "fas fa-home", route: "/", active: false },
-      {
-        name: "Kelola Lokasi",
-        icon: "fas fa-map-marker-alt",
-        route: "/manajemen-lokasi",
-        active: false,
-      },
-      {
-        name: "Kelola Kelompok",
-        icon: "fas fa-users",
-        route: "/manajemen-kelompok",
-        active: false,
-      },
-      {
-        name: "Kelola Soal",
-        icon: "fas fa-question-circle",
-        route: "/bank-soal",
-        active: false,
-      },
-      {
-        name: "Monitoring Progress",
-        icon: "fas fa-chart-line",
-        route: "/monitoring-progress",
-        active: false,
-      },
-      {
-        name: "Laporan",
-        icon: "fas fa-file-alt",
-        route: "/laporan-dan-rekapan-akhir",
-        active: true,
-      },
-    ]);
 
     const statistics = reactive({
       totalKelompok: 5,
@@ -379,12 +345,6 @@ export default {
 
     const toggleSidebar = () => {
       isCollapsed.value = !isCollapsed.value;
-    };
-
-    const setActiveMenu = (menuName) => {
-      menuItems.forEach(item => {
-        item.active = item.name === menuName;
-      });
     };
 
     const exportToExcel = () => {
@@ -503,7 +463,6 @@ export default {
 
     return {
       isCollapsed,
-      menuItems,
       statistics,
       finalRankings,
       performanceByLocation,
@@ -511,7 +470,6 @@ export default {
       facultyChart,
       prizeChart,
       toggleSidebar,
-      setActiveMenu,
       exportToExcel,
       exportToPDF
     };

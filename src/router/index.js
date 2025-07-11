@@ -3,12 +3,14 @@ import { createRouter, createWebHistory } from "vue-router";
 const AdminDashboard = () => import("@/views/AdminDashboard");
 const AdminKelolaSoal = () => import("@/views/AdminKelolaSoal");
 const AdminMonitoringProgress = () => import("@/views/AdminMonitoringProgress");
-const Leaderboard = () => import("@/views/Leaderboard");
+const MahasiswaLeaderboard = () => import("@/views/MahasiswaLeaderboard");
 const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
 const AdminManajemenKelompok = () => import("@/views/AdminManajemenKelompok");
 const ManajementEvent = () => import("@/views/ManajemenEvent");
 const AdminKelolaLokasi = () => import("@/views/AdminKelolaLokasi");
 const AdminLaporan = () => import("@/views/AdminLaporan");
+const AdminLeaderboard = () => import("@/views/AdminLeaderboard");
+
 const LoginPage = () => import("@/views/LoginPage");
 
 const MahasiswaDashboard = () => import("@/views/MahasiswaDashboard")
@@ -19,6 +21,7 @@ const MahasiswaTreasureHunt = () => import("@/views/MahasiswaTreasureHunt")
 const MahasiswaProgressKelompok = () => import("@/views/MahasiswaProgressKelompok")
 const MahasiswaHuntSponsorship = () => import("@/views/MahasiswaHuntSponsorship")
 const MahasiswaProfil = () => import("@/views/MahasiswaProfil")
+const MahasiswaSurveySistem = () => import("@/views/MahasiswaSurveySistem")
 
 const routes = [
 
@@ -40,6 +43,12 @@ const routes = [
   },
 
   {
+    path: "/leaderboard-game-kuis",
+    name: "Admin Leaderboard Kuis",
+    component: AdminLeaderboard,
+  },
+
+  {
     path: "/monitoring-progress",
     name: "Monitoring Progress",
     component: AdminMonitoringProgress,
@@ -52,9 +61,9 @@ const routes = [
   },
 
   {
-    path: "/leaderboard",
+    path: "/leaderboard-kuis",
     name: "Leaderboard",
-    component: Leaderboard,
+    component: MahasiswaLeaderboard,
   },
 
   {
@@ -119,6 +128,11 @@ const routes = [
     path: "/mahasiswa-profil",
     name: "Mahasiswa Profile",
     component: MahasiswaProfil,
+  },
+  {
+    path: "/survey-kepuasan-pengguna",
+    name: "Survey Kepuasan Pengguna",
+    component: MahasiswaSurveySistem,
   },
 
 ];

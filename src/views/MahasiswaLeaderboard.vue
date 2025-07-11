@@ -1,108 +1,72 @@
 <template>
   <div class="flex min-h-screen bg-gray-50">
-    <SidebarAdmin
-      :is-collapsed="isCollapsed"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @set-active="setActiveMenu"
-    />
+    <SidebarMahasiswa />
     <div class="flex-1 p-4 sm:p-6 lg:p-8">
       
-      <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 lg:mb-8">
-        <div class="mb-4 md:mb-0">
-          <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Leaderboard Seleksi</h1>
-          <p class="text-gray-600">Kelola item untuk diburu</p>
-        </div>
-        <div class="flex">
-          <button
-            @click="exportToCSV"
-            class="bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2 rounded-lg font-medium transition-colors text-sm sm:text-base"
-          >
-            Export leaderboard
-          </button>
-        </div>
+      <!-- Header Section -->
+      <div class="text-center mb-6 lg:mb-8">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">🏆 Leaderboard Seleksi</h1>
+        <p class="text-gray-600 text-lg">Lihat peringkat dan pencapaian peserta seleksi</p>
       </div>
 
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-6 lg:mb-8">
+      <!-- Top 3 Winners Podium -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 lg:mb-12">
         
-        <div class="bg-[#FAEE6C] rounded-xl p-4 sm:p-6 text-center border border-yellow-400 shadow-lg">
-          <div class="text-3xl sm:text-4xl mb-4">👑</div>
-          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.first.name }}</h3>
-          <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.first.prodi }}</p>
-          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.first.faculty }}</p>
-          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.first.time }}</p>
-          <span class="bg-yellow-400 text-yellow-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-            Lolos
-          </span>
+        <!-- 1st Place -->
+        <div class="bg-yellow-300 rounded-xl p-6 text-center shadow-xl transform hover:scale-90 transition-transform border border-yellow-600">
+          <div class="text-5xl mb-4">👑</div>
+          <div class="rounded-lg p-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ winners.first.name }}</h3>
+            <p class="text-gray-700 font-medium">{{ winners.first.prodi }}</p>
+            <p class="text-sm text-gray-600">{{ winners.first.faculty }}</p>
+            <div class="mt-3">
+              <span class="text-white px-3 py-1 rounded-full text-sm font-bold">
+                🥇 JUARA 1
+              </span>
+            </div>
+          </div>
         </div>
 
+        <!-- 2nd Place -->
+        <div class="bg-gray-300 rounded-xl p-6 text-center shadow-xl transform hover:scale-90 transition-transform border border-gray-600">
+          <div class="text-5xl mb-4">🥈</div>
+          <div class=" rounded-lg p-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ winners.second.name }}</h3>
+            <p class="text-gray-700 font-medium">{{ winners.second.prodi }}</p>
+            <p class="text-sm text-gray-600">{{ winners.second.faculty }}</p>
+            <div class="mt-3">
+              <span class="text-white px-3 py-1 rounded-full text-sm font-bold">
+                🥈 JUARA 2
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3rd Place -->
+        <div class="bg-orange-300 rounded-xl p-6 text-center shadow-xl transform hover:scale-90 transition-transform border border-orange-600">
+          <div class="text-5xl mb-4">🥉</div>
+          <div class=" rounded-lg p-4">
+            <h3 class="text-xl font-bold text-gray-800 mb-2">{{ winners.third.name }}</h3>
+            <p class="text-gray-700 font-medium">{{ winners.third.prodi }}</p>
+            <p class="text-sm text-gray-600">{{ winners.third.faculty }}</p>
+            <div class="mt-3">
+              <span class="text-white px-3 py-1 rounded-full text-sm font-bold">
+                🥉 JUARA 3
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard Table -->
+      <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-blue-500 p-6 text-white">
+          <h2 class="text-2xl font-bold mb-2">📊 Peringkat Lengkap</h2>
+          <p class="text-blue-100">Daftar peringkat semua peserta seleksi</p>
+        </div>
         
-        <div class="bg-[#C0C0C0] rounded-xl p-4 sm:p-6 text-center border border-gray-400 shadow-lg">
-          <div class="text-3xl sm:text-4xl mb-4">🥈</div>
-          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.second.name }}</h3>
-          <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.second.prodi }}</p>
-          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.second.faculty }}</p>
-          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.second.time }}</p>
-          <span class="bg-gray-400 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-            Lolos
-          </span>
-        </div>
-
-        
-        <div class="bg-[#CD7F32] to-orange-300 rounded-xl p-4 sm:p-6 text-center border border-orange-400 shadow-lg">
-          <div class="text-3xl sm:text-4xl mb-4">🥉</div>
-          <h3 class="text-lg sm:text-xl font-bold text-gray-800 mb-2">{{ winners.third.name }}</h3>
-          <p class="text-gray-700 mb-1 text-sm sm:text-base">{{ winners.third.prodi }}</p>
-          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.third.faculty }}</p>
-          <p class="text-xs sm:text-sm text-gray-600 mb-2">{{ winners.third.time }}</p>
-          <span class="bg-orange-400 text-orange-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium">
-            Lolos
-          </span>
-        </div>
-      </div>
-
-      
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 lg:mb-8">
-        <div
-          v-for="stat in stats"
-          :key="stat.title"
-          class="bg-white rounded-lg p-4 sm:p-6 border border-black shadow-sm"
-        >
-          <h3 class="text-sm sm:text-lg font-semibold text-gray-900 mb-1">{{ stat.title }}</h3>
-          <p class="text-xl sm:text-3xl font-bold text-gray-900 mb-2">{{ stat.value }}</p>
-          <p class="text-xs sm:text-sm text-gray-500">{{ stat.subtitle }}</p>
-        </div>
-      </div>
-
-      
-      <div class="mb-6">
-        <div class="border-b border-gray-200">
-          <nav class="-mb-px flex space-x-4 sm:space-x-8 overflow-x-auto">
-            <button
-              v-for="tab in tabs"
-              :key="tab.id"
-              @click="activeTab = tab.id"
-              :class="[
-                'py-2 px-1 border-b-2 font-medium text-sm transition-colors whitespace-nowrap',
-                activeTab === tab.id
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-              ]"
-            >
-              {{ tab.name }}
-            </button>
-          </nav>
-        </div>
-      </div>
-
-      
-      <div class="bg-white rounded-lg border border-black shadow-sm">
-        <div class="p-4 sm:p-6 border-b border-black">
-          <h2 class="text-lg sm:text-xl font-bold text-gray-900 mb-2">Peringkat Lengkap</h2>
-          <p class="text-gray-600 mb-4 text-sm sm:text-base">Daftar lengkap peringkat semua peserta seleksi</p>
-          
-          
+        <!-- Search and Filter -->
+        <div class="p-6 bg-gray-50 border-b">
           <div class="flex flex-col lg:flex-row gap-4">
             <div class="flex-1">
               <div class="relative">
@@ -114,26 +78,26 @@
                 <input
                   v-model="searchQuery"
                   type="text"
-                  placeholder="Cari nama Peserta"
-                  class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                  placeholder="🔍 Cari nama peserta..."
+                  class="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
             </div>
             <div class="flex flex-col sm:flex-row gap-2 sm:gap-4">
               <select
                 v-model="selectedFaculty"
-                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Semua fakultas</option>
+                <option value="">Semua Fakultas</option>
                 <option v-for="faculty in faculties" :key="faculty" :value="faculty">
                   {{ faculty }}
                 </option>
               </select>
               <select
                 v-model="selectedProdi"
-                class="border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm sm:text-base"
+                class="border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
-                <option value="">Semua prodi</option>
+                <option value=""> Semua Program Studi</option>
                 <option v-for="prodi in prodis" :key="prodi" :value="prodi">
                   {{ prodi }}
                 </option>
@@ -142,67 +106,80 @@
           </div>
         </div>
 
-        
+        <!-- Table -->
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
+            <thead class="bg-gray-100">
               <tr>
-                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rank
+                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                  Peringkat
                 </th>
-                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                   Nama
                 </th>
-                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
+                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider hidden sm:table-cell">
                   Fakultas
                 </th>
-                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Prodi
+                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
+                  Program Studi
                 </th>
-                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
-                  Total penyelesaian
+                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider hidden md:table-cell">
+                  Skor
                 </th>
-                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
+                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider hidden lg:table-cell">
                   Waktu
                 </th>
-                <th class="px-3 sm:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th class="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">
                   Status
                 </th>
               </tr>
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
-              <tr v-for="(participant) in filteredParticipants" :key="participant.id" class="hover:bg-gray-50">
-                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
-                  {{ participant.rank }}
+              <tr v-for="(participant) in paginatedParticipants" :key="participant.id" 
+                  :class="[
+                    'hover:bg-blue-50 transition-colors',
+                    participant.rank <= 3 ? 'bg-gradient-to-r from-yellow-50 to-orange-50' : '',
+                    participant.status === 'Lolos' ? 'border-l-4 border-green-400' : 'border-l-4 border-gray-200'
+                  ]">
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <span class="text-lg font-bold text-gray-900">{{ participant.rank }}</span>
+                    <span v-if="participant.rank <= 3" class="ml-2 text-xl">
+                      {{ participant.rank === 1 ? '🥇' : participant.rank === 2 ? '🥈' : '🥉' }}
+                    </span>
+                  </div>
                 </td>
-                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
-                  <div class="text-sm font-medium text-gray-900">{{ participant.name }}</div>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm font-semibold text-gray-900">{{ participant.name }}</div>
                   <div class="text-xs text-gray-500 sm:hidden">{{ participant.faculty }}</div>
                 </td>
-                <td class="px-3 sm:px-6 py-4 whitespace-nowrap hidden sm:table-cell">
-                  <span class="bg-gray-400 text-gray-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
+                <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell">
+                  <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
                     {{ participant.faculty }}
                   </span>
                 </td>
-                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-medium">
                   {{ participant.prodi }}
                 </td>
-                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden md:table-cell">
-                  {{ participant.totalCompletion }}
+                <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell">
+                  <div class="text-sm font-bold text-gray-900">{{ participant.totalCompletion }}</div>
+                  <div class="w-full bg-gray-200 rounded-full h-2 mt-1">
+                    <div class="bg-blue-600 h-2 rounded-full" :style="{ width: participant.totalCompletion }"></div>
+                  </div>
                 </td>
-                <td class="px-3 sm:px-6 py-4 whitespace-nowrap text-xs sm:text-sm text-gray-900 hidden lg:table-cell">
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 hidden lg:table-cell">
                   {{ participant.time }}
                 </td>
-                <td class="px-3 sm:px-6 py-4 whitespace-nowrap">
+                <td class="px-6 py-4 whitespace-nowrap">
                   <span
                     :class="[
-                      'px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-medium',
+                      'px-3 py-1 rounded-full text-sm font-bold',
                       participant.status === 'Lolos'
                         ? 'bg-green-100 text-green-800'
                         : 'bg-red-100 text-red-800'
                     ]"
                   >
-                    {{ participant.status }}
+                    {{ participant.status === 'Lolos' ? '✅ Lolos' : '❌ Tidak Lolos' }}
                   </span>
                 </td>
               </tr>
@@ -210,7 +187,7 @@
           </table>
         </div>
 
-        
+        <!-- Pagination -->
         <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
           <div class="flex-1 flex justify-between sm:hidden">
             <button
@@ -218,26 +195,26 @@
               :disabled="currentPage === 1"
               class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
             >
-              Previous
+              ← Sebelumnya
             </button>
             <button
               @click="nextPage"
               :disabled="currentPage === totalPages"
               class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
             >
-              Next
+              Selanjutnya →
             </button>
           </div>
           <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
               <p class="text-sm text-gray-700">
-                Showing
+                Menampilkan
                 <span class="font-medium">{{ (currentPage - 1) * itemsPerPage + 1 }}</span>
-                to
+                sampai
                 <span class="font-medium">{{ Math.min(currentPage * itemsPerPage, totalItems) }}</span>
-                of
+                dari
                 <span class="font-medium">{{ totalItems }}</span>
-                results
+                peserta
               </p>
             </div>
             <div>
@@ -247,7 +224,7 @@
                   :disabled="currentPage === 1"
                   class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                 >
-                  Previous
+                  ← Sebelumnya
                 </button>
                 <button
                   v-for="page in visiblePages"
@@ -267,7 +244,7 @@
                   :disabled="currentPage === totalPages"
                   class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                 >
-                  Next
+                  Selanjutnya →
                 </button>
               </nav>
             </div>
@@ -279,66 +256,20 @@
 </template>
 
 <script>
-import SidebarAdmin from "@/components/SidebarAdmin.vue";
+import SidebarMahasiswa from "@/components/SidebarMahasiswa.vue";
 import { ref, reactive, computed } from "vue";
 
 export default {
   components: {
-    SidebarAdmin,
+    SidebarMahasiswa,
   },
-  name: "LeaderboardAdmin",
+  name: "StudentLeaderboard",
   setup() {
-    const isCollapsed = ref(false);
-    const activeTab = ref('general');
     const searchQuery = ref('');
     const selectedFaculty = ref('');
     const selectedProdi = ref('');
     const currentPage = ref(1);
     const itemsPerPage = 10;
-
-    const menuItems = reactive([
-      { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
-      { name: "Bank Soal", icon: "navbar-2.png", route: "/bank-soal", active: false },
-      {
-        name: "Monitoring Progress",
-        icon: "navbar-3.png",
-        route: "/monitoring-progress",
-        active: false,
-      },
-      { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: true },
-      { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
-      { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
-      {
-        name: "Manajemen Kelompok",
-        icon: "navbar-7.png",
-        route: "/manajemen-kelompok",
-        active: false,
-      },
-      { name: "Manajemen Event", icon: "navbar.png", route: "/manajemen-event", active: false },
-    ]);
-
-    const stats = reactive([
-      {
-        title: "Total peserta",
-        value: "123",
-        subtitle: "Mahasiswa yang mengikuti seleksi",
-      },
-      { 
-        title: "Peserta lolos", 
-        value: "20", 
-        subtitle: "Peserta yang berhasil lolos" 
-      },
-      {
-        title: "Waktu tercepat",
-        value: "3 menit",
-        subtitle: "waktu tercepat menyelesaikan pertanyaan",
-      },
-      {
-        title: "Rata-rata waktu penyelesaian",
-        value: "10 menit",
-        subtitle: "rata-rata waktu penyelesaian pertanyaan",
-      },
-    ]);
 
     const winners = reactive({
       first: {
@@ -357,12 +288,6 @@ export default {
         faculty: "Fakultas Ekonomi"
       }
     });
-
-    const tabs = [
-      { id: 'general', name: 'Peringkat umum' },
-      { id: 'faculty', name: 'Per fakultas' },
-      { id: 'prodi', name: 'Per prodi' }
-    ];
 
     const faculties = [
       'Fakultas Teknik',
@@ -395,6 +320,8 @@ export default {
       { id: 8, rank: 8, name: "Lisa Permata", faculty: "Fakultas Sastra", prodi: "Sastra Inggris", totalCompletion: "70%", time: "10 menit", status: "Tidak Lolos" },
       { id: 9, rank: 9, name: "Ravi Pratama", faculty: "Fakultas Teknik", prodi: "Teknik Informatika", totalCompletion: "65%", time: "11 menit", status: "Tidak Lolos" },
       { id: 10, rank: 10, name: "Indah Sari", faculty: "Fakultas Ekonomi", prodi: "Manajemen", totalCompletion: "60%", time: "12 menit", status: "Tidak Lolos" },
+      { id: 11, rank: 11, name: "Rahmat Hidayat", faculty: "Fakultas Hukum", prodi: "Hukum", totalCompletion: "55%", time: "13 menit", status: "Tidak Lolos" },
+      { id: 12, rank: 12, name: "Sari Dewi", faculty: "Fakultas Sastra", prodi: "Sastra Inggris", totalCompletion: "50%", time: "14 menit", status: "Tidak Lolos" },
     ]);
 
     const filteredParticipants = computed(() => {
@@ -420,6 +347,12 @@ export default {
     const totalItems = computed(() => filteredParticipants.value.length);
     const totalPages = computed(() => Math.ceil(totalItems.value / itemsPerPage));
     
+    const paginatedParticipants = computed(() => {
+      const start = (currentPage.value - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      return filteredParticipants.value.slice(start, end);
+    });
+    
     const visiblePages = computed(() => {
       const pages = [];
       const start = Math.max(1, currentPage.value - 2);
@@ -430,21 +363,6 @@ export default {
       }
       return pages;
     });
-
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
-    };
-
-    const setActiveMenu = (name) => {
-      menuItems.forEach((item) => {
-        item.active = item.name === name;
-      });
-    };
-
-    const exportToCSV = () => {
-      // Implementation for CSV export
-      console.log('Exporting to CSV...');
-    };
 
     const previousPage = () => {
       if (currentPage.value > 1) {
@@ -463,27 +381,20 @@ export default {
     };
 
     return {
-      isCollapsed,
-      activeTab,
       searchQuery,
       selectedFaculty,
       selectedProdi,
       currentPage,
       itemsPerPage,
-      toggleSidebar,
-      menuItems,
-      setActiveMenu,
-      stats,
       winners,
-      tabs,
       faculties,
       prodis,
       participants,
       filteredParticipants,
+      paginatedParticipants,
       totalItems,
       totalPages,
       visiblePages,
-      exportToCSV,
       previousPage,
       nextPage,
       goToPage,

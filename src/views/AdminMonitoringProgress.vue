@@ -354,20 +354,6 @@ export default {
       });
     });
 
-    const menuItems = reactive([
-      { name: "Dashboard", icon: "fas fa-home", route: "/", active: false },
-      { name: "Kelola Lokasi", icon: "fas fa-map-marker-alt", route: "/manajemen-lokasi", active: false },
-      { name: "Kelola Kelompok", icon: "fas fa-users", route: "/manajemen-kelompok", active: false },
-      { name: "Kelola Soal", icon: "fas fa-question-circle", route: "/bank-soal", active: false },
-      { name: "Monitoring Progress", icon: "fas fa-chart-line", route: "/monitoring-progress", active: true },
-      {
-        name: "Laporan",
-        icon: "fas fa-file-alt",
-        route: "/laporan-dan-rekapan-akhir",
-        active: false,
-      },
-    ]);
-
     const refreshData = () => {
       // Simulate real-time updates
       const randomGroup = groups[Math.floor(Math.random() * groups.length)];
@@ -463,11 +449,6 @@ export default {
       isCollapsed.value = !isCollapsed.value;
     };
 
-    const setActiveMenu = (menuName) => {
-      menuItems.forEach(item => {
-        item.active = item.name === menuName;
-      });
-    };
 
     onMounted(() => {
       // Start auto-refresh by default
@@ -487,12 +468,10 @@ export default {
       filteredGroups,
       faculties,
       activities,
-      menuItems,
       autoRefreshActive,
       selectedFaculty,
       selectedStatus,
       toggleSidebar,
-      setActiveMenu,
       toggleAutoRefresh,
       filterGroups,
       viewDetails,

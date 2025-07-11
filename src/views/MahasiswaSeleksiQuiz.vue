@@ -1,10 +1,6 @@
 <template>
     <div class="flex min-h-screen bg-gray-50">
       <SidebarMahasiswa 
-        :is-collapsed="isCollapsed"
-        :menu-items="menuItems"
-        @toggle="toggleSidebar"
-        @set-active="setActiveMenu"
       />
   
       
@@ -165,23 +161,11 @@
       SidebarMahasiswa
     },
     setup() {
-      const isCollapsed = ref(false);
       const showQuizModal = ref(false);
       const currentQuestion = ref(0);
       const selectedAnswers = ref({});
       const timeLeft = ref(30 * 60); // 30 minutes in seconds
       const timer = ref(null);
-  
-      const menuItems = reactive([
-        { name: "Dashboard", icon: "fas fa-home", route: "/mahasiswa-dashboard", active: false },
-        { name: "Seleksi Quiz", icon: "fas fa-book", route: "/mahasiswa-seleksi-quiz", active: true },
-        { name: "Pengumuman", icon: "fas fa-trophy", route: "/mahasiswa-pengumuman", active: false },
-        { name: "Daftar Kelompok", icon: "fas fa-users", route: "/mahasiswa-daftar-kelompok", active: false },
-        { name: "Treasure Hunt", icon: "fas fa-map", route: "/mahasiswa-treasure-hunt", active: false },
-        { name: "Hunt Sponsorship", icon: "fas fa-gift", route: "/mahasiswa-hunt-sponsorship", active: false },
-        { name: "Progres Kelompok", icon: "fas fa-chart-bar", route: "/mahasiswa-progress-kelompok", active: false },
-        { name: "Profil", icon: "fas fa-user", route: "/mahasiswa-profil", active: false },
-      ]);
   
       const questions = reactive([
         {
@@ -213,16 +197,7 @@
           options: ["Biru", "Merah", "Kuning", "Hijau"]
         }
       ]);
-  
-      const toggleSidebar = () => {
-        isCollapsed.value = !isCollapsed.value;
-      };
-  
-      const setActiveMenu = (menuName) => {
-        menuItems.forEach(item => {
-          item.active = item.name === menuName;
-        });
-      };
+
   
       const startQuiz = () => {
         showQuizModal.value = true;
@@ -302,16 +277,12 @@
       });
   
       return {
-        menuItems,
-        isCollapsed,
         showQuizModal,
         currentQuestion,
         selectedAnswers,
         timeLeft,
         questions,
         isAllQuestionsAnswered,
-        toggleSidebar,
-        setActiveMenu,
         startQuiz,
         closeQuiz,
         selectAnswer,
