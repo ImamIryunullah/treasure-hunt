@@ -1,10 +1,6 @@
 <template>
   <div class="flex min-h-screen bg-pink-50">
     <SidebarAdmin
-      :is-collapsed="isCollapsed"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @set-active="setActiveMenu"
     />
 
     <div class="flex-1 p-8">
@@ -226,7 +222,6 @@ export default {
     SidebarAdmin,
   },
   setup() {
-    const isCollapsed = ref(false);
     const autoRefreshActive = ref(false);
     const selectedFaculty = ref("");
     const selectedStatus = ref("");
@@ -445,11 +440,6 @@ export default {
       document.body.removeChild(link);
     };
 
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
-    };
-
-
     onMounted(() => {
       // Start auto-refresh by default
       toggleAutoRefresh();
@@ -462,7 +452,6 @@ export default {
     });
 
     return {
-      isCollapsed,
       stats,
       groups,
       filteredGroups,
@@ -471,7 +460,6 @@ export default {
       autoRefreshActive,
       selectedFaculty,
       selectedStatus,
-      toggleSidebar,
       toggleAutoRefresh,
       filterGroups,
       viewDetails,

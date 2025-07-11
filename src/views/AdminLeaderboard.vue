@@ -284,34 +284,12 @@
     },
     name: "LeaderboardAdmin",
     setup() {
-      const isCollapsed = ref(false);
-      const activeTab = ref('general');
       const searchQuery = ref('');
       const selectedFaculty = ref('');
       const selectedProdi = ref('');
       const currentPage = ref(1);
       const itemsPerPage = 10;
   
-      const menuItems = reactive([
-        { name: "Dashboard", icon: "navbar-1.png", route: "/", active: false },
-        { name: "Bank Soal", icon: "navbar-2.png", route: "/bank-soal", active: false },
-        {
-          name: "Monitoring Progress",
-          icon: "navbar-3.png",
-          route: "/monitoring-progress",
-          active: false,
-        },
-        { name: "Leaderboard", icon: "navbar-4.png", route: "/leaderboard", active: true },
-        { name: "Treasure Hint", icon: "navbar-5.png", route: "/treasure", active: false },
-        { name: "Sponsorship", icon: "navbar-6.png", route: "/sponsorship", active: false },
-        {
-          name: "Manajemen Kelompok",
-          icon: "navbar-7.png",
-          route: "/manajemen-kelompok",
-          active: false,
-        },
-        { name: "Manajemen Event", icon: "navbar.png", route: "/manajemen-event", active: false },
-      ]);
   
       const stats = reactive([
         {
@@ -427,16 +405,6 @@
         return pages;
       });
   
-      const toggleSidebar = () => {
-        isCollapsed.value = !isCollapsed.value;
-      };
-  
-      const setActiveMenu = (name) => {
-        menuItems.forEach((item) => {
-          item.active = item.name === name;
-        });
-      };
-  
       const exportToCSV = () => {
         // Implementation for CSV export
         console.log('Exporting to CSV...');
@@ -459,16 +427,11 @@
       };
   
       return {
-        isCollapsed,
-        activeTab,
         searchQuery,
         selectedFaculty,
         selectedProdi,
         currentPage,
         itemsPerPage,
-        toggleSidebar,
-        menuItems,
-        setActiveMenu,
         stats,
         winners,
         tabs,

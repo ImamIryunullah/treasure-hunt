@@ -1,10 +1,6 @@
 <template>
   <div class="flex min-h-screen bg-purple-50">
     <SidebarAdmin
-      :is-collapsed="isCollapsed"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @set-active="setActiveMenu"
     />
 
     <div class="flex-1 p-8">
@@ -468,7 +464,7 @@
 <script>
 import { ref, reactive, onMounted } from "vue";
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
-import API from "@/service/api";
+import API from "@/service/treasureService";
 
 export default {
   components: {
@@ -484,19 +480,9 @@ export default {
     const showPreviewMode = ref(false);
     const editingQuestionId = ref(null);
     const questionToDelete = ref(null);
-    const isCollapsed = ref(false);
-    const dropdownOpen = ref(false);
     const previewData = ref(null);
     const uploadedFile = ref(null);
     const isLoading = ref(false);
-
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
-    };
-
-    const toggleDropdown = () => {
-      dropdownOpen.value = !dropdownOpen.value;
-    };
 
     const fetchQuestions = async () => {
       isLoading.value = true;
@@ -807,8 +793,6 @@ export default {
       showDeleteModal,
       showImportModal,
       showPreviewMode,
-      toggleDropdown,
-      toggleSidebar,
       stats,
       questions,
       newQuestion,

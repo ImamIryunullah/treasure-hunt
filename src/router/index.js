@@ -26,7 +26,7 @@ const MahasiswaSurveySistem = () => import("@/views/MahasiswaSurveySistem")
 const routes = [
 
   {
-    path: "/",
+    path: "/dashboard-admin",
     name: "Admin Dashboard",
     component: AdminDashboard,
   },

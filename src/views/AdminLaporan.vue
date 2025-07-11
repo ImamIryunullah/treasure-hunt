@@ -1,10 +1,6 @@
 <template>
   <div class="bg-purple-50 flex min-h-screen">
     <SidebarAdmin
-      :is-collapsed="isCollapsed"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @set-active="setActiveMenu"
     />
 
     <div class="flex-1 p-8">
@@ -210,7 +206,6 @@ export default {
     SidebarAdmin,
   },
   setup() {
-    const isCollapsed = ref(false);
     const facultyChart = ref(null);
     const prizeChart = ref(null);
 
@@ -301,11 +296,6 @@ export default {
         tingkatBerhasil: 60
       }
     ]);
-
-
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
-    };
 
     const exportToExcel = () => {
       // Simulate Excel export
@@ -422,13 +412,11 @@ export default {
     });
 
     return {
-      isCollapsed,
       statistics,
       finalRankings,
       performanceByLocation,
       facultyChart,
       prizeChart,
-      toggleSidebar,
       exportToExcel,
       exportToPDF
     };

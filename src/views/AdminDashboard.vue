@@ -1,10 +1,7 @@
 <template>
   <div class="flex min-h-screen bg-gray-100">
     <SidebarAdmin
-      :is-collapsed="isCollapsed"
-      :menu-items="menuItems"
-      @toggle="toggleSidebar"
-      @set-active="setActiveMenu"
+
     />
 
     <div class="flex-1 p-8">
@@ -241,19 +238,10 @@ export default {
     SidebarAdmin,
   },
   setup() {
-    const isCollapsed = ref(false);
     const dropdownOpen = ref(false);
     const eventTimer = ref(30 * 60); 
     const eventStatus = ref('stopped'); 
     const timerInterval = ref(null);
-
-    const toggleSidebar = () => {
-      isCollapsed.value = !isCollapsed.value;
-    };
-
-    const toggleDropdown = () => {
-      dropdownOpen.value = !dropdownOpen.value;
-    };
 
     const formatTime = (seconds) => {
       const minutes = Math.floor(seconds / 60);
@@ -406,12 +394,9 @@ export default {
     });
 
     return {
-      isCollapsed,
       dropdownOpen,
       eventTimer,
       eventStatus,
-      toggleDropdown,
-      toggleSidebar,
       formatTime,
       startEvent,
       pauseEvent,
