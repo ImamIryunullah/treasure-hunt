@@ -1,6 +1,6 @@
 <template>
     <div class="flex min-h-screen bg-gray-50">
-      <SidebarMahasiswa
+      <SidebarAdmin
       />
       <div class="flex-1 p-4 sm:p-6 lg:p-8">
         
@@ -275,12 +275,12 @@
   </template>
   
   <script>
-  import SidebarMahasiswa from "@/components/SidebarMahasiswa.vue";
+  import SidebarAdmin from "@/components/SidebarAdmin.vue";
   import { ref, reactive, computed } from "vue";
   
   export default {
     components: {
-      SidebarMahasiswa,
+      SidebarAdmin,
     },
     name: "LeaderboardAdmin",
     setup() {

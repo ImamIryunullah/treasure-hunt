@@ -6,7 +6,7 @@
     ]"
     class="min-h-screen"
   >
-    <!-- Header -->
+    
     <div class="p-4 border-b border-slate-700">
       <div class="flex items-center justify-between">
         <div v-if="!isCollapsed" class="flex items-center space-x-3">
@@ -28,13 +28,11 @@
         </button>
       </div>
     </div>
-
-    <!-- Menu Items -->
+    
     <nav class="flex-1 p-4 space-y-2">
-
-      <!-- Render Items -->
+      
       <template v-for="item in menuItems" :key="item.name">
-        <!-- Item with children (dropdown) -->
+        
         <div v-if="item.children" class="space-y-1">
           <button
             @click="toggleDropdown(item.name)"
@@ -57,7 +55,7 @@
             </svg>
           </button>
 
-          <!-- Submenus -->
+          
           <div v-show="dropdownOpen[item.name] && !isCollapsed" class="pl-8 space-y-1">
             <router-link
               v-for="sub in item.children"
@@ -71,7 +69,7 @@
           </div>
         </div>
 
-        <!-- Normal Item -->
+        
         <router-link
           v-else
           :to="item.route"
@@ -95,7 +93,7 @@
       </template>
     </nav>
 
-    <!-- Logout -->
+    
     <div class="p-4 mt-auto border-t border-slate-700">
       <button
         @click="handleLogout"
@@ -144,13 +142,14 @@ export default {
         name: "Kelola Game",
         icon: "fas fa-calendar-alt",
         children: [
-          { name: "Kelola Lokasi", route: "/manajemen-lokasi" },
-          { name: "Kelola Kelompok", route: "/manajemen-kelompok" },
-          { name: "Kelola Soal", route: "/bank-soal" },
+          { name: "Manajemen Treasure Hunt", route: "/manajemen-treasure-hunt" },
+          { name: "Manajemen Kelompok", route: "/manajemen-kelompok" },
+          { name: "Manajemen Kuis", route: "/bank-soal" },
         ],
       },
       { name: "Progress Kelompok", icon: "fas fa-chart-line", route: "/monitoring-progress" },
       { name: "Laporan", icon: "fas fa-file-alt", route: "/laporan-dan-rekapan-akhir" },
+      { name: "Leaderboard Kuis", icon: "fas fa-medal", route: "/leaderboard-game-kuis" },
     ]);
 
     const isRouteActive = (menuRoute) => route.path === menuRoute;

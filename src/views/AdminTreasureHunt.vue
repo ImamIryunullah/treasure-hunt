@@ -15,7 +15,7 @@
 
       <!-- Game Statistics -->
       <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="bg-white rounded-lg border border-black p-6">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm text-gray-600">Total Lokasi</p>
@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="bg-white rounded-lg border border-black p-6">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm text-gray-600">Tim Aktif</p>
@@ -39,7 +39,7 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="bg-white rounded-lg border border-black p-6">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm text-gray-600">Kode Aktif</p>
@@ -51,7 +51,7 @@
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-md p-6">
+        <div class="bg-white rounded-lg border border-black p-6">
           <div class="flex items-center justify-between">
             <div>
               <p class="text-sm text-gray-600">Waktu Tersisa</p>
@@ -65,7 +65,7 @@
       </div>
 
       <!-- Game Control Panel -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div class="bg-white rounded-lg shadow-md border border-black p-6 mb-8">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg font-semibold">🎮 Game Control Panel</h2>
           <div class="flex gap-2">
@@ -122,7 +122,7 @@
       </div>
 
       <!-- Location Management -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-black">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg font-semibold">📍 Manajemen Lokasi</h2>
           <button 
@@ -204,16 +204,17 @@
       </div>
 
       <!-- Team Management -->
-      <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+      <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-black">
         <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg font-semibold">👥 Manajemen Tim</h2>
-          <button 
+          <h2 class="text-lg font-semibold">👥 Manajemen Kelompok</h2>
+         
+          <a href="/manajemen-kelompok">
+            <button 
             @click="showTeamModal = true"
             class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2"
           >
-            <span>➕</span>
-            Tambah Tim
-          </button>
+            Kelola Kelompok
+          </button></a>
         </div>
 
         <div class="overflow-x-auto">
@@ -257,7 +258,7 @@
                   </div>
                 </td>
                 <td class="py-3 px-4">
-                  <div class="flex gap-2">
+                  <div class="flex gap-1">
                     <button 
                       @click="viewTeamDetails(team)"
                       class="text-blue-600 hover:text-blue-800 p-1"
@@ -270,12 +271,6 @@
                     >
                       🔄
                     </button>
-                    <button 
-                      @click="deleteTeam(team)"
-                      class="text-red-600 hover:text-red-800 p-1"
-                    >
-                      🗑️
-                    </button>
                   </div>
                 </td>
               </tr>
@@ -285,7 +280,7 @@
       </div>
 
       <!-- Recent Activities -->
-      <div class="bg-white rounded-lg shadow-md p-6">
+      <div class="bg-white rounded-lg shadow-md p-6 border border-black">
         <h2 class="text-lg font-semibold mb-4">📊 Aktivitas Terbaru</h2>
         <div class="space-y-3">
           <div v-for="activity in recentActivities" :key="activity.id" class="flex items-start gap-3 p-3 rounded-lg bg-gray-50">
@@ -713,16 +708,6 @@ export default {
       }
     };
 
-    const deleteTeam = (team) => {
-      if (confirm(`Yakin ingin menghapus tim ${team.name}?`)) {
-        const index = teams.findIndex(t => t.id === team.id);
-        if (index !== -1) {
-          teams.splice(index, 1);
-          alert(`Tim ${team.name} berhasil dihapus!`);
-        }
-      }
-    };
-
     // Game timer functionality
     let gameTimer = null;
 
@@ -799,7 +784,6 @@ export default {
       deleteLocation,
       viewTeamDetails,
       resetTeamProgress,
-      deleteTeam
     };
   }
 };

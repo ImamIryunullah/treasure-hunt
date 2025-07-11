@@ -3,16 +3,16 @@
     <SidebarMahasiswa />
     <div class="flex-1 p-4 sm:p-6 lg:p-8">
       
-      <!-- Header Section -->
+      
       <div class="text-center mb-6 lg:mb-8">
         <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">🏆 Leaderboard Seleksi</h1>
         <p class="text-gray-600 text-lg">Lihat peringkat dan pencapaian peserta seleksi</p>
       </div>
 
-      <!-- Top 3 Winners Podium -->
+      
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8 lg:mb-12">
         
-        <!-- 1st Place -->
+        
         <div class="bg-yellow-300 rounded-xl p-6 text-center shadow-xl transform hover:scale-90 transition-transform border border-yellow-600">
           <div class="text-5xl mb-4">👑</div>
           <div class="rounded-lg p-4">
@@ -27,7 +27,7 @@
           </div>
         </div>
 
-        <!-- 2nd Place -->
+        
         <div class="bg-gray-300 rounded-xl p-6 text-center shadow-xl transform hover:scale-90 transition-transform border border-gray-600">
           <div class="text-5xl mb-4">🥈</div>
           <div class=" rounded-lg p-4">
@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <!-- 3rd Place -->
+        
         <div class="bg-orange-300 rounded-xl p-6 text-center shadow-xl transform hover:scale-90 transition-transform border border-orange-600">
           <div class="text-5xl mb-4">🥉</div>
           <div class=" rounded-lg p-4">
@@ -58,14 +58,14 @@
         </div>
       </div>
 
-      <!-- Leaderboard Table -->
+      
       <div class="bg-white rounded-xl shadow-lg overflow-hidden">
         <div class="bg-blue-500 p-6 text-white">
           <h2 class="text-2xl font-bold mb-2">📊 Peringkat Lengkap</h2>
           <p class="text-blue-100">Daftar peringkat semua peserta seleksi</p>
         </div>
         
-        <!-- Search and Filter -->
+        
         <div class="p-6 bg-gray-50 border-b">
           <div class="flex flex-col lg:flex-row gap-4">
             <div class="flex-1">
@@ -106,7 +106,7 @@
           </div>
         </div>
 
-        <!-- Table -->
+        
         <div class="overflow-x-auto">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-100">
@@ -187,7 +187,7 @@
           </table>
         </div>
 
-        <!-- Pagination -->
+        
         <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
           <div class="flex-1 flex justify-between sm:hidden">
             <button

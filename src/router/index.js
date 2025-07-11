@@ -7,7 +7,7 @@ const MahasiswaLeaderboard = () => import("@/views/MahasiswaLeaderboard");
 const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
 const AdminManajemenKelompok = () => import("@/views/AdminManajemenKelompok");
 const ManajementEvent = () => import("@/views/ManajemenEvent");
-const AdminKelolaLokasi = () => import("@/views/AdminKelolaLokasi");
+const AdminTreasureHunt = () => import("@/views/AdminTreasureHunt");
 const AdminLaporan = () => import("@/views/AdminLaporan");
 const AdminLeaderboard = () => import("@/views/AdminLeaderboard");
 
@@ -37,9 +37,9 @@ const routes = [
     component: AdminKelolaSoal,
   },
   {
-    path: "/manajemen-lokasi",
-    name: "Admin Manajemen Lokasi",
-    component: AdminKelolaLokasi,
+    path: "/manajemen-treasure-hunt",
+    name: "Admin Manajemen Treasure Hunt",
+    component: AdminTreasureHunt,
   },
 
   {

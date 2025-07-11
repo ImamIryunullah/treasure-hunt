@@ -46,6 +46,20 @@
       </div>
 
       <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
+          ⏰ Waktu Permainan
+        </h3>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-red-600 mb-2">{{ formatTime(remainingTime) }}</div>
+          <div class="text-sm text-gray-600">Waktu tersisa untuk menyelesaikan semua lokasi</div>
+          <div class="mt-4 w-full bg-gray-200 rounded-full h-2">
+            <div class="bg-red-500 h-2 rounded-full transition-all duration-1000"
+                 :style="{ width: `${(remainingTime / totalTime) * 100}%` }"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
         <div class="flex justify-between items-center mb-4">
           <h2 class="text-lg font-semibold">🗺️ Peta Kampus</h2>
           <div class="flex gap-2">
@@ -219,22 +233,8 @@
           </div>
         </div>
       </div>
-
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
-          ⏰ Waktu Permainan
-        </h3>
-        <div class="text-center">
-          <div class="text-3xl font-bold text-red-600 mb-2">{{ formatTime(remainingTime) }}</div>
-          <div class="text-sm text-gray-600">Waktu tersisa untuk menyelesaikan semua lokasi</div>
-          <div class="mt-4 w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-red-500 h-2 rounded-full transition-all duration-1000"
-                 :style="{ width: `${(remainingTime / totalTime) * 100}%` }"></div>
-          </div>
-        </div>
-      </div>
       
-      <!-- Location Detail Modal -->
+      
       <div v-if="selectedLocation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
           <div class="flex justify-between items-center mb-4">
@@ -281,7 +281,7 @@
         </div>
       </div>
 
-      <!-- Treasure Code Input Modal -->
+      
       <div v-if="showCodeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
         <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
           <div class="flex justify-between items-center mb-4">

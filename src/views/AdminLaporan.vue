@@ -196,32 +196,6 @@
         </div>
       </div>
 
-      <!-- Event Summary -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">Ringkasan Event</h2>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Highlights</h3>
-            <ul class="space-y-2">
-              <li v-for="(highlight, index) in eventSummary.highlights" :key="index" 
-                  class="flex items-start">
-                <i class="fas fa-check-circle text-green-500 mr-2 mt-1"></i>
-                <span class="text-gray-700">{{ highlight }}</span>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h3 class="text-lg font-semibold text-gray-800 mb-3">Rekomendasi</h3>
-            <ul class="space-y-2">
-              <li v-for="(recommendation, index) in eventSummary.recommendations" :key="index" 
-                  class="flex items-start">
-                <i class="fas fa-lightbulb text-yellow-500 mr-2 mt-1"></i>
-                <span class="text-gray-700">{{ recommendation }}</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -328,20 +302,6 @@ export default {
       }
     ]);
 
-    const eventSummary = reactive({
-      highlights: [
-        "Partisipasi aktif semua fakultas dengan tingkat kehadiran 100%",
-        "Total persimpangan lokasi yang dikunjungi mencapai 15 titik",
-        "Tingkat keberhasilan penyelesaian soal mencapai 85%",
-        "Waktu tercepat 16 menit (Cut Nyak Dien)"
-      ],
-      recommendations: [
-        "Tingkatkan kesulitan soal Lab Komputer untuk meningkatkan tantangan",
-        "Optimisasi alokasi waktu untuk mengurangi antrian kelompok",
-        "Pertimbangkan penambahan checkpoint untuk experience yang lebih baik",
-        "Event serupa direkomendasikan dengan format engagement maksimal"
-      ]
-    });
 
     const toggleSidebar = () => {
       isCollapsed.value = !isCollapsed.value;
@@ -466,7 +426,6 @@ export default {
       statistics,
       finalRankings,
       performanceByLocation,
-      eventSummary,
       facultyChart,
       prizeChart,
       toggleSidebar,

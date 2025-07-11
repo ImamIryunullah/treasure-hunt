@@ -13,7 +13,7 @@
         <p class="text-gray-600 mb-4">Treasure Hunt - 5 Basis Nilai UNTAG Surabaya</p>
         <p class="text-lg font-semibold text-gray-700">Persiapan Event</p>
       </div>
-      <div class="bg-orange-50 border border-orange-200 rounded-lg p-6 mb-8">
+      <!-- <div class="bg-orange-50 border border-orange-200 rounded-lg p-6 mb-8">
         <div class="flex items-center justify-between">
           <div class="flex items-center">
             <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center mr-3">
@@ -61,7 +61,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
 
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

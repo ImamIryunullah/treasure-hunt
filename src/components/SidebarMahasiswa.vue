@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Tombol toggle untuk mobile (hanya saat collapsed) -->
     <button
       v-if="isCollapsed"
       @click="toggleSidebar"
@@ -18,7 +17,6 @@
       </div>
     </button>
 
-    <!-- Sidebar -->
     <div
       v-show="!isCollapsed || isDesktop"
       :class="[
@@ -28,7 +26,6 @@
       ]"
       class="h-full"
     >
-      <!-- Header -->
       <div class="p-4 border-b border-slate-700">
         <div class="flex items-center justify-between">
           <div v-if="!isCollapsed" class="flex items-center space-x-3">
@@ -59,10 +56,8 @@
         </div>
       </div>
 
-      <!-- Menu -->
       <nav class="flex-1 p-4 space-y-2">
         <template v-for="item in menuItems" :key="item.name">
-          <!-- Jika item punya children (dropdown) -->
           <div v-if="item.children">
             <button
               @click="toggleDropdown(item.name)"
@@ -96,9 +91,8 @@
               </svg>
             </button>
 
-            <!-- Anak dropdown -->
             <div
-              v-show="expandedDropdown === item.name && !isCollapsed"
+              v-show="expandedDropdown.includes(item.name)"
               class="pl-8 mt-1 space-y-1"
             >
               <router-link
@@ -114,7 +108,6 @@
             </div>
           </div>
 
-          <!-- Jika item biasa -->
           <router-link
             v-else
             :to="item.route"
@@ -140,7 +133,6 @@
         </template>
       </nav>
 
-      <!-- Logout -->
       <div class="p-4 mt-auto border-t border-slate-700">
         <button
           @click="handleLogout"
@@ -169,7 +161,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 export default {
@@ -177,7 +169,7 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
-    const expandedDropdown = ref(null);
+    const expandedDropdown = ref([]);
 
     const isCollapsed = ref(true);
     const isDesktop = ref(false);
@@ -191,7 +183,12 @@ export default {
     };
 
     const toggleDropdown = (menuName) => {
-      expandedDropdown.value = expandedDropdown.value === menuName ? null : menuName;
+      const index = expandedDropdown.value.indexOf(menuName);
+      if (index > -1) {
+        expandedDropdown.value.splice(index, 1); // hapus jika sudah ada
+      } else {
+        expandedDropdown.value.push(menuName); // tambahkan jika belum ada
+      }
     };
 
     const handleLogout = () => {
@@ -206,12 +203,16 @@ export default {
         icon: "fas fa-gamepad",
         children: [
           { name: "Seleksi Quiz", icon: "fas fa-book", route: "/mahasiswa-seleksi-quiz" },
-          { name: "Treasure Hunt", icon: "fas fa-map", route: "/mahasiswa-treasure-hunt" },
-      {
-        name: "Hunt Sponsorship",
-        icon: "fas fa-gift",
-        route: "/mahasiswa-hunt-sponsorship",
-      },
+          {
+            name: "Treasure Hunt",
+            icon: "fas fa-map",
+            route: "/mahasiswa-treasure-hunt",
+          },
+          {
+            name: "Hunt Sponsorship",
+            icon: "fas fa-gift",
+            route: "/mahasiswa-hunt-sponsorship",
+          },
         ],
       },
       {
@@ -233,9 +234,16 @@ export default {
         icon: "fas fa-users",
         route: "/mahasiswa-daftar-kelompok",
       },
-     
+
       { name: "Profil", icon: "fas fa-user", route: "/mahasiswa-profil" },
     ];
+    watch(isCollapsed, (newVal) => {
+      if (!newVal) {
+        expandedDropdown.value = ["Game", "Pengumuman Game"];
+      } else {
+        expandedDropdown.value = [];
+      }
+    });
 
     const isRouteActive = (menuRoute) => route.path === menuRoute;
 
