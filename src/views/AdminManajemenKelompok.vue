@@ -2,6 +2,42 @@
   <div class="flex min-h-screen bg-gray-50">
     <SidebarAdmin />
     <div class="flex-1 p-8">
+      <!-- Notification Component -->
+      <div class="fixed top-4 right-4 z-50 space-y-2">
+        <div
+          v-for="notification in notifications"
+          :key="notification.id"
+          :class="[
+            'transform transition-all duration-300 ease-in-out',
+            'max-w-md w-full bg-white rounded-lg shadow-lg border-l-4 p-4',
+            getNotificationClass(notification.type)
+          ]"
+          class="animate-slide-in"
+        >
+          <div class="flex items-start">
+            <div class="flex-shrink-0">
+              <i :class="getNotificationIcon(notification.type)"></i>
+            </div>
+            <div class="ml-3 flex-1">
+              <p class="text-sm font-medium" :class="getNotificationTextClass(notification.type)">
+                {{ notification.title }}
+              </p>
+              <p class="text-sm text-gray-600 mt-1" v-if="notification.message">
+                {{ notification.message }}
+              </p>
+            </div>
+            <div class="ml-4 flex-shrink-0">
+              <button
+                @click="removeNotification(notification.id)"
+                class="inline-flex text-gray-400 hover:text-gray-600 focus:outline-none"
+              >
+                <i class="fas fa-times text-sm"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="mb-8">
         <h1 class="text-2xl font-bold text-gray-800 mb-2">
           Kelola Kelompok Treasure Hunt
@@ -115,10 +151,12 @@
 
               <button
                 type="submit"
-                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+                :disabled="isCreating"
+                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <i class="fas fa-plus-circle mr-2"></i>
-                Buat Kelompok
+                <i class="fas fa-plus-circle mr-2" v-if="!isCreating"></i>
+                <i class="fas fa-spinner fa-spin mr-2" v-if="isCreating"></i>
+                {{ isCreating ? 'Membuat...' : 'Buat Kelompok' }}
               </button>
             </form>
           </div>
@@ -233,6 +271,7 @@
                       <button
                         @click="removeMember(team.id, member.id)"
                         class="ml-3 text-red-600 hover:text-red-800"
+                        :disabled="isRemoving"
                       >
                         <i class="fas fa-trash text-sm"></i>
                       </button>
@@ -255,7 +294,8 @@
                   </button>
                   <button
                     @click="deleteTeam(team.id)"
-                    class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors text-sm"
+                    :disabled="isDeleting"
+                    class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors text-sm disabled:opacity-50"
                   >
                     <i class="fas fa-trash mr-1"></i>
                     Hapus
@@ -332,9 +372,14 @@
             </button>
             <button
               type="submit"
-              class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              :disabled="isUpdating"
+              class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
             >
-              Simpan
+              <span v-if="!isUpdating">Simpan</span>
+              <span v-else>
+                <i class="fas fa-spinner fa-spin mr-1"></i>
+                Menyimpan...
+              </span>
             </button>
           </div>
         </form>
@@ -357,6 +402,14 @@ export default {
     const searchTerm = ref("");
     const expandedTeams = ref([]);
     const showEditModal = ref(false);
+    const notifications = ref([]);
+    const notificationId = ref(0);
+    
+    // Loading states
+    const isCreating = ref(false);
+    const isUpdating = ref(false);
+    const isDeleting = ref(false);
+    const isRemoving = ref(false);
 
     const newTeam = reactive({
       name: "",
@@ -372,12 +425,84 @@ export default {
     });
 
     const teams = ref([]);
+
+    // Notification functions
+    const showNotification = (type, title, message = null, duration = 5000) => {
+      const notification = {
+        id: notificationId.value++,
+        type,
+        title,
+        message,
+        duration
+      };
+      
+      notifications.value.push(notification);
+      
+      if (duration > 0) {
+        setTimeout(() => {
+          removeNotification(notification.id);
+        }, duration);
+      }
+    };
+
+    const removeNotification = (id) => {
+      const index = notifications.value.findIndex(n => n.id === id);
+      if (index > -1) {
+        notifications.value.splice(index, 1);
+      }
+    };
+
+    const getNotificationClass = (type) => {
+      switch (type) {
+        case 'success':
+          return 'border-green-500 bg-green-50';
+        case 'error':
+          return 'border-red-500 bg-red-50';
+        case 'warning':
+          return 'border-yellow-500 bg-yellow-50';
+        case 'info':
+          return 'border-blue-500 bg-blue-50';
+        default:
+          return 'border-gray-500 bg-gray-50';
+      }
+    };
+
+    const getNotificationIcon = (type) => {
+      switch (type) {
+        case 'success':
+          return 'fas fa-check-circle text-green-500';
+        case 'error':
+          return 'fas fa-times-circle text-red-500';
+        case 'warning':
+          return 'fas fa-exclamation-triangle text-yellow-500';
+        case 'info':
+          return 'fas fa-info-circle text-blue-500';
+        default:
+          return 'fas fa-bell text-gray-500';
+      }
+    };
+
+    const getNotificationTextClass = (type) => {
+      switch (type) {
+        case 'success':
+          return 'text-green-800';
+        case 'error':
+          return 'text-red-800';
+        case 'warning':
+          return 'text-yellow-800';
+        case 'info':
+          return 'text-blue-800';
+        default:
+          return 'text-gray-800';
+      }
+    };
+
     const fetchTeams = async () => {
       try {
         const response = await treasureService.getTeams();
         teams.value = response.data;
       } catch (err) {
-        alert("Gagal memuat data tim.");
+        showNotification('error', 'Gagal Memuat Data', 'Tidak dapat mengambil data kelompok dari server');
         console.error(err);
       }
     };
@@ -405,19 +530,31 @@ export default {
     );
 
     const createTeam = async () => {
+      if (!newTeam.name || !newTeam.description || !newTeam.maxMembers) {
+        showNotification('warning', 'Data Tidak Lengkap', 'Mohon isi semua field yang diperlukan');
+        return;
+      }
+
+      isCreating.value = true;
       try {
         await treasureService.createTeam({
           Name: newTeam.name,
           Description: newTeam.description,
-          MaxMembers: parseInt(newTeam.maxMembers),
+          MaxMembers: parseInt(newTeam.maxMembers), 
         });
-        await fetchTeams(); // reload
+        
+        await fetchTeams();
+        showNotification('success', 'Kelompok Berhasil Dibuat', `Kelompok "${newTeam.name}" telah ditambahkan`);
+        
+        // Reset form
         newTeam.name = "";
         newTeam.description = "";
         newTeam.maxMembers = "";
       } catch (err) {
-        alert("Gagal menambahkan tim.");
+        showNotification('error', 'Gagal Membuat Kelompok', 'Terjadi kesalahan saat menambahkan kelompok baru');
         console.error(err);
+      } finally {
+        isCreating.value = false;
       }
     };
 
@@ -428,7 +565,14 @@ export default {
       editingTeam.maxMembers = team.maxMembers;
       showEditModal.value = true;
     };
+
     const updateTeam = async () => {
+      if (!editingTeam.name || !editingTeam.description || !editingTeam.maxMembers) {
+        showNotification('warning', 'Data Tidak Lengkap', 'Mohon isi semua field yang diperlukan');
+        return;
+      }
+
+      isUpdating.value = true;
       try {
         await treasureService.updateTeam(editingTeam.id, {
           Name: editingTeam.name,
@@ -437,10 +581,13 @@ export default {
         });
 
         await fetchTeams();
+        showNotification('success', 'Kelompok Berhasil Diperbarui', `Data kelompok "${editingTeam.name}" telah disimpan`);
         closeEditModal();
       } catch (err) {
-        alert("Gagal memperbarui tim.");
+        showNotification('error', 'Gagal Memperbarui Kelompok', 'Terjadi kesalahan saat menyimpan perubahan');
         console.error(err);
+      } finally {
+        isUpdating.value = false;
       }
     };
 
@@ -453,30 +600,50 @@ export default {
     };
 
     const deleteTeam = async (teamId) => {
-      console.log("Team ID to delete:", teamId); // Tambahkan ini
       if (!teamId || isNaN(teamId)) {
-        alert("ID tim tidak valid!");
+        showNotification('error', 'ID Tidak Valid', 'ID kelompok tidak dapat diproses');
         return;
       }
+
+      const team = teams.value.find(t => t.id === teamId);
+      const teamName = team ? team.name : 'Kelompok';
+
+      if (!confirm(`Apakah Anda yakin ingin menghapus kelompok "${teamName}"? Tindakan ini tidak dapat dibatalkan.`)) {
+        return;
+      }
+
+      isDeleting.value = true;
       try {
         await treasureService.deleteTeam(teamId);
-        alert("Tim berhasil dihapus!");
-        // update list
+        await fetchTeams();
+        showNotification('success', 'Kelompok Berhasil Dihapus', `Kelompok "${teamName}" telah dihapus dari sistem`);
       } catch (error) {
+        showNotification('error', 'Gagal Menghapus Kelompok', 'Terjadi kesalahan saat menghapus kelompok');
         console.error(error);
-        alert("Gagal menghapus tim.");
+      } finally {
+        isDeleting.value = false;
       }
     };
 
     const removeMember = async (teamId, memberId) => {
-      if (confirm("Apakah Anda yakin ingin mengeluarkan anggota ini?")) {
-        try {
-          await treasureService.removeMember(teamId, memberId);
-          await fetchTeams();
-        } catch (err) {
-          alert("Gagal menghapus anggota.");
-          console.error(err);
-        }
+      const team = teams.value.find(t => t.id === teamId);
+      const member = team?.members.find(m => m.id === memberId);
+      const memberName = member ? member.name : 'Anggota';
+
+      if (!confirm(`Apakah Anda yakin ingin mengeluarkan "${memberName}" dari kelompok?`)) {
+        return;
+      }
+
+      isRemoving.value = true;
+      try {
+        await treasureService.removeMember(teamId, memberId);
+        await fetchTeams();
+        showNotification('success', 'Anggota Berhasil Dikeluarkan', `"${memberName}" telah dikeluarkan dari kelompok`);
+      } catch (err) {
+        showNotification('error', 'Gagal Mengeluarkan Anggota', 'Terjadi kesalahan saat mengeluarkan anggota');
+        console.error(err);
+      } finally {
+        isRemoving.value = false;
       }
     };
 
@@ -521,31 +688,39 @@ export default {
     };
 
     const exportTeamData = (team) => {
-      const data = team.members.map((member) => ({
-        Nama: member.name,
-        NIM: member.nim,
-        WhatsApp: member.whatsapp,
-        "Tanggal Bergabung": formatDate(member.joinDate),
-      }));
+      try {
+        const data = team.members.map((member) => ({
+          Nama: member.name,
+          NIM: member.nim,
+          WhatsApp: member.whatsapp,
+          "Tanggal Bergabung": formatDate(member.joinDate),
+        }));
 
-      const csv = [
-        Object.keys(data[0]).join(","),
-        ...data.map((row) => Object.values(row).join(",")),
-      ].join("\n");
+        const csv = [
+          Object.keys(data[0]).join(","),
+          ...data.map((row) => Object.values(row).join(",")),
+        ].join("\n");
 
-      const blob = new Blob([csv], { type: "text/csv" });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${team.name}_anggota.csv`;
-      a.click();
-      URL.revokeObjectURL(url);
+        const blob = new Blob([csv], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `${team.name}_anggota.csv`;
+        a.click();
+        URL.revokeObjectURL(url);
+
+        showNotification('success', 'Data Berhasil Diekspor', `Data anggota kelompok "${team.name}" telah diunduh`);
+      } catch (error) {
+        showNotification('error', 'Gagal Mengekspor Data', 'Terjadi kesalahan saat mengekspor data');
+        console.error(error);
+      }
     };
 
     return {
       searchTerm,
       expandedTeams,
       showEditModal,
+      notifications,
       newTeam,
       editingTeam,
       teams,
@@ -554,6 +729,10 @@ export default {
       totalParticipants,
       fullTeams,
       availableSlots,
+      isCreating,
+      isUpdating,
+      isDeleting,
+      isRemoving,
       createTeam,
       editTeam,
       updateTeam,
@@ -567,27 +746,13 @@ export default {
       getProgressBarClass,
       formatDate,
       exportTeamData,
-    };
-  },
-};
+      showNotification,
+      removeNotification,
+      getNotificationClass,
+      getNotificationIcon,
+      getNotificationTextClass
+    }
+  }
+}
+
 </script>
-
-<style scoped>
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #c1c1c1;
-  border-radius: 3px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #a8a8a8;
-}
-</style>

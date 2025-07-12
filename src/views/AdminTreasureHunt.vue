@@ -387,10 +387,10 @@
             <div class="grid grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Posisi X (%)</label
+                  >Koordinat Latitude (%)</label
                 >
                 <input
-                  v-model.number="locationForm.x"
+                  v-model.number="locationForm.latitude"
                   type="number"
                   min="0"
                   max="100"
@@ -399,10 +399,10 @@
               </div>
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Posisi Y (%)</label
+                  >Koordinat Longitude (%)</label
                 >
                 <input
-                  v-model.number="locationForm.y"
+                  v-model.number="locationForm.longitude"
                   type="number"
                   min="0"
                   max="100"
@@ -481,214 +481,153 @@
 
 <script>
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
-import { ref, reactive, computed, onMounted, onUnmounted } from "vue";
-
+import treasureService from "@/service/treasureService";
+// import { ref, reactive, computed, onMounted, onUnmounted, watch } from "vue";
 export default {
   components: {
     SidebarAdmin,
   },
-  setup() {
-    const activeTeams = ref(5);
-    const activeCodes = ref(10);
-    const gameTime = ref(7200);
-    const gameDuration = ref(120);
-    const maxTeams = ref(10);
-    const gameStatus = ref("stopped"); // running, paused, stopped
-    const showLocationModal = ref(false);
-    const showTeamModal = ref(false);
-    const editingLocation = ref(null);
+  data() {
+    return {
+      activeTeams: 5,
+      activeCodes: 10,
+      gameTime: 7200,
+      gameDuration: 120,
+      maxTeams: 10,
+      gameStatus: "stopped", // running, paused, stopped
 
-    const menuItems = ref([
-      { id: "dashboard", label: "Dashboard", icon: "📊", route: "/admin/dashboard" },
-      {
-        id: "treasure-hunt",
-        label: "Treasure Hunt",
-        icon: "🗺️",
-        route: "/admin/treasure-hunt",
-        active: true,
-      },
-      { id: "students", label: "Mahasiswa", icon: "👥", route: "/admin/students" },
-      { id: "settings", label: "Pengaturan", icon: "⚙️", route: "/admin/settings" },
-    ]);
+      showLocationModal: false,
+      showTeamModal: false,
+      editingLocation: null,
 
-    const locationForm = reactive({
-      name: "",
-      icon: "",
-      x: 0,
-      y: 0,
-      type: "Academic",
-      code: "",
-      points: 0,
-      description: "",
-      available: true,
-    });
+      menuItems: [
+        { id: "dashboard", label: "Dashboard", icon: "📊", route: "/admin/dashboard" },
+        {
+          id: "treasure-hunt",
+          label: "Treasure Hunt",
+          icon: "🗺️",
+          route: "/admin/treasure-hunt",
+          active: true,
+        },
+        { id: "students", label: "Mahasiswa", icon: "👥", route: "/admin/students" },
+        { id: "settings", label: "Pengaturan", icon: "⚙️", route: "/admin/settings" },
+      ],
 
-    const locations = reactive([
-      {
-        id: 1,
-        name: "Perpustakaan",
-        icon: "📚",
-        x: 25,
-        y: 35,
+      locationForm: {
+        name: "",
+        icon: "",
+        latitude: 0,
+        longitude: 0,
         type: "Academic",
-        code: "BOOK2024",
-        points: 100,
+        code: "",
+        points: 0,
+        description: "",
         available: true,
-        description:
-          "Temukan buku langka di perpustakaan dan cari kode treasure yang tersembunyi.",
       },
-      {
-        id: 2,
-        name: "Rektorat",
-        icon: "🏛️",
-        x: 50,
-        y: 25,
-        type: "Administrative",
-        code: "RECTOR123",
-        points: 150,
-        available: true,
-        description:
-          "Kunjungi rektorat, pelajari visi misi universitas, dan temukan kode treasure.",
-      },
-      {
-        id: 3,
-        name: "Masjid",
-        icon: "🕌",
-        x: 70,
-        y: 35,
-        type: "Religious",
-        code: "MASJID456",
-        points: 100,
-        available: true,
-        description:
-          "Jelajahi arsitektur masjid kampus dan cari kode treasure di area sekitar.",
-      },
-      {
-        id: 4,
-        name: "Fakultas Teknik",
-        icon: "⚙️",
-        x: 80,
-        y: 55,
-        type: "Academic",
-        code: "TEKNIK789",
-        points: 120,
-        available: true,
-        description:
-          "Eksplorasi laboratorium teknik dan temukan kode treasure di area inovasi.",
-      },
-      {
-        id: 5,
-        name: "Taman",
-        icon: "🌳",
-        x: 45,
-        y: 55,
-        type: "Recreation",
-        code: "GARDEN321",
-        points: 80,
-        available: true,
-        description:
-          "Nikmati keindahan taman kampus dan cari kode treasure di spot foto terbaik.",
-      },
-    ]);
 
-    const teams = reactive([
-      {
-        id: 1,
-        name: "Tim Explorer",
-        members: 4,
-        points: 630,
-        completed: 6,
-        active: true,
-        lastActivity: "5 menit lalu",
-      },
-      {
-        id: 2,
-        name: "Tech Hunters",
-        members: 3,
-        points: 580,
-        completed: 5,
-        active: true,
-        lastActivity: "12 menit lalu",
-      },
-      {
-        id: 3,
-        name: "Campus Rangers",
-        members: 5,
-        points: 520,
-        completed: 5,
-        active: true,
-        lastActivity: "18 menit lalu",
-      },
-      {
-        id: 4,
-        name: "Quest Masters",
-        members: 4,
-        points: 470,
-        completed: 4,
-        active: false,
-        lastActivity: "35 menit lalu",
-      },
-      {
-        id: 5,
-        name: "Adventure Squad",
-        members: 3,
-        points: 420,
-        completed: 4,
-        active: true,
-        lastActivity: "28 menit lalu",
-      },
-    ]);
+      locations: [],
+      teams: [
+        {
+          id: 1,
+          name: "Tim Explorer",
+          members: 4,
+          points: 630,
+          completed: 6,
+          active: true,
+          lastActivity: "5 menit lalu",
+        },
+        {
+          id: 2,
+          name: "Tech Hunters",
+          members: 3,
+          points: 580,
+          completed: 5,
+          active: true,
+          lastActivity: "12 menit lalu",
+        },
+        {
+          id: 3,
+          name: "Campus Rangers",
+          members: 5,
+          points: 520,
+          completed: 5,
+          active: true,
+          lastActivity: "18 menit lalu",
+        },
+        {
+          id: 4,
+          name: "Quest Masters",
+          members: 4,
+          points: 470,
+          completed: 4,
+          active: false,
+          lastActivity: "35 menit lalu",
+        },
+        {
+          id: 5,
+          name: "Adventure Squad",
+          members: 3,
+          points: 420,
+          completed: 4,
+          active: true,
+          lastActivity: "28 menit lalu",
+        },
+      ],
 
-    const recentActivities = reactive([
-      {
-        id: 1,
-        icon: "🎉",
-        title: "Kode Berhasil Divalidasi",
-        description: "Tim Explorer berhasil menemukan kode treasure di Lapangan",
-        time: "5 menit lalu",
-      },
-      {
-        id: 2,
-        icon: "🔑",
-        title: "Kode Treasure Ditemukan",
-        description: "Tech Hunters menemukan kode treasure di Perpustakaan",
-        time: "15 menit lalu",
-      },
-      {
-        id: 3,
-        icon: "🏛️",
-        title: "Eksplorasi Rektorat",
-        description: "Campus Rangers berhasil validasi kode treasure di Rektorat",
-        time: "30 menit lalu",
-      },
-      {
-        id: 4,
-        icon: "🕌",
-        title: "Kunjungi Masjid",
-        description: "Quest Masters menemukan dan memvalidasi kode treasure di Masjid",
-        time: "45 menit lalu",
-      },
-      {
-        id: 5,
-        icon: "👥",
-        title: "Tim Baru Bergabung",
-        description: "Adventure Squad bergabung dalam permainan",
-        time: "1 jam lalu",
-      },
-    ]);
-
-    const totalLocations = computed(() => locations.length);
-
-    const formatTime = (seconds) => {
+      recentActivities: [
+        {
+          id: 1,
+          icon: "🎉",
+          title: "Kode Berhasil Divalidasi",
+          description: "Tim Explorer berhasil menemukan kode treasure di Lapangan",
+          time: "5 menit lalu",
+        },
+        {
+          id: 2,
+          icon: "🔑",
+          title: "Kode Treasure Ditemukan",
+          description: "Tech Hunters menemukan kode treasure di Perpustakaan",
+          time: "15 menit lalu",
+        },
+        {
+          id: 3,
+          icon: "🏛️",
+          title: "Eksplorasi Rektorat",
+          description: "Campus Rangers berhasil validasi kode treasure di Rektorat",
+          time: "30 menit lalu",
+        },
+        {
+          id: 4,
+          icon: "🕌",
+          title: "Kunjungi Masjid",
+          description: "Quest Masters menemukan dan memvalidasi kode treasure di Masjid",
+          time: "45 menit lalu",
+        },
+        {
+          id: 5,
+          icon: "👥",
+          title: "Tim Baru Bergabung",
+          description: "Adventure Squad bergabung dalam permainan",
+          time: "1 jam lalu",
+        },
+      ],
+    };
+  },
+  computed: {
+    totalLocations() {
+      return this.locations.length;
+    },
+  },
+  methods: {
+    formatTime(seconds) {
       const hours = Math.floor(seconds / 3600);
       const minutes = Math.floor((seconds % 3600) / 60);
       const secs = seconds % 60;
       return `${hours.toString().padStart(2, "0")}:${minutes
         .toString()
         .padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
-    };
-
-    const getStatusColor = (status) => {
+    },
+    getStatusColor(status) {
       switch (status) {
         case "running":
           return "bg-green-500";
@@ -699,9 +638,8 @@ export default {
         default:
           return "bg-gray-500";
       }
-    };
-
-    const getStatusText = (status) => {
+    },
+    getStatusText(status) {
       switch (status) {
         case "running":
           return "Sedang Berjalan";
@@ -712,185 +650,140 @@ export default {
         default:
           return "Tidak Diketahui";
       }
-    };
-
-    const getLocationClass = (location) => {
+    },
+    getLocationClass(location) {
       return location.available ? "bg-green-500" : "bg-gray-400";
-    };
-
-    const startGame = () => {
-      gameStatus.value = "running";
-      gameTime.value = gameDuration.value * 60;
+    },
+    startGame() {
+      this.gameStatus = "running";
+      this.gameTime = this.gameDuration * 60;
       alert("Game dimulai! Semua tim dapat mulai bermain.");
-    };
-
-    const pauseGame = () => {
-      gameStatus.value = "paused";
+    },
+    pauseGame() {
+      this.gameStatus = "paused";
       alert("Game dijeda sementara.");
-    };
-
-    const resetGame = () => {
+    },
+    resetGame() {
       if (confirm("Yakin ingin reset game? Semua progress akan hilang.")) {
-        gameStatus.value = "stopped";
-        gameTime.value = gameDuration.value * 60;
-        // Reset all team progress
-        teams.forEach((team) => {
+        this.gameStatus = "stopped";
+        this.gameTime = this.gameDuration * 60;
+        this.teams.forEach((team) => {
           team.points = 0;
           team.completed = 0;
         });
         alert("Game telah direset.");
       }
-    };
-
-    const editLocation = (location) => {
-      editingLocation.value = location;
-      Object.assign(locationForm, location);
-      showLocationModal.value = true;
-    };
-
-    const closeLocationModal = () => {
-      showLocationModal.value = false;
-      editingLocation.value = null;
-      Object.assign(locationForm, {
+    },
+    FetchLokasi() {
+      treasureService
+        .GetAllLokasi()
+        .then((res) => {
+          this.locations = res.data;
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    },
+    editLocation(location) {
+      this.editingLocation = location;
+      Object.assign(this.locationForm, location);
+      this.showLocationModal = true;
+    },
+    closeLocationModal() {
+      this.showLocationModal = false;
+      this.editingLocation = null;
+      Object.assign(this.locationForm, {
         name: "",
         icon: "",
-        x: 0,
-        y: 0,
+        latitude: 0,
+        longitude: 0,
         type: "Academic",
         code: "",
         points: 0,
         description: "",
         available: true,
       });
-    };
+    },
+    async saveLocation() {
+      if (this.editingLocation) {
+        const index = this.locations.findIndex(
+          (loc) => loc.id === this.editingLocation.id
+        );
+        if (index !== -1) Object.assign(this.locations[index], this.locationForm);
+      await  treasureService.UpdateLokasi(this.editingLocation.id, this.editingLocation).then(()=>{
+          alert("Lokasi berhasil diupdate!");
 
-    const saveLocation = () => {
-      if (editingLocation.value) {
-        // Update existing location
-        const index = locations.findIndex((loc) => loc.id === editingLocation.value.id);
-        if (index !== -1) {
-          Object.assign(locations[index], locationForm);
-        }
-        alert("Lokasi berhasil diupdate!");
+        });
       } else {
-        // Add new location
-        const newLocation = {
-          id: Date.now(),
-          ...locationForm,
-        };
-        locations.push(newLocation);
-        alert("Lokasi berhasil ditambahkan!");
+        try {
+          const res = await treasureService.CreateLokasi({ ...this.locationForm });
+          console.log(res.data);
+          alert("Lokasi berhasil ditambahkan!");
+        } catch (err) {
+          console.error(err);
+        }
       }
-      closeLocationModal();
-    };
-
-    const toggleLocationStatus = (location) => {
+      this.closeLocationModal();
+    },
+    toggleLocationStatus(location) {
       location.available = !location.available;
       alert(
         `Lokasi ${location.name} ${location.available ? "diaktifkan" : "dinonaktifkan"}.`
       );
-    };
-
-    const deleteLocation = (location) => {
+    },
+    deleteLocation(location) {
       if (confirm(`Yakin ingin menghapus lokasi ${location.name}?`)) {
-        const index = locations.findIndex((loc) => loc.id === location.id);
-        if (index !== -1) {
-          locations.splice(index, 1);
-          alert(`Lokasi ${location.name} berhasil dihapus!`);
-        }
+      
+    treasureService.DeleteLokasi(location.id).then(()=>{
+      alert("Lokasi Berhasil Di Hapus!")
+    })
       }
-    };
-
-    const viewTeamDetails = (team) => {
+    },
+    viewTeamDetails(team) {
       alert(
         `Detail Tim: ${team.name}\nAnggota: ${team.members}\nPoin: ${
           team.points
-        }\nLokasi Selesai: ${team.completed}/${totalLocations.value}\nStatus: ${
+        }\nLokasi Selesai: ${team.completed}/${this.totalLocations}\nStatus: ${
           team.active ? "Aktif" : "Tidak Aktif"
         }`
       );
-    };
-
-    const resetTeamProgress = (team) => {
+    },
+    resetTeamProgress(team) {
       if (confirm(`Yakin ingin reset progress tim ${team.name}?`)) {
         team.points = 0;
         team.completed = 0;
         team.lastActivity = "Baru saja";
         alert(`Progress tim ${team.name} berhasil direset!`);
       }
-    };
-
-    // Game timer functionality
-    let gameTimer = null;
-
-    const startGameTimer = () => {
-      if (gameTimer) clearInterval(gameTimer);
-
-      gameTimer = setInterval(() => {
-        if (gameStatus.value === "running" && gameTime.value > 0) {
-          gameTime.value--;
-        } else if (gameTime.value === 0) {
-          gameStatus.value = "stopped";
-          clearInterval(gameTimer);
+    },
+    startGameTimer() {
+      if (this.gameTimer) clearInterval(this.gameTimer);
+      this.gameTimer = setInterval(() => {
+        if (this.gameStatus === "running" && this.gameTime > 0) {
+          this.gameTime--;
+        } else if (this.gameTime === 0) {
+          this.gameStatus = "stopped";
+          clearInterval(this.gameTimer);
           alert("Waktu permainan telah habis!");
         }
       }, 1000);
-    };
+    },
+  },
+  mounted() {
+    this.FetchLokasi();
+    this.startGameTimer();
 
-    // Lifecycle hooks
-    onMounted(() => {
-      startGameTimer();
-    });
-
-    onUnmounted(() => {
-      if (gameTimer) {
-        clearInterval(gameTimer);
-      }
-    });
-
-    // Watch for game status changes
-    const { watch } = require("vue");
-    watch(gameStatus, (newStatus) => {
+    // Watch manually
+    this.$watch("gameStatus", (newStatus) => {
       if (newStatus === "running") {
-        startGameTimer();
+        this.startGameTimer();
       } else if (newStatus === "paused" || newStatus === "stopped") {
-        if (gameTimer) clearInterval(gameTimer);
+        if (this.gameTimer) clearInterval(this.gameTimer);
       }
     });
-
-    return {
-      activeTeams,
-      activeCodes,
-      gameTime,
-      gameDuration,
-      maxTeams,
-      gameStatus,
-      showLocationModal,
-      showTeamModal,
-      editingLocation,
-      menuItems,
-      locationForm,
-      locations,
-      teams,
-      recentActivities,
-
-      totalLocations,
-
-      formatTime,
-      getStatusColor,
-      getStatusText,
-      getLocationClass,
-      startGame,
-      pauseGame,
-      resetGame,
-      editLocation,
-      closeLocationModal,
-      saveLocation,
-      toggleLocationStatus,
-      deleteLocation,
-      viewTeamDetails,
-      resetTeamProgress,
-    };
+  },
+  unmounted() {
+    if (this.gameTimer) clearInterval(this.gameTimer);
   },
 };
 </script>

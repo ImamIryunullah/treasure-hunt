@@ -59,90 +59,70 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-lg font-semibold">🗺️ Peta Kampus</h2>
-          <div class="flex gap-2">
-            <button 
-              @click="zoomIn" 
-              class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm"
-            >
-              🔍 Zoom In
-            </button>
-            <button 
-              @click="zoomOut" 
-              class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-sm"
-            >
-              🔍 Zoom Out
-            </button>
-            <button 
-              @click="resetZoom" 
-              class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm"
-            >
-              🎯 Reset
-            </button>
-          </div>
-        </div>
-
-        <div class="relative bg-gradient-to-br from-green-100 to-blue-100 rounded-lg overflow-hidden" style="height: 600px;">
-          <div 
-            class="absolute inset-0 transition-all duration-300"
-            :style="{ transform: `scale(${zoomLevel}) translate(${panX}px, ${panY}px)` }"
-            @mousedown="startPanning"
-            @mousemove="panMap"
-            @mouseup="stopPanning"
-            @mouseleave="stopPanning"
-          >
-            <div 
-              v-for="location in locations" 
-              :key="location.id"
-              class="absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 hover:scale-110"
-              :style="{ left: `${location.x}%`, top: `${location.y}%` }"
-              @click="selectLocation(location)"
-            >
-              <div 
-                class="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg"
-                :class="getLocationClass(location)"
-              >
-                {{ location.icon }}
-              </div>
-              <div class="absolute top-14 left-1/2 transform -translate-x-1/2 bg-white px-2 py-1 rounded shadow-md text-xs font-medium whitespace-nowrap">
-                {{ location.name }}
-              </div>
-              <div 
-                v-if="location.completed"
-                class="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs"
-              >
-                ✓
-              </div>
-            </div>
-
-            <svg class="absolute inset-0 w-full h-full pointer-events-none">
-              <defs>
-                <pattern id="grid" width="50" height="50" patternUnits="userSpaceOnUse">
-                  <path d="M 50 0 L 0 0 0 50" fill="none" stroke="#e5e7eb" stroke-width="1" opacity="0.3"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-          </div>
-        </div>
-
-        <div class="flex justify-center mt-4 gap-6 text-sm">
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-green-500 rounded-full"></div>
-            <span>Selesai</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
-            <span>Aktif</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <div class="w-4 h-4 bg-gray-400 rounded-full"></div>
-            <span>Terkunci</span>
-          </div>
-        </div>
+      <div class="bg-white rounded-lg shadow-md p-2 mb-6">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-semibold">🗺️ Peta Kampus</h2>
+      <div class="flex gap-2">
+        <button 
+          @click="zoomIn" 
+          class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm"
+        >
+          🔍 Zoom In
+        </button>
+        <button 
+          @click="zoomOut" 
+          class="bg-gray-500 hover:bg-gray-600 text-white px-3 py-1 rounded-md text-sm"
+        >
+          🔍 Zoom Out
+        </button>
+        <button 
+          @click="resetZoom" 
+          class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded-md text-sm"
+        >
+          🎯 Reset
+        </button>
+        <button 
+          @click="showFullMap = true"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md text-sm"
+        >
+          🖥️ Lihat Full
+        </button>
       </div>
+    </div>
+
+    <Maps />
+
+    <div class="flex justify-center mt-4 gap-6 text-sm">
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-green-500 rounded-full"></div>
+        <span>Selesai</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
+        <span>Aktif</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="w-4 h-4 bg-gray-400 rounded-full"></div>
+        <span>Terkunci</span>
+      </div>
+    </div>
+
+    <!-- Full Map Modal -->
+    <div
+      v-if="showFullMap"
+      class="fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center"
+    >
+      <div class="relative bg-white rounded-lg shadow-lg w-full h-full">
+        <button
+          @click="showFullMap = false"
+          class="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+        >
+          ❌ Tutup
+        </button>
+        <Maps />
+      </div>
+    </div>
+  </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
         <div class="bg-white rounded-lg shadow-md p-6">
@@ -346,45 +326,45 @@
 
 <script>
 import SidebarMahasiswa from '@/components/SidebarMahasiswa.vue';
-import { ref, reactive, computed, onMounted, onUnmounted } from "vue";
+import Maps from '@/components/Maps.vue';
 
 export default {
   components: {
-    SidebarMahasiswa
+    SidebarMahasiswa,
+    Maps
   },
-  setup() {
-    const selectedLocation = ref(null);
-    const showCodeModal = ref(false);
-    const currentLocation = ref(null);
-    const treasureCode = ref('');
-    const validationError = ref('');
-    const validationSuccess = ref('');
-    const isValidating = ref(false);
-    const zoomLevel = ref(1);
-    const panX = ref(0);
-    const panY = ref(0);
-    const isPanning = ref(false);
-    const lastMousePos = ref({ x: 0, y: 0 });
-    const remainingTime = ref(7200);
-    const totalTime = ref(7200);
-    let timer = null;
-
-    // Treasure codes for each location
-    const treasureCodes = {
-      1: 'BOOK2024',
-      2: 'RECTOR123',
-      3: 'MASJID456',
-      4: 'TEKNIK789',
-      5: 'GARDEN321',
-      6: 'BAHASA654',
-      7: 'KANTIN987',
-      8: 'SPORT012',
-      9: 'SERBAGUNA345',
-      10: 'AUDIO678'
-    };
-
-    const locations = reactive([
-      {
+  data() {
+    return {
+      selectedLocation: null,
+      showCodeModal: false,
+      currentLocation: null,
+      treasureCode: '',
+      validationError: '',
+      validationSuccess: '',
+      isValidating: false,
+      showFullMap: false,
+      zoomLevel: 1,
+      panX: 0,
+      panY: 0,
+      isPanning: false,
+      lastMousePos: { x: 0, y: 0 },
+      remainingTime: 7200,
+      totalTime: 7200,
+      timer: null,
+      treasureCodes: {
+        1: 'BOOK2024',
+        2: 'RECTOR123',
+        3: 'MASJID456',
+        4: 'TEKNIK789',
+        5: 'GARDEN321',
+        6: 'BAHASA654',
+        7: 'KANTIN987',
+        8: 'SPORT012',
+        9: 'SERBAGUNA345',
+        10: 'AUDIO678'
+      },
+      locations: [
+        {
         id: 1,
         name: "Perpustakaan",
         icon: "📚",
@@ -504,233 +484,165 @@ export default {
         available: false,
         description: "Tempat pertunjukan kampus, temukan kode treasure di area panggung."
       }
-    ]);
-
-    const leaderboard = reactive([
-      { id: 1, name: "Tim Explorer", points: 630, completed: 6 },
+      ], 
+      leaderboard: [ { id: 1, name: "Tim Explorer", points: 630, completed: 6 },
       { id: 2, name: "Tech Hunters", points: 580, completed: 5 },
       { id: 3, name: "Campus Rangers", points: 520, completed: 5 },
       { id: 4, name: "Quest Masters", points: 470, completed: 4 },
-      { id: 5, name: "Adventure Squad", points: 420, completed: 4 }
-    ]);
-
-    const recentActivities = reactive([
-      { id: 1, icon: "🎉", title: "Kode Berhasil Divalidasi", description: "Tim Explorer berhasil menemukan kode treasure di Lapangan", time: "5 menit lalu" },
+      { id: 5, name: "Adventure Squad", points: 420, completed: 4 }],
+      recentActivities: [
+        { id: 1, icon: "🎉", title: "Kode Berhasil Divalidasi", description: "Tim Explorer berhasil menemukan kode treasure di Lapangan", time: "5 menit lalu" },
       { id: 2, icon: "🔑", title: "Kode Treasure Ditemukan", description: "Menemukan kode treasure di Perpustakaan", time: "15 menit lalu" },
       { id: 3, icon: "🏛️", title: "Eksplorasi Rektorat", description: "Berhasil validasi kode treasure di Rektorat", time: "30 menit lalu" },
       { id: 4, icon: "🕌", title: "Kunjungi Masjid", description: "Menemukan dan memvalidasi kode treasure di Masjid", time: "45 menit lalu" }
-    ]);
-
-    const completedLocations = computed(() => {
-      return locations.filter(loc => loc.completed).length;
-    });
-
-    const totalLocations = computed(() => {
-      return locations.length;
-    });
-
-    const points = computed(() => {
-      return locations.filter(loc => loc.completed).reduce((sum, loc) => sum + loc.points, 0);
-    });
-
-    const averageTimePerLocation = computed(() => {
-      const completedCount = completedLocations.value;
+      ],
+    };
+  },
+  computed: {
+    completedLocations() {
+      return this.locations.filter(loc => loc.completed).length;
+    },
+    totalLocations() {
+      return this.locations.length;
+    },
+    points() {
+      return this.locations.filter(loc => loc.completed).reduce((sum, loc) => sum + loc.points, 0);
+    },
+    averageTimePerLocation() {
+      const completedCount = this.completedLocations;
       if (completedCount === 0) return "0 min";
-      const totalElapsed = totalTime.value - remainingTime.value;
+      const totalElapsed = this.totalTime - this.remainingTime;
       const avgSeconds = Math.round(totalElapsed / completedCount);
       return Math.round(avgSeconds / 60) + " min";
-    });
-
-    const getLocationClass = (location) => {
+    }
+  },
+  methods: {
+    getLocationClass(location) {
       if (location.completed) return 'bg-green-500';
       if (location.available) return 'bg-blue-500';
       return 'bg-gray-400';
-    };
-
-    const getRankClass = (index) => {
+    },
+    getRankClass(index) {
       if (index === 0) return 'bg-yellow-500 text-white';
       if (index === 1) return 'bg-gray-400 text-white';
       if (index === 2) return 'bg-orange-600 text-white';
       return 'bg-gray-200 text-gray-700';
-    };
-
-    const formatTime = (seconds) => {
+    },
+    formatTime(seconds) {
       const hours = Math.floor(seconds / 3600);
       const minutes = Math.floor((seconds % 3600) / 60);
       const secs = seconds % 60;
       return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    };
-
-    const selectLocation = (location) => {
-      selectedLocation.value = location;
-    };
-
-    const closeModal = () => {
-      selectedLocation.value = null;
-    };
-
-    const startChallenge = (location) => {
-      currentLocation.value = location;
-      showCodeModal.value = true;
-      closeModal();
-    };
-
-    const closeCodeModal = () => {
-      showCodeModal.value = false;
-      currentLocation.value = null;
-      treasureCode.value = '';
-      validationError.value = '';
-      validationSuccess.value = '';
-    };
-
-    const validateTreasureCode = async () => {
-      if (!treasureCode.value.trim()) {
-        validationError.value = 'Kode treasure tidak boleh kosong';
+    },
+    selectLocation(location) {
+      this.selectedLocation = location;
+    },
+    closeModal() {
+      this.selectedLocation = null;
+    },
+    startChallenge(location) {
+      this.currentLocation = location;
+      this.showCodeModal = true;
+      this.closeModal();
+    },
+    closeCodeModal() {
+      this.showCodeModal = false;
+      this.currentLocation = null;
+      this.treasureCode = '';
+      this.validationError = '';
+      this.validationSuccess = '';
+    },
+    async validateTreasureCode() {
+      if (!this.treasureCode.trim()) {
+        this.validationError = 'Kode treasure tidak boleh kosong';
         return;
       }
 
-      isValidating.value = true;
-      validationError.value = '';
-      validationSuccess.value = '';
+      this.isValidating = true;
+      this.validationError = '';
+      this.validationSuccess = '';
 
-      // Simulate validation delay
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      const expectedCode = treasureCodes[currentLocation.value.id];
-      const inputCode = treasureCode.value.trim().toUpperCase();
+      const expectedCode = this.treasureCodes[this.currentLocation.id];
+      const inputCode = this.treasureCode.trim().toUpperCase();
 
       if (inputCode === expectedCode) {
-        // Success
-        validationSuccess.value = `Kode benar! Selamat, Anda telah menyelesaikan tantangan di ${currentLocation.value.name}. +${currentLocation.value.points} poin!`;
-        
-        // Mark location as completed
-        const locationIndex = locations.findIndex(loc => loc.id === currentLocation.value.id);
-        if (locationIndex !== -1) {
-          locations[locationIndex].completed = true;
-        }
+        this.validationSuccess = `Kode benar! Selamat, Anda telah menyelesaikan tantangan di ${this.currentLocation.name}. +${this.currentLocation.points} poin!`;
+        const locationIndex = this.locations.findIndex(loc => loc.id === this.currentLocation.id);
+        if (locationIndex !== -1) this.locations[locationIndex].completed = true;
 
-        // Update leaderboard
-        const teamIndex = leaderboard.findIndex(team => team.name === "Tim Explorer");
+        const teamIndex = this.leaderboard.findIndex(team => team.name === "Tim Explorer");
         if (teamIndex !== -1) {
-          leaderboard[teamIndex].points += currentLocation.value.points;
-          leaderboard[teamIndex].completed += 1;
+          this.leaderboard[teamIndex].points += this.currentLocation.points;
+          this.leaderboard[teamIndex].completed += 1;
         }
 
-        // Add to recent activities
-        recentActivities.unshift({
+        this.recentActivities.unshift({
           id: Date.now(),
           icon: "🎉",
-          title: `Berhasil di ${currentLocation.value.name}`,
-          description: `Kode treasure berhasil divalidasi, mendapat ${currentLocation.value.points} poin`,
+          title: `Berhasil di ${this.currentLocation.name}`,
+          description: `Kode treasure berhasil divalidasi, mendapat ${this.currentLocation.points} poin`,
           time: "Baru saja"
         });
 
-        // Close modal after 3 seconds
         setTimeout(() => {
-          closeCodeModal();
+          this.closeCodeModal();
         }, 3000);
       } else {
-        // Error
-        validationError.value = 'Kode treasure salah. Pastikan Anda memasukkan kode yang benar dari lokasi ini.';
+        this.validationError = 'Kode treasure salah. Pastikan Anda memasukkan kode yang benar dari lokasi ini.';
       }
 
-      isValidating.value = false;
-    };
-
-    const zoomIn = () => {
-      zoomLevel.value = Math.min(zoomLevel.value + 0.2, 2);
-    };
-
-    const zoomOut = () => {
-      zoomLevel.value = Math.max(zoomLevel.value - 0.2, 0.5);
-    };
-
-    const resetZoom = () => {
-      zoomLevel.value = 1;
-      panX.value = 0;
-      panY.value = 0;
-    };
-
-    const startPanning = (e) => {
-      isPanning.value = true;
-      lastMousePos.value = { x: e.clientX, y: e.clientY };
-    };
-
-    const panMap = (e) => {
-      if (!isPanning.value) return;
-      
-      const deltaX = e.clientX - lastMousePos.value.x;
-      const deltaY = e.clientY - lastMousePos.value.y;
-      
-      panX.value += deltaX;
-      panY.value += deltaY;
-      
-      lastMousePos.value = { x: e.clientX, y: e.clientY };
-    };
-
-    const stopPanning = () => {
-      isPanning.value = false;
-    };
-
-    const startTimer = () => {
-      timer = setInterval(() => {
-        if (remainingTime.value > 0) {
-          remainingTime.value--;
+      this.isValidating = false;
+    },
+    zoomIn() {
+      this.zoomLevel = Math.min(this.zoomLevel + 0.2, 2);
+    },
+    zoomOut() {
+      this.zoomLevel = Math.max(this.zoomLevel - 0.2, 0.5);
+    },
+    resetZoom() {
+      this.zoomLevel = 1;
+      this.panX = 0;
+      this.panY = 0;
+    },
+    startPanning(e) {
+      this.isPanning = true;
+      this.lastMousePos = { x: e.clientX, y: e.clientY };
+    },
+    panMap(e) {
+      if (!this.isPanning) return;
+      const deltaX = e.clientX - this.lastMousePos.x;
+      const deltaY = e.clientY - this.lastMousePos.y;
+      this.panX += deltaX;
+      this.panY += deltaY;
+      this.lastMousePos = { x: e.clientX, y: e.clientY };
+    },
+    stopPanning() {
+      this.isPanning = false;
+    },
+    startTimer() {
+      this.timer = setInterval(() => {
+        if (this.remainingTime > 0) {
+          this.remainingTime--;
         } else {
-          clearInterval(timer);
+          clearInterval(this.timer);
           alert("Waktu habis! Permainan berakhir.");
         }
       }, 1000);
-    };
-
-    onMounted(() => {
-      startTimer();
-    });
-
-    onUnmounted(() => {
-      if (timer) {
-        clearInterval(timer);
-      }
-    });
-
-    return {
-      locations,
-      selectedLocation,
-      showCodeModal,
-      currentLocation,
-      treasureCode,
-      validationError,
-      validationSuccess,
-      isValidating,
-      completedLocations,
-      totalLocations,
-      points,
-      averageTimePerLocation,
-      leaderboard,
-      recentActivities,
-      remainingTime,
-      totalTime,
-      getLocationClass,
-      getRankClass,
-      formatTime,
-      selectLocation,
-      closeModal,
-      startChallenge,
-      closeCodeModal,
-      validateTreasureCode,
-      zoomLevel,
-      panX,
-      panY,
-      zoomIn,
-      zoomOut,
-      resetZoom,
-      startPanning,
-      panMap,
-      stopPanning
-    };
+    }
+  },
+  mounted() {
+    this.startTimer();
+  },
+  unmounted() {
+    if (this.timer) {
+      clearInterval(this.timer);
+    }
   }
-}
+};
 </script>
+
 
 <style scoped>
 .cursor-grab {

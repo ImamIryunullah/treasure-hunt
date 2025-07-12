@@ -1,12 +1,11 @@
 <template>
   <div class="flex min-h-screen bg-purple-50">
-    <SidebarAdmin
-    />
+    <SidebarAdmin />
 
     <div class="flex-1 p-8">
       <div class="flex justify-between items-center mb-8">
         <div>
-          <h1 class="text-3xl font-bold text-gray-800">Manajemen Soal</h1>
+          <h1 class="text-3xl font-bold text-gray-800">Manajemen Kuis</h1>
           <p class="text-gray-600 mt-1">
             Kelola pertanyaan untuk setiap lokasi treasure hunt
           </p>
@@ -62,17 +61,22 @@
                   {{ question.text }}
                 </h3>
               </div>
-              <div class="flex space-x-2 text-sm">
-                <span
-                  class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium"
-                >
-                  {{ getQuestionTypeLabel(question.type) }}
-                </span>
-                <span :class="getDifficultyClass(question.difficulty)">
-                  {{ getDifficultyLabel(question.difficulty) }}
-                </span>
-              </div>
             </div>
+          </div>
+          <div class="flex space-x-2 text-sm">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
+              {{ getQuestionTypeLabel(question.type) }}
+            </span>
+            <span :class="getDifficultyClass(question.difficulty)">
+              {{ getDifficultyLabel(question.difficulty) }}
+            </span>
+            <span
+              v-if="question.duration"
+              class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-medium"
+            >
+              <i class="fas fa-clock mr-1"></i>
+              {{ Math.ceil(question.duration / 60) }} menit
+            </span>
           </div>
 
           <div class="mb-4">
@@ -204,6 +208,21 @@
                   placeholder="Tulis pertanyaan di sini..."
                   required
                 ></textarea>
+              </div>
+              
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">
+                  <i class="fas fa-clock text-yellow-500 mr-1"></i>
+                  Lama Pengerjaan (menit)
+                </label>
+                <input  
+                  v-model="newQuestion.durationInMinutes"
+                  type="number"
+                  min="0"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  placeholder="Contoh: 1"
+                  required
+                />
               </div>
 
               <div>
@@ -366,6 +385,13 @@
                 <span :class="getDifficultyClass(previewData.difficulty)">
                   {{ getDifficultyLabel(previewData.difficulty) }}
                 </span>
+                <span
+                  v-if="previewData.duration"
+                  class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-medium"
+                >
+                  <i class="fas fa-clock mr-1"></i>
+                  {{ Math.ceil(previewData.duration / 60) }} menit
+                </span>
               </div>
 
               <div class="bg-gray-50 p-4 rounded-lg">
@@ -462,119 +488,209 @@
 </template>
 
 <script>
-import { ref, reactive, onMounted } from "vue";
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
-import API from "@/service/treasureService";
+import treasureService from "@/service/treasureService";
 
 export default {
   components: {
     SidebarAdmin,
   },
   name: "BankSoal",
-  setup() {
-    const showAddModal = ref(false);
-    const showEditModal = ref(false);
-    const showPreviewModal = ref(false);
-    const showDeleteModal = ref(false);
-    const showImportModal = ref(false);
-    const showPreviewMode = ref(false);
-    const editingQuestionId = ref(null);
-    const questionToDelete = ref(null);
-    const previewData = ref(null);
-    const uploadedFile = ref(null);
-    const isLoading = ref(false);
-
-    const fetchQuestions = async () => {
-      isLoading.value = true;
+  data() {
+    return {
+      showAddModal: false,
+      showEditModal: false,
+      showPreviewModal: false,
+      showDeleteModal: false,
+      showImportModal: false,
+      showPreviewMode: false,
+      editingQuestionId: null,
+      questionToDelete: null,
+      previewData: null,
+      uploadedFile: null,
+      isLoading: false,
+      toast: {
+        show: false,
+        type: "success",
+        message: "",
+      },
+      questions: [],
+      stats: [
+        {
+          title: "Total Soal",
+          value: "0",
+          subtitle: "Dari berbagai lokasi",
+          icon: "fas fa-question-circle",
+        },
+        {
+          title: "Soal Mudah",
+          value: "0",
+          subtitle: "Tingkat mudah",
+          icon: "fas fa-smile",
+        },
+        {
+          title: "Soal Sedang",
+          value: "0",
+          subtitle: "Tingkat sedang",
+          icon: "fas fa-meh",
+        },
+        {
+          title: "Soal Sulit",
+          value: "0",
+          subtitle: "Tingkat sulit",
+          icon: "fas fa-frown",
+        },
+      ],
+      newQuestion: {
+        text: "",
+        options: [
+          { label: "A", text: "" },
+          { label: "B", text: "" },
+          { label: "C", text: "" },
+          { label: "D", text: "" },
+        ],
+        correctAnswer: "",
+        difficulty: "",
+        duration: "",
+        durationInMinutes: "",
+      },
+    };
+  },
+  mounted() {
+    this.fetchQuestions();
+  },
+  methods: {
+    async fetchQuestions() {
+      this.isLoading = true;
       try {
-        const res = await API.getQuestions(); // Panggil endpoint get
-        questions.splice(0, questions.length, ...res.data.data.data); // Replace reactive array
-        updateStats();
+        const res = await treasureService.getQuestions();
+        this.questions = res.data.data;
+        this.updateStats();
       } catch (err) {
-        showToast("Gagal memuat soal", "error");
+        this.showToast("Gagal memuat soal", "error");
         console.error(err);
       }
-      isLoading.value = false;
-    };
-
-    onMounted(() => {
-      fetchQuestions();
-    });
-
-    const toast = reactive({
-      show: false,
-      type: "success",
-      message: "",
-    });
-
-    const stats = reactive([
-      {
-        title: "Total Soal",
-        value: "3",
-        subtitle: "Dari berbagai lokasi",
-        icon: "fas fa-question-circle",
+      this.isLoading = false;
+    },
+    watch: {
+      "newQuestion.durationInMinutes"(val) {
+        this.newQuestion.duration = Number(val) * 60;
       },
-      {
-        title: "Soal Mudah",
-        value: "1",
-        subtitle: "Tingkat mudah",
-        icon: "fas fa-smile",
-      },
-      {
-        title: "Soal Sedang",
-        value: "1",
-        subtitle: "Tingkat sedang",
-        icon: "fas fa-meh",
-      },
-      {
-        title: "Soal Sulit",
-        value: "1",
-        subtitle: "Tingkat sulit",
-        icon: "fas fa-frown",
-      },
-    ]);
+    },
 
-    const questions = reactive([]);
-    const newQuestion = reactive({
-      text: "",
-      options: [
-        { label: "A", text: "" },
-        { label: "B", text: "" },
-        { label: "C", text: "" },
-        { label: "D", text: "" },
-      ],
-      correctAnswer: "",
-      difficulty: "",
-    });
+    async saveQuestion() {
+      const payload = {
+        text: this.newQuestion.text,
+        type: "multiple-choice",
+        difficulty: this.newQuestion.difficulty,
+        created_by: 1,
+        duration: Number(this.newQuestion.durationInMinutes) * 60,
 
-    const showToast = (message, type = "success") => {
-      toast.message = message;
-      toast.type = type;
-      toast.show = true;
+        options: this.newQuestion.options.map((opt) => ({
+          label: opt.label,
+          text: opt.text,
+          is_correct: opt.label === this.newQuestion.correctAnswer,
+        })),
+      };
 
+      try {
+        if (this.showEditModal && this.editingQuestionId) {
+          await treasureService.updateQuestion(this.editingQuestionId, payload);
+          this.showToast("Soal berhasil diupdate");
+        } else {
+          await treasureService.createQuestion(payload);
+          this.showToast("Soal berhasil ditambahkan");
+        }
+
+        this.cancelModal();
+        this.fetchQuestions();
+      } catch (err) {
+        this.showToast("Gagal menyimpan soal", "error");
+        console.error(err);
+      }
+    },
+    async deleteQuestion() {
+      if (this.questionToDelete) {
+        try {
+          await treasureService.deleteQuestion(this.questionToDelete.id);
+          this.showToast("Soal berhasil dihapus");
+          this.fetchQuestions();
+        } catch (err) {
+          this.showToast("Gagal menghapus soal", "error");
+        }
+      }
+      this.showDeleteModal = false;
+      this.questionToDelete = null;
+    },
+    editQuestion(question) {
+      this.editingQuestionId = question.id;
+      this.newQuestion.text = question.text;
+      this.newQuestion.options = [...question.options];
+      this.newQuestion.correctAnswer =
+        question.options.find((opt) => opt.is_correct)?.label || "";
+      this.newQuestion.difficulty = question.difficulty;
+      this.newQuestion.duration = question.duration;
+      this.newQuestion.durationInMinutes = Math.floor(question.duration / 60); // ← ini ditambah
+      this.showEditModal = true;
+    },
+
+    cancelModal() {
+      this.resetForm();
+      this.showAddModal = false;
+      this.showEditModal = false;
+      this.editingQuestionId = null;
+    },
+    resetForm() {
+      this.newQuestion.text = "";
+      this.newQuestion.options.forEach((option) => (option.text = ""));
+      this.newQuestion.correctAnswer = "";
+      this.newQuestion.difficulty = "";
+      this.newQuestion.duration = "";
+      this.newQuestion.durationInMinutes = "";
+    },
+
+    updateStats() {
+      const total = this.questions.length;
+      const mudah = this.questions.filter((q) => q.difficulty === "mudah").length;
+      const sedang = this.questions.filter((q) => q.difficulty === "sedang").length;
+      const sulit = this.questions.filter((q) => q.difficulty === "sulit").length;
+
+      this.stats[0].value = total.toString();
+      this.stats[1].value = mudah.toString();
+      this.stats[2].value = sedang.toString();
+      this.stats[3].value = sulit.toString();
+
+      if (total > 0) {
+        this.stats[1].subtitle = `${Math.round((mudah / total) * 100)}% dari total soal`;
+        this.stats[2].subtitle = `${Math.round((sedang / total) * 100)}% dari total soal`;
+        this.stats[3].subtitle = `${Math.round((sulit / total) * 100)}% dari total soal`;
+      }
+    },
+    showToast(message, type = "success") {
+      this.toast.message = message;
+      this.toast.type = type;
+      this.toast.show = true;
       setTimeout(() => {
-        toast.show = false;
+        this.toast.show = false;
       }, 3000);
-    };
-
-    const getQuestionTypeLabel = (type) => {
+    },
+    getQuestionTypeLabel(type) {
       const labels = {
         "multiple-choice": "Pilihan Ganda",
         "true-false": "Benar/Salah",
         essay: "Essay",
       };
       return labels[type] || type;
-    };
-    const getDifficultyLabel = (difficulty) => {
+    },
+    getDifficultyLabel(difficulty) {
       const labels = {
         mudah: "Mudah",
         sedang: "Sedang",
         sulit: "Sulit",
       };
       return labels[difficulty] || difficulty;
-    };
-
-    const getDifficultyClass = (difficulty) => {
+    },
+    getDifficultyClass(difficulty) {
       const classes = {
         mudah: "bg-green-100 text-green-800 px-3 py-1 rounded-full font-medium",
         sedang: "bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full font-medium",
@@ -584,126 +700,32 @@ export default {
         classes[difficulty] ||
         "bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-medium"
       );
-    };
-
-    const previewQuestion = (question) => {
-      previewData.value = { ...question };
-      showPreviewModal.value = true;
-    };
-
-    const editQuestion = (question) => {
-      editingQuestionId.value = question.id;
-      newQuestion.text = question.text;
-      newQuestion.options = [...question.options];
-      newQuestion.correctAnswer =
-        question.options.find((opt) => opt.isCorrect)?.label || "";
-      newQuestion.difficulty = question.difficulty;
-      showEditModal.value = true;
-    };
-
-    const duplicateQuestion = (question) => {
+    },
+    previewQuestion(question) {
+      this.previewData = { ...question };
+      this.showPreviewModal = true;
+    },
+    duplicateQuestion(question) {
       const duplicatedQuestion = {
         ...question,
         id: Date.now(),
         text: question.text + " (Copy)",
       };
-      questions.push(duplicatedQuestion);
-      showToast("Soal berhasil diduplikat", "success");
-      updateStats();
-    };
-
-    const confirmDelete = (question) => {
-      questionToDelete.value = question;
-      showDeleteModal.value = true;
-    };
-
-    const deleteQuestion = async () => {
-  if (questionToDelete.value) {
-    try {
-      await API.deleteQuestion(questionToDelete.value.id);
-      showToast("Soal berhasil dihapus");
-      fetchQuestions();
-    } catch (err) {
-      showToast("Gagal menghapus soal", "error");
-    }
-  }
-  showDeleteModal.value = false;
-  questionToDelete.value = null;
-};
-
-
-    const saveQuestion = async () => {
-      const payload = {
-        text: newQuestion.text,
-        type: "multiple-choice", // default
-        difficulty: newQuestion.difficulty,
-        created_by: 1,
-        options: newQuestion.options.map((opt) => ({
-          label: opt.label,
-          text: opt.text,
-          is_correct: opt.label === newQuestion.correctAnswer,
-        })),
-      };
-
-      try {
-        if (showEditModal.value && editingQuestionId.value) {
-          await API.updateQuestion(editingQuestionId.value, payload);
-          showToast("Soal berhasil diupdate");
-        } else {
-          await API.createQuestion(payload);
-          showToast("Soal berhasil ditambahkan");
-        }
-
-        cancelModal();
-        fetchQuestions(); // reload list
-      } catch (err) {
-        showToast("Gagal menyimpan soal", "error");
-        console.error(err);
-      }
-    };
-
-    const cancelModal = () => {
-      resetForm();
-      showAddModal.value = false;
-      showEditModal.value = false;
-      editingQuestionId.value = null;
-    };
-
-    const resetForm = () => {
-      newQuestion.text = "";
-      newQuestion.options.forEach((option) => (option.text = ""));
-      newQuestion.correctAnswer = "";
-      newQuestion.difficulty = "";
-    };
-
-    const updateStats = () => {
-      const total = questions.length;
-      const mudah = questions.filter((q) => q.difficulty === "mudah").length;
-      const sedang = questions.filter((q) => q.difficulty === "sedang").length;
-      const sulit = questions.filter((q) => q.difficulty === "sulit").length;
-
-      stats[0].value = total.toString();
-      stats[1].value = mudah.toString();
-      stats[2].value = sedang.toString();
-      stats[3].value = sulit.toString();
-
-      if (total > 0) {
-        stats[1].subtitle = `${Math.round((mudah / total) * 100)}% dari total soal`;
-        stats[2].subtitle = `${Math.round((sedang / total) * 100)}% dari total soal`;
-        stats[3].subtitle = `${Math.round((sulit / total) * 100)}% dari total soal`;
-      }
-    };
-
-    // Quick Action Functions
-    const importFromFile = () => {
-      showImportModal.value = true;
-    };
-
-    const exportToFile = () => {
-      const dataStr = JSON.stringify(questions, null, 2);
+      this.questions.push(duplicatedQuestion);
+      this.showToast("Soal berhasil diduplikat", "success");
+      this.updateStats();
+    },
+    confirmDelete(question) {
+      this.questionToDelete = question;
+      this.showDeleteModal = true;
+    },
+    importFromFile() {
+      this.showImportModal = true;
+    },
+    exportToFile() {
+      const dataStr = JSON.stringify(this.questions, null, 2);
       const dataUri =
         "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
-
       const exportFileDefaultName = "bank_soal.json";
 
       const linkElement = document.createElement("a");
@@ -711,18 +733,17 @@ export default {
       linkElement.setAttribute("download", exportFileDefaultName);
       linkElement.click();
 
-      showToast("Bank soal berhasil diekspor", "success");
-    };
-
-    const validateAllQuestions = () => {
+      this.showToast("Bank soal berhasil diekspor", "success");
+    },
+    validateAllQuestions() {
       let validationErrors = [];
 
-      questions.forEach((question, index) => {
+      this.questions.forEach((question, index) => {
         if (!question.text.trim()) {
           validationErrors.push(`Soal ${index + 1}: Teks pertanyaan kosong`);
         }
 
-        if (!question.options.some((opt) => opt.isCorrect)) {
+        if (!question.options.some((opt) => opt.is_correct)) {
           validationErrors.push(`Soal ${index + 1}: Tidak ada jawaban benar`);
         }
 
@@ -732,24 +753,25 @@ export default {
       });
 
       if (validationErrors.length > 0) {
-        showToast(`Ditemukan ${validationErrors.length} error dalam validasi`, "error");
+        this.showToast(
+          `Ditemukan ${validationErrors.length} error dalam validasi`,
+          "error"
+        );
         console.log("Validation errors:", validationErrors);
       } else {
-        showToast("Semua soal valid!", "success");
+        this.showToast("Semua soal valid!", "success");
       }
-    };
-
-    const handleFileUpload = (event) => {
+    },
+    handleFileUpload(event) {
       const file = event.target.files[0];
       if (file) {
-        uploadedFile.value = file;
-        showToast(`File ${file.name} siap diimport`, "success");
+        this.uploadedFile = file;
+        this.showToast(`File ${file.name} siap diimport`, "success");
       }
-    };
-
-    const processImport = () => {
-      if (!uploadedFile.value) {
-        showToast("Pilih file terlebih dahulu", "error");
+    },
+    processImport() {
+      if (!this.uploadedFile) {
+        this.showToast("Pilih file terlebih dahulu", "error");
         return;
       }
 
@@ -757,65 +779,29 @@ export default {
       reader.onload = (e) => {
         try {
           const importedData = JSON.parse(e.target.result);
-
           if (Array.isArray(importedData)) {
             importedData.forEach((question) => {
               if (question.text && question.options) {
-                questions.push({
+                this.questions.push({
                   ...question,
                   id: Date.now() + Math.random(),
                 });
               }
             });
-
-            updateStats();
-            showToast(`Berhasil mengimport ${importedData.length} soal`, "success");
+            this.updateStats();
+            this.showToast(`Berhasil mengimport ${importedData.length} soal`, "success");
           } else {
-            showToast("Format file tidak valid", "error");
+            this.showToast("Format file tidak valid", "error");
           }
         } catch (error) {
-          showToast("Error saat memproses file", "error");
+          this.showToast("Error saat memproses file", "error");
         }
       };
 
-      reader.readAsText(uploadedFile.value);
-      showImportModal.value = false;
-      uploadedFile.value = null;
-    };
-
-    // Initialize stats
-    updateStats();
-
-    return {
-      showAddModal,
-      showEditModal,
-      showPreviewModal,
-      showDeleteModal,
-      showImportModal,
-      showPreviewMode,
-      stats,
-      questions,
-      newQuestion,
-      previewData,
-      toast,
-      uploadedFile,
-      previewQuestion,
-      editQuestion,
-      duplicateQuestion,
-      confirmDelete,
-      deleteQuestion,
-      saveQuestion,
-      cancelModal,
-      getQuestionTypeLabel,
-      getDifficultyLabel,
-      getDifficultyClass,
-      importFromFile,
-      exportToFile,
-      validateAllQuestions,
-      handleFileUpload,
-      processImport,
-  
-    };
+      reader.readAsText(this.uploadedFile);
+      this.showImportModal = false;
+      this.uploadedFile = null;
+    },
   },
 };
 </script>

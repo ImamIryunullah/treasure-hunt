@@ -14,8 +14,6 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
               </svg>
             </div>
-  
-            
             <h1 class="text-2xl font-bold text-gray-800 mb-2">Seleksi Cepat Mahasiswa Baru</h1>
             <p class="text-gray-600">Jawab 7 pertanyaan tentang universitas untuk melanjutkan ke tahap berikutnya</p>
           </div>
@@ -155,6 +153,7 @@
   <script>
   import SidebarMahasiswa from '@/components/SidebarMahasiswa.vue';
   import { ref, reactive, computed, onUnmounted } from "vue";
+  
   
   export default {
     components: {

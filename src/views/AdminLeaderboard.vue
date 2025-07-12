@@ -57,9 +57,8 @@
             </span>
           </div>
         </div>
-  
         
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 lg:mb-8">
+        <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-6 lg:mb-8">
           <div
             v-for="stat in stats"
             :key="stat.title"
@@ -70,7 +69,6 @@
             <p class="text-xs sm:text-sm text-gray-500">{{ stat.subtitle }}</p>
           </div>
         </div>
-  
         
         <div class="mb-6">
           <div class="border-b border-gray-200">
@@ -306,11 +304,6 @@
           title: "Waktu tercepat",
           value: "3 menit",
           subtitle: "waktu tercepat menyelesaikan pertanyaan",
-        },
-        {
-          title: "Rata-rata waktu penyelesaian",
-          value: "10 menit",
-          subtitle: "rata-rata waktu penyelesaian pertanyaan",
         },
       ]);
   

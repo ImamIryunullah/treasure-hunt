@@ -10,6 +10,8 @@ const ManajementEvent = () => import("@/views/ManajemenEvent");
 const AdminTreasureHunt = () => import("@/views/AdminTreasureHunt");
 const AdminLaporan = () => import("@/views/AdminLaporan");
 const AdminLeaderboard = () => import("@/views/AdminLeaderboard");
+const AdminRiwayatAktivitasMahasiswa = () => import("@/views/AdminRiwayatAktivitasMahasiswa");
+
 
 const LoginPage = () => import("@/views/LoginPage");
 
@@ -22,9 +24,13 @@ const MahasiswaProgressKelompok = () => import("@/views/MahasiswaProgressKelompo
 const MahasiswaHuntSponsorship = () => import("@/views/MahasiswaHuntSponsorship")
 const MahasiswaProfil = () => import("@/views/MahasiswaProfil")
 const MahasiswaSurveySistem = () => import("@/views/MahasiswaSurveySistem")
-
+const maps =() => import("@/components/Maps.vue")
 const routes = [
-
+{
+  path :"/maps",
+  name : "maps",
+  component : maps
+},
   {
     path: "/dashboard-admin",
     name: "Admin Dashboard",
@@ -81,7 +87,11 @@ const routes = [
     name: "Manajemen Event",
     component: ManajementEvent,
   },
-
+  {
+    path: "/riwayat-aktivitas-mahasiswa",
+    name: "Manajemen Riwayat Aktivitas Mahasiswa",
+    component: AdminRiwayatAktivitasMahasiswa,
+  },
 
   {
     path: "/login",
