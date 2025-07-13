@@ -60,5 +60,13 @@ export default {
    },
    DeleteLokasi(id){
     return API.delete(`/lokasi/${id}`)
-   }
+   },
+
+     // ========== AUTH ==========
+   register(data) {
+    return API.post("/register", data);
+  },
+  login(data) {
+    return API.post("/login", data);
+  }
 };

@@ -187,6 +187,7 @@
 <script>
 import { ref, reactive } from "vue";
 import { useRouter } from 'vue-router';
+import treasureService from "@/service/treasureService";
 
 export default {
   name: "LoginPage",
@@ -210,33 +211,36 @@ export default {
 
 
     const handleLogin = async () => {
-      try {
-        isLoading.value = true;
-        errorMessage.value = "";
+  try {
+    isLoading.value = true;
+    errorMessage.value = "";
 
-        // Validasi form
-        if (!loginForm.nim || !loginForm.password) {
-          errorMessage.value = "nim dan password harus diisi";
-          return;
-        }
+    if (!loginForm.nim || !loginForm.password) {
+      errorMessage.value = "NIM dan password harus diisi";
+      return;
+    }
 
-        // Simulasi login API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+    const response = await treasureService.login({
+      nim: loginForm.nim,
+      password: loginForm.password,
+    });
 
-        // Simulasi validasi login
-        if (loginForm.nim === "12345678" && loginForm.password === "password") {
-          console.log("Login berhasil:", loginForm);
-          router.push("/");
-        } else {
-          errorMessage.value = "nim atau password salah";
-        }
-      } catch (error) {
-        console.error("Login error:", error);
-        errorMessage.value = "Terjadi kesalahan. Silakan coba lagi.";
-      } finally {
-        isLoading.value = false;
-      }
-    };
+    // ✅ Cek respon dan arahkan user
+    console.log("Login berhasil:", response.data);
+    // Simpan token / data user jika dibutuhkan
+    router.push("/mahasiswa-dashboard");
+
+  } catch (error) {
+    console.error("Login error:", error);
+    if (error.response?.data?.error) {
+      errorMessage.value = error.response.data.error;
+    } else {
+      errorMessage.value = "Terjadi kesalahan. Silakan coba lagi.";
+    }
+  } finally {
+    isLoading.value = false;
+  }
+};
 
     return {
       loginForm,
