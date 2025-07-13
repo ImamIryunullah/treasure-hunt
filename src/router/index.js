@@ -14,6 +14,7 @@ const AdminRiwayatAktivitasMahasiswa = () => import("@/views/AdminRiwayatAktivit
 
 
 const LoginPage = () => import("@/views/LoginPage");
+const RegisterSementara = () => import("@/views/RegisterSementara");
 
 const MahasiswaDashboard = () => import("@/views/MahasiswaDashboard")
 const MahasiswaSeleksiQuiz = () => import("@/views/MahasiswaSeleksiQuiz")
@@ -97,6 +98,12 @@ const routes = [
     path: "/login",
     name: "Login Page",
     component: LoginPage,
+  },
+
+  {
+    path: "/register",
+    name: "Register Page",
+    component: RegisterSementara,
   },
 
   {

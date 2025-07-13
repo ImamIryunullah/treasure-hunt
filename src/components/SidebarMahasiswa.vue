@@ -55,7 +55,6 @@
           </button>
         </div>
       </div>
-
       <nav class="flex-1 p-4 space-y-2">
         <template v-for="item in menuItems" :key="item.name">
           <div v-if="item.children">
@@ -90,7 +89,6 @@
                 />
               </svg>
             </button>
-
             <div
               v-show="expandedDropdown.includes(item.name)"
               class="pl-8 mt-1 space-y-1"
@@ -107,7 +105,6 @@
               </router-link>
             </div>
           </div>
-
           <router-link
             v-else
             :to="item.route"
@@ -185,9 +182,9 @@ export default {
     const toggleDropdown = (menuName) => {
       const index = expandedDropdown.value.indexOf(menuName);
       if (index > -1) {
-        expandedDropdown.value.splice(index, 1); // hapus jika sudah ada
+        expandedDropdown.value.splice(index, 1); 
       } else {
-        expandedDropdown.value.push(menuName); // tambahkan jika belum ada
+        expandedDropdown.value.push(menuName);
       }
     };
 
@@ -225,7 +222,7 @@ export default {
             name: "Progres Kelompok Treasure Hunt",
             icon: "fas fa-chart-bar",
             route: "/mahasiswa-progress-kelompok",
-          },
+          }, 
         ],
       },
 

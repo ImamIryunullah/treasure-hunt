@@ -90,7 +90,7 @@
                   Kelompok Dipilih
                 </label>
                 <input
-                  type="text"
+                  type="text"    
                   :value="getTeamName(formData.selectedTeam)"
                   readonly
                   class="w-full p-3 bg-gray-100 border border-gray-300 rounded-lg"
@@ -291,7 +291,7 @@ export default {
 
     const getTeamName = (teamCode) => {
       const team = teams.value.find((t) => t.name.toLowerCase() === teamCode);
-      return team ? team.description || team.name : teamCode;
+      return team ? team.name || team.name : teamCode;
     };
 
     const submitForm = async () => {

@@ -307,12 +307,57 @@
                     >
                       <i class="fas fa-eye block"></i>
                     </button>
+
                     <button
                       @click="resetTeamProgress(team)"
                       class="text-yellow-600 hover:text-yellow-800 p-1"
                     >
                       <i class="fas fa-undo-alt"></i>
                     </button>
+                  </div>
+                  <div
+                    v-if="showTeamModal && selectedTeam"
+                    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+                  >
+                    <div
+                      class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative"
+                      @click.stop
+                    >
+                      <h2 class="text-xl font-bold text-gray-800 mb-4">
+                        Detail Kelompok
+                      </h2>
+
+                      <div class="space-y-2 text-sm text-gray-700">
+                        <div><strong>Nama:</strong> {{ selectedTeam.name }}</div>
+                        <div>
+                          <strong>Deskripsi:</strong> {{ selectedTeam.description }}
+                        </div>
+                        <div>
+                          <strong>Anggota:</strong> {{ selectedTeam.members.length }} /
+                          {{ selectedTeam.maxMembers }}
+                        </div>
+                        <div>
+                          <strong>Poin:</strong> {{ selectedTeam.progress?.poin ?? 0 }}
+                        </div>
+                        <div>
+                          <strong>Lokasi Selesai:</strong>
+                          {{ selectedTeam.progress?.lokasiSelesai ?? 0 }}
+                        </div>
+                        <div>
+                          <strong>Status:</strong>
+                          {{ selectedTeam.progress?.isActive ? "Aktif" : "Tidak Aktif" }}
+                        </div>
+                      </div>
+
+                      <div class="mt-6 flex justify-end">
+                        <button
+                          class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+                          @click="closeTeamModal"
+                        >
+                          Tutup
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </td>
               </tr>
@@ -376,12 +421,22 @@
 
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
-              <input
+
+              <!-- Preview icon -->
+              <div v-if="locationForm.icon" class="text-2xl mb-2 text-blue-600">
+                <i :class="`fas fa-${locationForm.icon}`"></i>
+              </div>
+
+              <!-- Dropdown -->
+              <select
                 v-model="locationForm.icon"
-                type="text"
-                placeholder="📚"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
+              >
+                <option disabled value="">Pilih icon</option>
+                <option v-for="icon in iconOptions" :key="icon" :value="icon">
+                  {{ icon }}
+                </option>
+              </select>
             </div>
 
             <div class="grid grid-cols-2 gap-4">
@@ -482,7 +537,6 @@
 <script>
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
 import treasureService from "@/service/treasureService";
-// import { ref, reactive, computed, onMounted, onUnmounted, watch } from "vue";
 export default {
   components: {
     SidebarAdmin,
@@ -493,11 +547,29 @@ export default {
       activeCodes: 10,
       gameTime: 7200,
       gameDuration: 120,
+      showTeamModal: false,
+      selectedTeam: null,
       maxTeams: 10,
-      gameStatus: "stopped", // running, paused, stopped
+      gameStatus: "stopped",
+      iconOptions: [
+        "map-marker-alt",
+        "compass",
+        "flag",
+        "star",
+        "location-arrow",
+        "crosshairs",
+        "anchor",
+        "binoculars",
+        "bullseye",
+        "gem",
+        "search-location",
+        "route",
+        "globe-asia",
+        "footprints",
+        "skull-crossbones",
+      ],
 
       showLocationModal: false,
-      showTeamModal: false,
       editingLocation: null,
 
       menuItems: [
@@ -710,10 +782,11 @@ export default {
           (loc) => loc.id === this.editingLocation.id
         );
         if (index !== -1) Object.assign(this.locations[index], this.locationForm);
-      await  treasureService.UpdateLokasi(this.editingLocation.id, this.editingLocation).then(()=>{
-          alert("Lokasi berhasil diupdate!");
-
-        });
+        await treasureService
+          .UpdateLokasi(this.editingLocation.id, this.editingLocation)
+          .then(() => {
+            alert("Lokasi berhasil diupdate!");
+          });
       } else {
         try {
           const res = await treasureService.CreateLokasi({ ...this.locationForm });
@@ -733,20 +806,18 @@ export default {
     },
     deleteLocation(location) {
       if (confirm(`Yakin ingin menghapus lokasi ${location.name}?`)) {
-      
-    treasureService.DeleteLokasi(location.id).then(()=>{
-      alert("Lokasi Berhasil Di Hapus!")
-    })
+        treasureService.DeleteLokasi(location.id).then(() => {
+          alert("Lokasi Berhasil Di Hapus!");
+        });
       }
     },
     viewTeamDetails(team) {
-      alert(
-        `Detail Tim: ${team.name}\nAnggota: ${team.members}\nPoin: ${
-          team.points
-        }\nLokasi Selesai: ${team.completed}/${this.totalLocations}\nStatus: ${
-          team.active ? "Aktif" : "Tidak Aktif"
-        }`
-      );
+      this.selectedTeam = team;
+      this.showTeamModal = true;
+    },
+    closeTeamModal() {
+      this.showTeamModal = false;
+      this.selectedTeam = null;
     },
     resetTeamProgress(team) {
       if (confirm(`Yakin ingin reset progress tim ${team.name}?`)) {
