@@ -26,6 +26,9 @@ const MahasiswaHuntSponsorship = () => import("@/views/MahasiswaHuntSponsorship"
 const MahasiswaProfil = () => import("@/views/MahasiswaProfil")
 const MahasiswaSurveySistem = () => import("@/views/MahasiswaSurveySistem")
 const maps =() => import("@/components/Maps.vue")
+
+const LandingPage =() => import("@/views/LandingPage.vue")
+
 const routes = [
 {
   path :"/maps",
@@ -150,6 +153,13 @@ const routes = [
     path: "/survey-kepuasan-pengguna",
     name: "Survey Kepuasan Pengguna",
     component: MahasiswaSurveySistem,
+  },
+
+
+  {
+    path: "/",
+    name: "Landing Page",
+    component: LandingPage,
   },
 
 ];
