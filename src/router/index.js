@@ -33,7 +33,7 @@ const routes = [
   component : maps
 },
   {
-    path: "/dashboard-admin",
+    path: "/admin-dashboard",
     name: "Admin Dashboard",
     component: AdminDashboard,
   },

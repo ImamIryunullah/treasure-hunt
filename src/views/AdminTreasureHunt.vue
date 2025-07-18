@@ -2,84 +2,76 @@
   <div class="flex min-h-screen bg-gray-50">
     <SidebarAdmin />
 
-    <div class="flex-1 p-8">
-      <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">Treasure Hunt Management 🗺️</h1>
-        <p class="text-gray-600">
+    <div class="flex-1 p-4 sm:p-6 lg:p-8">
+      <div class="mb-6 lg:mb-8">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">Treasure Hunt Management 🗺️</h1>
+        <p class="text-sm sm:text-base text-gray-600">
           Kelola permainan treasure hunt, lokasi, dan monitor aktivitas peserta
         </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg border border-black p-6">
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
+        <div class="bg-white rounded-lg border border-black p-3 sm:p-4 lg:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-black">Total Lokasi</p>
-              <p class="text-2xl font-bold text-blue-600">{{ totalLocations }}</p>
+              <p class="text-xs sm:text-sm text-black">Total Lokasi</p>
+              <p class="text-lg sm:text-xl lg:text-2xl font-bold text-blue-600">{{ totalLocations }}</p>
             </div>
-            <div
-              class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center"
-            >
-              <span class="text-2xl">📍</span>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-blue-100 rounded-full flex items-center justify-center">
+              <span class="text-lg sm:text-xl lg:text-2xl">📍</span>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg border border-black p-6">
+        <div class="bg-white rounded-lg border border-black p-3 sm:p-4 lg:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-black">Tim Aktif</p>
-              <p class="text-2xl font-bold text-green-600">{{ activeTeams }}</p>
+              <p class="text-xs sm:text-sm text-black">Tim Aktif</p>
+              <p class="text-lg sm:text-xl lg:text-2xl font-bold text-green-600">{{ activeTeams }}</p>
             </div>
-            <div
-              class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center"
-            >
-              <span class="text-2xl">👥</span>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-green-100 rounded-full flex items-center justify-center">
+              <span class="text-lg sm:text-xl lg:text-2xl">👥</span>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg border border-black p-6">
+        <div class="bg-white rounded-lg border border-black p-3 sm:p-4 lg:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-black">Kode Aktif</p>
-              <p class="text-2xl font-bold text-purple-600">{{ activeCodes }}</p>
+              <p class="text-xs sm:text-sm text-black">Kode Aktif</p>
+              <p class="text-lg sm:text-xl lg:text-2xl font-bold text-purple-600">{{ activeCodes }}</p>
             </div>
-            <div
-              class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center"
-            >
-              <span class="text-2xl">🔑</span>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-purple-100 rounded-full flex items-center justify-center">
+              <span class="text-lg sm:text-xl lg:text-2xl">🔑</span>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg border border-black p-6">
+        <div class="bg-white rounded-lg border border-black p-3 sm:p-4 lg:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm text-black">Waktu Tersisa</p>
-              <p class="text-2xl font-bold text-red-600">{{ formatTime(gameTime) }}</p>
+              <p class="text-xs sm:text-sm text-black">Waktu Tersisa</p>
+              <p class="text-lg sm:text-xl lg:text-2xl font-bold text-red-600">{{ formatTime(gameTime) }}</p>
             </div>
-            <div
-              class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center"
-            >
-              <span class="text-2xl">⏰</span>
+            <div class="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-red-100 rounded-full flex items-center justify-center">
+              <span class="text-lg sm:text-xl lg:text-2xl">⏰</span>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md border border-black p-6 mb-8">
-        <div class="flex justify-between items-center mb-4">
+      <!-- Game Control Panel -->
+      <div class="bg-white rounded-lg shadow-md border border-black p-4 sm:p-6 mb-6 lg:mb-8">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
           <h2 class="text-lg font-semibold">🎮 Game Control Panel</h2>
-          <div class="flex gap-2">
+          <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
             <button
               @click="startGame"
               :disabled="gameStatus === 'running'"
-              class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md disabled:opacity-50 flex items-center space-x-2"
+              class="bg-green-500 hover:bg-green-600 text-white px-3 sm:px-4 py-2 rounded-md disabled:opacity-50 flex items-center justify-center space-x-2 text-sm sm:text-base"
             >
-              <i
-                :class="gameStatus === 'running' ? 'fas fa-sync-alt' : 'fas fa-play'"
-              ></i>
+              <i :class="gameStatus === 'running' ? 'fas fa-sync-alt' : 'fas fa-play'"></i>
               <span>
                 {{ gameStatus === "running" ? "Game Berjalan" : "Mulai Game" }}
               </span>
@@ -88,7 +80,7 @@
             <button
               @click="pauseGame"
               :disabled="gameStatus !== 'running'"
-              class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-md disabled:opacity-50 flex items-center space-x-2"
+              class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 sm:px-4 py-2 rounded-md disabled:opacity-50 flex items-center justify-center space-x-2 text-sm sm:text-base"
             >
               <i class="fas fa-pause"></i>
               <span>Pause</span>
@@ -96,7 +88,7 @@
 
             <button
               @click="resetGame"
-              class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md flex items-center space-x-2"
+              class="bg-red-500 hover:bg-red-600 text-white px-3 sm:px-4 py-2 rounded-md flex items-center justify-center space-x-2 text-sm sm:text-base"
             >
               <i class="fas fa-undo"></i>
               <span>Reset Game</span>
@@ -104,11 +96,9 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <div class="bg-gray-50 p-4 rounded-lg">
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Durasi Game (menit)</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2">Durasi Game (menit)</label>
             <input
               v-model="gameDuration"
               type="number"
@@ -126,9 +116,7 @@
             />
           </div>
           <div class="bg-gray-50 p-4 rounded-lg">
-            <label class="block text-sm font-medium text-gray-700 mb-2"
-              >Status Game</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-2">Status Game</label>
             <div class="flex items-center gap-2">
               <div class="w-3 h-3 rounded-full" :class="getStatusColor(gameStatus)"></div>
               <span class="text-sm font-medium">{{ getStatusText(gameStatus) }}</span>
@@ -137,19 +125,99 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-black">
-        <div class="flex justify-between items-center mb-4">
+      <!-- Location Management -->
+      <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 lg:mb-8 border border-black">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
           <h2 class="text-lg font-semibold">📍 Manajemen Lokasi</h2>
           <button
             @click="showLocationModal = true"
-            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2"
+            class="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-md flex items-center gap-2 text-sm sm:text-base w-full sm:w-auto justify-center"
           >
             <i class="fas fa-plus"></i>
             <span>Tambah Lokasi</span>
           </button>
         </div>
 
-        <div class="overflow-x-auto">
+        <!-- Mobile Table -->
+        <div class="block sm:hidden">
+          <div class="space-y-4">
+            <div
+              v-for="location in locations"
+              :key="location.id"
+              class="bg-gray-50 rounded-lg p-4 border"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-sm"
+                    :class="getLocationClass(location)"
+                  >
+                    {{ location.icon }}
+                  </div>
+                  <div>
+                    <div class="font-medium">{{ location.name }}</div>
+                    <div class="text-sm text-gray-600">
+                      {{ location.x }}%, {{ location.y }}%
+                    </div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div
+                    class="w-2 h-2 rounded-full"
+                    :class="location.available ? 'bg-green-500' : 'bg-red-500'"
+                  ></div>
+                  <span class="text-sm">{{
+                    location.available ? "Aktif" : "Nonaktif"
+                  }}</span>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                <div>
+                  <span class="text-gray-600">Tipe:</span>
+                  <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs ml-2">
+                    {{ location.type }}
+                  </span>
+                </div>
+                <div>
+                  <span class="text-gray-600">Poin:</span>
+                  <span class="font-medium ml-2">{{ location.points }}</span>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <span class="text-gray-600 text-sm">Kode:</span>
+                <code class="bg-gray-100 px-2 py-1 rounded text-sm ml-2">{{ location.code }}</code>
+              </div>
+              
+              <div class="flex gap-2 justify-end">
+                <button
+                  @click="editLocation(location)"
+                  class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded"
+                >
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button
+                  @click="toggleLocationStatus(location)"
+                  class="text-yellow-600 hover:text-yellow-800 p-2 bg-yellow-50 rounded"
+                >
+                  <i
+                    :class="location.available ? 'fas fa-lock' : 'fas fa-lock-open'"
+                  ></i>
+                </button>
+                <button
+                  @click="deleteLocation(location)"
+                  class="text-red-600 hover:text-red-800 p-2 bg-red-50 rounded"
+                >
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Table -->
+        <div class="hidden sm:block overflow-x-auto">
           <table class="w-full">
             <thead>
               <tr class="border-b">
@@ -184,10 +252,9 @@
                   </div>
                 </td>
                 <td class="py-3 px-4">
-                  <span
-                    class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs"
-                    >{{ location.type }}</span
-                  >
+                  <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded-full text-xs">
+                    {{ location.type }}
+                  </span>
                 </td>
                 <td class="py-3 px-4">
                   <code class="bg-gray-100 px-2 py-1 rounded text-sm">{{
@@ -238,21 +305,85 @@
         </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md p-6 mb-8 border border-black">
-        <div class="flex justify-between items-center mb-4">
+      <!-- Team Management -->
+      <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 mb-6 lg:mb-8 border border-black">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
           <h2 class="text-lg font-semibold">👥 Manajemen Kelompok</h2>
-
-          <a href="/manajemen-kelompok">
+          <a href="/manajemen-kelompok" class="w-full sm:w-auto">
             <button
               @click="showTeamModal = true"
-              class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-md flex items-center gap-2"
+              class="bg-blue-500 hover:bg-blue-600 text-white px-3 sm:px-4 py-2 rounded-md flex items-center gap-2 text-sm sm:text-base w-full sm:w-auto justify-center"
             >
               Kelola Kelompok
-            </button></a
-          >
+            </button>
+          </a>
         </div>
 
-        <div class="overflow-x-auto">
+        <!-- Mobile Team Cards -->
+        <div class="block sm:hidden">
+          <div class="space-y-4">
+            <div
+              v-for="team in teams"
+              :key="team.id"
+              class="bg-gray-50 rounded-lg p-4 border"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
+                    {{ team.name.charAt(0) }}
+                  </div>
+                  <div>
+                    <div class="font-medium">{{ team.name }}</div>
+                    <div class="text-sm text-gray-600">{{ team.members }} anggota</div>
+                  </div>
+                </div>
+                <div class="flex items-center gap-2">
+                  <div
+                    class="w-2 h-2 rounded-full"
+                    :class="team.active ? 'bg-green-500' : 'bg-gray-500'"
+                  ></div>
+                  <span class="text-sm">{{
+                    team.active ? "Aktif" : "Tidak Aktif"
+                  }}</span>
+                </div>
+              </div>
+              
+              <div class="grid grid-cols-2 gap-4 text-sm mb-3">
+                <div>
+                  <span class="text-gray-600">Poin:</span>
+                  <span class="font-medium ml-2">{{ team.points }}</span>
+                </div>
+                <div>
+                  <span class="text-gray-600">Selesai:</span>
+                  <span class="ml-2">{{ team.completed }}/{{ totalLocations }}</span>
+                </div>
+              </div>
+              
+              <div class="mb-3">
+                <span class="text-gray-600 text-sm">Aktivitas Terakhir:</span>
+                <div class="text-sm text-gray-600">{{ team.lastActivity }}</div>
+              </div>
+              
+              <div class="flex gap-2 justify-end">
+                <button
+                  @click="viewTeamDetails(team)"
+                  class="text-blue-600 hover:text-blue-800 p-2 bg-blue-50 rounded"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+                <button
+                  @click="resetTeamProgress(team)"
+                  class="text-yellow-600 hover:text-yellow-800 p-2 bg-yellow-50 rounded"
+                >
+                  <i class="fas fa-undo-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Desktop Team Table -->
+        <div class="hidden sm:block overflow-x-auto">
           <table class="w-full">
             <thead>
               <tr class="border-b">
@@ -268,9 +399,7 @@
               <tr v-for="team in teams" :key="team.id" class="border-b hover:bg-gray-50">
                 <td class="py-3 px-4">
                   <div class="flex items-center gap-3">
-                    <div
-                      class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm"
-                    >
+                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-sm">
                       {{ team.name.charAt(0) }}
                     </div>
                     <div>
@@ -307,7 +436,6 @@
                     >
                       <i class="fas fa-eye block"></i>
                     </button>
-
                     <button
                       @click="resetTeamProgress(team)"
                       class="text-yellow-600 hover:text-yellow-800 p-1"
@@ -315,58 +443,61 @@
                       <i class="fas fa-undo-alt"></i>
                     </button>
                   </div>
-                  <div
-                    v-if="showTeamModal && selectedTeam"
-                    class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-                  >
-                    <div
-                      class="bg-white rounded-lg shadow-lg w-full max-w-md p-6 relative"
-                      @click.stop
-                    >
-                      <h2 class="text-xl font-bold text-gray-800 mb-4">
-                        Detail Kelompok
-                      </h2>
-
-                      <div class="space-y-2 text-sm text-gray-700">
-                        <div><strong>Nama:</strong> {{ selectedTeam.name }}</div>
-                        <div>
-                          <strong>Deskripsi:</strong> {{ selectedTeam.description }}
-                        </div>
-                        <div>
-                          <strong>Anggota:</strong> {{ selectedTeam.members.length }} /
-                          {{ selectedTeam.maxMembers }}
-                        </div>
-                        <div>
-                          <strong>Poin:</strong> {{ selectedTeam.progress?.poin ?? 0 }}
-                        </div>
-                        <div>
-                          <strong>Lokasi Selesai:</strong>
-                          {{ selectedTeam.progress?.lokasiSelesai ?? 0 }}
-                        </div>
-                        <div>
-                          <strong>Status:</strong>
-                          {{ selectedTeam.progress?.isActive ? "Aktif" : "Tidak Aktif" }}
-                        </div>
-                      </div>
-
-                      <div class="mt-6 flex justify-end">
-                        <button
-                          class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
-                          @click="closeTeamModal"
-                        >
-                          Tutup
-                        </button>
-                      </div>
-                    </div>
-                  </div>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+
+        <!-- Team Detail Modal -->
+        <div
+          v-if="showTeamModal && selectedTeam"
+          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+        >
+          <div
+            class="bg-white rounded-lg shadow-lg w-full max-w-md p-4 sm:p-6 relative max-h-[90vh] overflow-y-auto"
+            @click.stop
+          >
+            <h2 class="text-xl font-bold text-gray-800 mb-4">
+              Detail Kelompok
+            </h2>
+
+            <div class="space-y-2 text-sm text-gray-700">
+              <div><strong>Nama:</strong> {{ selectedTeam.name }}</div>
+              <div>
+                <strong>Deskripsi:</strong> {{ selectedTeam.description }}
+              </div>
+              <div>
+                <strong>Anggota:</strong> {{ selectedTeam.members.length }} /
+                {{ selectedTeam.maxMembers }}
+              </div>
+              <div>
+                <strong>Poin:</strong> {{ selectedTeam.progress?.poin ?? 0 }}
+              </div>
+              <div>
+                <strong>Lokasi Selesai:</strong>
+                {{ selectedTeam.progress?.lokasiSelesai ?? 0 }}
+              </div>
+              <div>
+                <strong>Status:</strong>
+                {{ selectedTeam.progress?.isActive ? "Aktif" : "Tidak Aktif" }}
+              </div>
+            </div>
+
+            <div class="mt-6 flex justify-end">
+              <button
+                class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded w-full sm:w-auto"
+                @click="closeTeamModal"
+              >
+                Tutup
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div class="bg-white rounded-lg shadow-md p-6 border border-black">
+      <!-- Recent Activities -->
+      <div class="bg-white rounded-lg shadow-md p-4 sm:p-6 border border-black">
         <h2 class="text-lg font-semibold mb-4">📊 Aktivitas Terbaru</h2>
         <div class="space-y-3">
           <div
@@ -374,23 +505,24 @@
             :key="activity.id"
             class="flex items-start gap-3 p-3 rounded-lg bg-gray-50"
           >
-            <div class="w-8 h-8 rounded-full flex items-center justify-center text-lg">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-lg flex-shrink-0">
               {{ activity.icon }}
             </div>
-            <div class="flex-1">
-              <div class="text-sm font-medium">{{ activity.title }}</div>
-              <div class="text-xs text-gray-600">{{ activity.description }}</div>
+            <div class="flex-1 min-w-0">
+              <div class="text-sm font-medium truncate">{{ activity.title }}</div>
+              <div class="text-xs text-gray-600 break-words">{{ activity.description }}</div>
               <div class="text-xs text-gray-500 mt-1">{{ activity.time }}</div>
             </div>
           </div>
         </div>
       </div>
 
+      <!-- Location Modal -->
       <div
         v-if="showLocationModal"
-        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       >
-        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+        <div class="bg-white rounded-lg p-4 sm:p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
           <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-semibold">
               {{ editingLocation ? "Edit Lokasi" : "Tambah Lokasi" }}
@@ -409,9 +541,7 @@
 
           <div class="space-y-4">
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Nama Lokasi</label
-              >
+              <label class="block text-sm font-medium text-gray-700 mb-2">Nama Lokasi</label>
               <input
                 v-model="locationForm.name"
                 type="text"
@@ -421,13 +551,9 @@
 
             <div>
               <label class="block text-sm font-medium text-gray-700 mb-2">Icon</label>
-
-              <!-- Preview icon -->
               <div v-if="locationForm.icon" class="text-2xl mb-2 text-blue-600">
                 <i :class="`fas fa-${locationForm.icon}`"></i>
               </div>
-
-              <!-- Dropdown -->
               <select
                 v-model="locationForm.icon"
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -439,11 +565,9 @@
               </select>
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Koordinat Latitude (%)</label
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">Koordinat Latitude (%)</label>
                 <input
                   v-model.number="locationForm.latitude"
                   type="number"
@@ -453,9 +577,7 @@
                 />
               </div>
               <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2"
-                  >Koordinat Longitude (%)</label
-                >
+                <label class="block text-sm font-medium text-gray-700 mb-2">Koordinat Longitude (%)</label>
                 <input
                   v-model.number="locationForm.longitude"
                   type="number"
@@ -482,9 +604,7 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Kode Treasure</label
-              >
+              <label class="block text-sm font-medium text-gray-700 mb-2">Kode Treasure</label>
               <input
                 v-model="locationForm.code"
                 type="text"
@@ -503,9 +623,7 @@
             </div>
 
             <div>
-              <label class="block text-sm font-medium text-gray-700 mb-2"
-                >Deskripsi</label
-              >
+              <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
               <textarea
                 v-model="locationForm.description"
                 rows="3"
@@ -514,7 +632,7 @@
             </div>
           </div>
 
-          <div class="flex gap-3 mt-6">
+          <div class="flex flex-col sm:flex-row gap-3 mt-6">
             <button
               @click="closeLocationModal"
               class="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded-md"

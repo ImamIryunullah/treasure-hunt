@@ -18,6 +18,6 @@ module.exports = {
       },
     },
   },
-  darkMode: "class", // Gunakan 'class' agar bisa dikontrol secara manual
+  darkMode: "class", 
   plugins: [],
 };

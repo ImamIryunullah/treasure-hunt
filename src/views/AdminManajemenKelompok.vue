@@ -1,9 +1,9 @@
 <template>
   <div class="flex min-h-screen bg-gray-50">
     <SidebarAdmin />
-    <div class="flex-1 p-8">
+    <div class="flex-1 p-4 sm:p-6 lg:p-8">
       <!-- Notification Component -->
-      <div class="fixed top-4 right-4 z-50 space-y-2">
+      <div class="fixed top-4 right-4 left-4 sm:left-auto z-50 space-y-2">
         <div
           v-for="notification in notifications"
           :key="notification.id"
@@ -38,71 +38,77 @@
         </div>
       </div>
 
-      <div class="mb-8">
-        <h1 class="text-2xl font-bold text-gray-800 mb-2">
+      <!-- Header Section -->
+      <div class="mb-6 lg:mb-8">
+        <h1 class="text-xl sm:text-2xl font-bold text-gray-800 mb-2">
           Kelola Kelompok Treasure Hunt
         </h1>
-        <p class="text-gray-600">Buat kelompok baru dan kelola data anggota kelompok</p>
+        <p class="text-sm sm:text-base text-gray-600">
+          Buat kelompok baru dan kelola data anggota kelompok
+        </p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white rounded-lg shadow-sm p-6">
+      <!-- Stats Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6 mb-6 lg:mb-8">
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Total Kelompok</p>
-              <p class="text-2xl font-bold text-gray-800">{{ totalTeams }}</p>
+              <p class="text-xs sm:text-sm font-medium text-gray-600">Total Kelompok</p>
+              <p class="text-lg sm:text-2xl font-bold text-gray-800">{{ totalTeams }}</p>
             </div>
-            <div class="bg-blue-100 p-3 rounded-lg">
-              <i class="fas fa-users text-blue-600"></i>
+            <div class="bg-blue-100 p-2 sm:p-3 rounded-lg">
+              <i class="fas fa-users text-blue-600 text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Total Peserta</p>
-              <p class="text-2xl font-bold text-gray-800">{{ totalParticipants }}</p>
+              <p class="text-xs sm:text-sm font-medium text-gray-600">Total Peserta</p>
+              <p class="text-lg sm:text-2xl font-bold text-gray-800">{{ totalParticipants }}</p>
             </div>
-            <div class="bg-green-100 p-3 rounded-lg">
-              <i class="fas fa-user-friends text-green-600"></i>
+            <div class="bg-green-100 p-2 sm:p-3 rounded-lg">
+              <i class="fas fa-user-friends text-green-600 text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Kelompok Penuh</p>
-              <p class="text-2xl font-bold text-gray-800">{{ fullTeams }}</p>
+              <p class="text-xs sm:text-sm font-medium text-gray-600">Kelompok Penuh</p>
+              <p class="text-lg sm:text-2xl font-bold text-gray-800">{{ fullTeams }}</p>
             </div>
-            <div class="bg-red-100 p-3 rounded-lg">
-              <i class="fas fa-exclamation-triangle text-red-600"></i>
+            <div class="bg-red-100 p-2 sm:p-3 rounded-lg">
+              <i class="fas fa-exclamation-triangle text-red-600 text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
 
-        <div class="bg-white rounded-lg shadow-sm p-6">
+        <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
           <div class="flex items-center justify-between">
             <div>
-              <p class="text-sm font-medium text-gray-600">Slot Tersedia</p>
-              <p class="text-2xl font-bold text-gray-800">{{ availableSlots }}</p>
+              <p class="text-xs sm:text-sm font-medium text-gray-600">Slot Tersedia</p>
+              <p class="text-lg sm:text-2xl font-bold text-gray-800">{{ availableSlots }}</p>
             </div>
-            <div class="bg-yellow-100 p-3 rounded-lg">
-              <i class="fas fa-clock text-yellow-600"></i>
+            <div class="bg-yellow-100 p-2 sm:p-3 rounded-lg">
+              <i class="fas fa-clock text-yellow-600 text-sm sm:text-base"></i>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="grid grid-cols-1 xl:grid-cols-3 gap-8">
+      <!-- Main Content Grid -->
+      <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 lg:gap-8">
+        <!-- Create Team Form -->
         <div class="xl:col-span-1">
-          <div class="bg-white rounded-lg shadow-sm p-6">
+          <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
             <div class="flex items-center gap-3 mb-6">
               <div class="bg-blue-100 p-2 rounded-lg">
                 <i class="fas fa-plus text-blue-600"></i>
               </div>
-              <h2 class="text-xl font-bold text-gray-800">Buat Kelompok Baru</h2>
+              <h2 class="text-lg sm:text-xl font-bold text-gray-800">Buat Kelompok Baru</h2>
             </div>
 
             <form @submit.prevent="createTeam">
@@ -114,7 +120,7 @@
                   v-model="newTeam.name"
                   type="text"
                   placeholder="Masukkan nama kelompok"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   required
                 />
               </div>
@@ -127,7 +133,7 @@
                   v-model="newTeam.description"
                   placeholder="Deskripsi kelompok"
                   rows="3"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base resize-none"
                   required
                 ></textarea>
               </div>
@@ -138,7 +144,7 @@
                 </label>
                 <select
                   v-model="newTeam.maxMembers"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
                   required
                 >
                   <option value="">Pilih limit anggota</option>
@@ -152,7 +158,7 @@
               <button
                 type="submit"
                 :disabled="isCreating"
-                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
               >
                 <i class="fas fa-plus-circle mr-2" v-if="!isCreating"></i>
                 <i class="fas fa-spinner fa-spin mr-2" v-if="isCreating"></i>
@@ -162,23 +168,24 @@
           </div>
         </div>
 
+        <!-- Teams List -->
         <div class="xl:col-span-2">
-          <div class="bg-white rounded-lg shadow-sm p-6">
-            <div class="flex items-center justify-between mb-6">
+          <div class="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-6 gap-4">
               <div class="flex items-center gap-3">
                 <div class="bg-green-100 p-2 rounded-lg">
                   <i class="fas fa-list text-green-600"></i>
                 </div>
-                <h2 class="text-xl font-bold text-gray-800">Daftar Kelompok</h2>
+                <h2 class="text-lg sm:text-xl font-bold text-gray-800">Daftar Kelompok</h2>
               </div>
 
               <div class="flex items-center gap-3">
-                <div class="relative">
+                <div class="relative flex-1 sm:flex-none">
                   <input
                     v-model="searchTerm"
                     type="text"
                     placeholder="Cari kelompok..."
-                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    class="w-full sm:w-auto pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
                   />
                   <i
                     class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
@@ -193,11 +200,11 @@
                 :key="team.id"
                 class="border rounded-lg p-4 hover:border-blue-300 transition-colors"
               >
-                <div class="flex items-center justify-between mb-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
                   <div class="flex items-center gap-3">
-                    <h3 class="font-semibold text-gray-800">{{ team.name }}</h3>
+                    <h3 class="font-semibold text-gray-800 text-sm sm:text-base">{{ team.name }}</h3>
                     <span
-                      class="text-xs px-2 py-1 rounded-full"
+                      class="text-xs px-2 py-1 rounded-full whitespace-nowrap"
                       :class="getTeamStatusClass(team)"
                     >
                       {{ getTeamStatus(team) }}
@@ -209,7 +216,7 @@
                     </span>
                     <button
                       @click="toggleTeamDetails(team.id)"
-                      class="text-blue-600 hover:text-blue-800"
+                      class="text-blue-600 hover:text-blue-800 p-1"
                     >
                       <i
                         class="fas fa-chevron-down transition-transform"
@@ -219,7 +226,7 @@
                   </div>
                 </div>
 
-                <p class="text-sm text-gray-600 mb-3">{{ team.description }}</p>
+                <p class="text-sm text-gray-600 mb-3 line-clamp-2">{{ team.description }}</p>
 
                 <div class="w-full bg-gray-200 rounded-full h-2 mb-3">
                   <div
@@ -229,12 +236,13 @@
                   ></div>
                 </div>
 
+                <!-- Expanded Team Details -->
                 <div v-if="expandedTeams.includes(team.id)" class="mt-4 border-t pt-4">
-                  <div class="flex items-center justify-between mb-3">
+                  <div class="flex flex-col sm:flex-row sm:items-center justify-between mb-3 gap-2">
                     <h4 class="font-medium text-gray-700">Anggota Kelompok</h4>
                     <button
                       @click="exportTeamData(team)"
-                      class="text-sm text-blue-600 hover:text-blue-800"
+                      class="text-sm text-blue-600 hover:text-blue-800 self-start sm:self-center"
                     >
                       <i class="fas fa-download mr-1"></i>
                       Export Data
@@ -245,49 +253,52 @@
                     <div
                       v-for="member in team.members"
                       :key="member.id"
-                      class="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                      class="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-gray-50 rounded-lg gap-3"
                     >
                       <div class="flex-1">
                         <div class="flex items-center gap-3">
                           <div
-                            class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"
+                            class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0"
                           >
                             <i class="fas fa-user text-blue-600 text-xs"></i>
                           </div>
-                          <div>
-                            <p class="font-medium text-gray-800">{{ member.name }}</p>
+                          <div class="min-w-0">
+                            <p class="font-medium text-gray-800 text-sm sm:text-base truncate">{{ member.name }}</p>
                             <p class="text-sm text-gray-600">{{ member.nim }}</p>
                           </div>
                         </div>
                       </div>
-                      <div class="text-right">
-                        <p class="text-sm font-medium text-gray-700">
-                          {{ member.whatsapp }}
-                        </p>
-                        <p class="text-xs text-gray-500">
-                          {{ formatDate(member.joinDate) }}
-                        </p>
+                      <div class="flex items-center justify-between sm:justify-end gap-3">
+                        <div class="text-left sm:text-right">
+                          <p class="text-sm font-medium text-gray-700">
+                            {{ member.whatsapp }}
+                          </p>
+                          <p class="text-xs text-gray-500">
+                            {{ formatDate(member.joinDate) }}
+                          </p>
+                        </div>
+                        <button
+                          @click="removeMember(team.id, member.id)"
+                          class="text-red-600 hover:text-red-800 p-1"
+                          :disabled="isRemoving"
+                        >
+                          <i class="fas fa-trash text-sm"></i>
+                        </button>
                       </div>
-                      <button
-                        @click="removeMember(team.id, member.id)"
-                        class="ml-3 text-red-600 hover:text-red-800"
-                        :disabled="isRemoving"
-                      >
-                        <i class="fas fa-trash text-sm"></i>
-                      </button>
                     </div>
                   </div>
 
                   <div v-else class="text-center py-8 text-gray-500">
-                    <i class="fas fa-users text-3xl mb-2"></i>
-                    <p>Belum ada anggota yang terdaftar</p>
+                    <i class="fas fa-users text-2xl sm:text-3xl mb-2"></i>
+                    <p class="text-sm sm:text-base">Belum ada anggota yang terdaftar</p>
                   </div>
                 </div>
 
-                <div class="flex items-center gap-2 mt-4">
+                <!-- Action Buttons -->
+                <div class="flex flex-col sm:flex-row items-center gap-2 mt-4">
                   <button
                     @click="editTeam(team)"
-                    class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm"
+                    class="w-full sm:flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-sm"
                   >
                     <i class="fas fa-edit mr-1"></i>
                     Edit
@@ -295,7 +306,7 @@
                   <button
                     @click="deleteTeam(team.id)"
                     :disabled="isDeleting"
-                    class="flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors text-sm disabled:opacity-50"
+                    class="w-full sm:flex-1 bg-red-600 text-white py-2 px-4 rounded-lg hover:bg-red-700 transition-colors text-sm disabled:opacity-50"
                   >
                     <i class="fas fa-trash mr-1"></i>
                     Hapus
@@ -308,12 +319,13 @@
       </div>
     </div>
 
+    <!-- Edit Modal -->
     <div
       v-if="showEditModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       @click="closeEditModal"
     >
-      <div class="bg-white rounded-lg shadow-xl p-6 w-96 max-w-lg mx-4" @click.stop>
+      <div class="bg-white rounded-lg shadow-xl p-6 w-full max-w-md mx-4" @click.stop>
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-xl font-bold text-gray-800">Edit Kelompok</h2>
           <button @click="closeEditModal" class="text-gray-400 hover:text-gray-600">
@@ -329,7 +341,7 @@
             <input
               v-model="editingTeam.name"
               type="text"
-              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               required
             />
           </div>
@@ -341,7 +353,7 @@
             <textarea
               v-model="editingTeam.description"
               rows="3"
-              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base resize-none"
               required
             ></textarea>
           </div>
@@ -352,7 +364,7 @@
             </label>
             <select
               v-model="editingTeam.maxMembers"
-              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base"
               required
             >
               <option value="4">4 Anggota</option>
@@ -362,18 +374,18 @@
             </select>
           </div>
 
-          <div class="flex gap-3">
+          <div class="flex flex-col sm:flex-row gap-3">
             <button
               type="button"
               @click="closeEditModal"
-              class="flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+              class="w-full sm:flex-1 bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors order-2 sm:order-1"
             >
               Batal
             </button>
             <button
               type="submit"
               :disabled="isUpdating"
-              class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+              class="w-full sm:flex-1 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 order-1 sm:order-2"
             >
               <span v-if="!isUpdating">Simpan</span>
               <span v-else>
@@ -387,7 +399,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import SidebarAdmin from "@/components/SidebarAdmin.vue";
 import { ref, reactive, computed } from "vue";

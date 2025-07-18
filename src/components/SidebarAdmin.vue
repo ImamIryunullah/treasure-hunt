@@ -236,7 +236,7 @@ export default {
       {
         name: "Dashboard",
         icon: "fas fa-home",
-        route: "/dashboard-admin",
+        route: "/admin-dashboard",
       },
       {
         name: "Kelola Game",

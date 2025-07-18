@@ -1,26 +1,28 @@
 <template>
-  <div class="flex min-h-screen bg-purple-50">
+  <div class="flex min-h-screen">
     <SidebarAdmin />
 
-    <div class="flex-1 p-8">
-      <div class="flex justify-between items-center mb-8">
+    <div class="flex-1 p-3 sm:p-4 lg:p-8">
+      <div
+        class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6 sm:mb-8 space-y-4 sm:space-y-0"
+      >
         <div>
-          <h1 class="text-3xl font-bold text-gray-800">Manajemen Kuis</h1>
-          <p class="text-gray-600 mt-1">
+          <h1 class="text-2xl sm:text-3xl font-bold text-gray-800">Manajemen Kuis</h1>
+          <p class="text-sm sm:text-base text-gray-600 mt-1">
             Kelola pertanyaan untuk setiap lokasi treasure hunt
           </p>
         </div>
-        <div class="flex space-x-3">
+        <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
           <button
             @click="showAddModal = true"
-            class="bg-purple-500 hover:to-purple-700 text-white px-6 py-3 rounded-lg font-medium flex items-center space-x-2"
+            class="bg-purple-500 hover:bg-purple-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-sm sm:text-base"
           >
             <i class="fas fa-plus"></i>
             <span>Tambah Soal</span>
           </button>
           <button
             @click="showImportModal = true"
-            class="bg-blue-500 hover:from-blue-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg font-medium flex items-center space-x-2"
+            class="bg-blue-500 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-lg font-medium flex items-center justify-center space-x-2 text-sm sm:text-base"
           >
             <i class="fas fa-upload"></i>
             <span>Import Soal</span>
@@ -28,20 +30,26 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8"
+      >
         <div
           v-for="stat in stats"
           :key="stat.title"
-          class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover: transition-shadow"
+          class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
         >
           <div class="flex items-center justify-between">
-            <div>
-              <h3 class="text-sm font-medium text-gray-500">{{ stat.title }}</h3>
-              <p class="text-2xl font-bold text-gray-900 mt-1">{{ stat.value }}</p>
-              <p class="text-xs text-gray-400 mt-1">{{ stat.subtitle }}</p>
+            <div class="flex-1 min-w-0">
+              <h3 class="text-xs sm:text-sm font-medium text-gray-500 truncate">
+                {{ stat.title }}
+              </h3>
+              <p class="text-xl sm:text-2xl font-bold text-gray-900 mt-1">
+                {{ stat.value }}
+              </p>
+              <p class="text-xs text-gray-400 mt-1 truncate">{{ stat.subtitle }}</p>
             </div>
-            <div class="p-3 bg-purple-100 rounded-full">
-              <i :class="stat.icon + ' text-purple-600'"></i>
+            <div class="p-2 sm:p-3 bg-purple-100 rounded-full flex-shrink-0">
+              <i :class="stat.icon + ' text-purple-600 text-sm sm:text-base'"></i>
             </div>
           </div>
         </div>
@@ -51,20 +59,23 @@
         <div
           v-for="question in questions"
           :key="question.id"
-          class="bg-white rounded-xl p-6 shadow-sm border border-gray-100 hover: transition-shadow"
+          class="bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100 hover:shadow-md transition-shadow"
         >
           <div class="flex justify-between items-start mb-4">
-            <div class="flex-1">
-              <div class="flex items-center space-x-3 mb-2">
-                <i class="fas fa-question-circle text-purple-500"></i>
-                <h3 class="text-lg font-semibold text-gray-800">
+            <div class="flex-1 min-w-0">
+              <div class="flex items-start space-x-2 sm:space-x-3 mb-2">
+                <i class="fas fa-question-circle text-purple-500 mt-1 flex-shrink-0"></i>
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800 break-words">
                   {{ question.text }}
                 </h3>
               </div>
             </div>
           </div>
-          <div class="flex space-x-2 text-sm">
-            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium">
+
+          <div class="flex flex-wrap gap-2 text-xs sm:text-sm mb-4">
+            <span
+              class="bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded-full font-medium"
+            >
               {{ getQuestionTypeLabel(question.type) }}
             </span>
             <span :class="getDifficultyClass(question.difficulty)">
@@ -72,7 +83,7 @@
             </span>
             <span
               v-if="question.duration"
-              class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-medium"
+              class="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full font-medium"
             >
               <i class="fas fa-clock mr-1"></i>
               {{ Math.ceil(question.duration / 60) }} menit
@@ -81,21 +92,24 @@
 
           <div class="mb-4">
             <p class="text-sm font-medium text-gray-700 mb-3">Pilihan Jawaban:</p>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div class="grid grid-cols-1 gap-2 sm:gap-3">
               <div
                 v-for="(option, index) in question.options"
                 :key="index"
                 :class="[
-                  'p-3 border-2 text-sm rounded-lg transition-colors',
+                  'p-3 border-2 text-xs sm:text-sm rounded-lg transition-colors',
                   option.isCorrect
                     ? 'bg-green-50 border-green-300 text-green-800'
                     : 'bg-gray-50 border-gray-200 text-gray-700',
                 ]"
               >
                 <div class="flex items-center space-x-2">
-                  <span class="font-bold">{{ option.label }}.</span>
-                  <span>{{ option.text }}</span>
-                  <span v-if="option.isCorrect" class="ml-auto text-green-600 font-bold">
+                  <span class="font-bold flex-shrink-0">{{ option.label }}.</span>
+                  <span class="break-words">{{ option.text }}</span>
+                  <span
+                    v-if="option.isCorrect"
+                    class="ml-auto text-green-600 font-bold flex-shrink-0"
+                  >
                     <i class="fas fa-check-circle"></i>
                   </span>
                 </div>
@@ -106,72 +120,74 @@
           <div class="flex flex-wrap gap-2">
             <button
               @click="previewQuestion(question)"
-              class="flex items-center space-x-2 px-4 py-2 text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
+              class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-gray-600 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
             >
               <i class="fas fa-eye"></i>
-              <span>Preview</span>
+              <span class="hidden sm:inline">Preview</span>
             </button>
 
             <button
               @click="editQuestion(question)"
-              class="flex items-center space-x-2 px-4 py-2 text-blue-600 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors"
+              class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-blue-600 bg-blue-100 rounded-lg hover:bg-blue-200 transition-colors"
             >
               <i class="fas fa-edit"></i>
-              <span>Edit</span>
+              <span class="hidden sm:inline">Edit</span>
             </button>
 
             <button
               @click="duplicateQuestion(question)"
-              class="flex items-center space-x-2 px-4 py-2 text-green-600 bg-green-100 rounded-lg hover:bg-green-200 transition-colors"
+              class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-green-600 bg-green-100 rounded-lg hover:bg-green-200 transition-colors"
             >
               <i class="fas fa-copy"></i>
-              <span>Duplikat</span>
+              <span class="hidden sm:inline">Duplikat</span>
             </button>
 
             <button
               @click="confirmDelete(question)"
-              class="flex items-center space-x-2 px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors"
+              class="flex items-center space-x-1 sm:space-x-2 px-3 sm:px-4 py-2 text-xs sm:text-sm text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors"
             >
               <i class="fas fa-trash"></i>
-              <span>Hapus</span>
+              <span class="hidden sm:inline">Hapus</span>
             </button>
           </div>
         </div>
       </div>
 
-      <div class="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">
+      <div
+        class="mt-6 sm:mt-8 bg-white rounded-xl p-4 sm:p-6 shadow-sm border border-gray-100"
+      >
+        <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4">
           <i class="fas fa-bolt text-yellow-500 mr-2"></i>
           Aksi Cepat
         </h3>
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
           <button
             @click="importFromFile"
-            class="p-4 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-700 font-medium transition-colors"
+            class="p-3 sm:p-4 bg-blue-50 hover:bg-blue-100 rounded-lg text-blue-700 font-medium transition-colors text-center"
           >
-            <i class="fas fa-file-import block mb-2 text-xl"></i>
-            Import Soal dari File
+            <i class="fas fa-file-import block mb-2 text-lg sm:text-xl"></i>
+            <span class="text-xs sm:text-sm">Import Soal dari File</span>
           </button>
           <button
             @click="exportToFile"
-            class="p-4 bg-green-50 hover:bg-green-100 rounded-lg text-green-700 font-medium transition-colors"
+            class="p-3 sm:p-4 bg-green-50 hover:bg-green-100 rounded-lg text-green-700 font-medium transition-colors text-center"
           >
-            <i class="fas fa-file-export block mb-2 text-xl"></i>
-            Export Bank Soal
+            <i class="fas fa-file-export block mb-2 text-lg sm:text-xl"></i>
+            <span class="text-xs sm:text-sm">Export Bank Soal</span>
           </button>
           <button
             @click="validateAllQuestions"
-            class="p-4 bg-orange-50 hover:bg-orange-100 rounded-lg text-orange-700 font-medium transition-colors"
+            class="p-3 sm:p-4 bg-orange-50 hover:bg-orange-100 rounded-lg text-orange-700 font-medium transition-colors text-center"
           >
-            <i class="fas fa-check-double block mb-2 text-xl"></i>
-            Validasi Semua Soal
+            <i class="fas fa-check-double block mb-2 text-lg sm:text-xl"></i>
+            <span class="text-xs sm:text-sm">Validasi Semua Soal</span>
           </button>
           <button
             @click="showPreviewMode = true"
-            class="p-4 bg-purple-50 hover:bg-purple-100 rounded-lg text-purple-700 font-medium transition-colors"
+            class="p-3 sm:p-4 bg-purple-50 hover:bg-purple-100 rounded-lg text-purple-700 font-medium transition-colors text-center"
           >
-            <i class="fas fa-eye block mb-2 text-xl"></i>
-            Preview Mode Mahasiswa
+            <i class="fas fa-eye block mb-2 text-lg sm:text-xl"></i>
+            <span class="text-xs sm:text-sm">Preview Mode Mahasiswa</span>
           </button>
         </div>
       </div>
@@ -181,9 +197,9 @@
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       >
         <div class="bg-white rounded-xl max-w-3xl w-full max-h-[95vh] overflow-y-auto">
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-2xl font-bold text-gray-800">
+          <div class="p-4 sm:p-6">
+            <div class="flex justify-between items-center mb-4 sm:mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold text-gray-800">
                 <i class="fas fa-plus-circle text-purple-500 mr-2"></i>
                 {{ showEditModal ? "Edit Soal" : "Tambah Soal Baru" }}
               </h2>
@@ -195,7 +211,7 @@
               </button>
             </div>
 
-            <form @submit.prevent="saveQuestion" class="space-y-6">
+            <form @submit.prevent="saveQuestion" class="space-y-4 sm:space-y-6">
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                   <i class="fas fa-question-circle text-purple-500 mr-1"></i>
@@ -203,23 +219,23 @@
                 </label>
                 <textarea
                   v-model="newQuestion.text"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base"
                   rows="3"
                   placeholder="Tulis pertanyaan di sini..."
                   required
                 ></textarea>
               </div>
-              
+
               <div>
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                   <i class="fas fa-clock text-yellow-500 mr-1"></i>
                   Lama Pengerjaan (menit)
                 </label>
-                <input  
+                <input
                   v-model="newQuestion.durationInMinutes"
                   type="number"
                   min="0"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base"
                   placeholder="Contoh: 1"
                   required
                 />
@@ -236,11 +252,13 @@
                     :key="index"
                     class="flex items-center space-x-3"
                   >
-                    <span class="font-bold text-gray-700 w-8">{{ option.label }}.</span>
+                    <span class="font-bold text-gray-700 w-6 sm:w-8 flex-shrink-0"
+                      >{{ option.label }}.</span
+                    >
                     <input
                       v-model="option.text"
                       type="text"
-                      class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                      class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base"
                       :placeholder="`Jawaban ${option.label}`"
                       required
                     />
@@ -255,7 +273,7 @@
                 </label>
                 <select
                   v-model="newQuestion.correctAnswer"
-                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                  class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base"
                   required
                 >
                   <option value="">Pilih jawaban benar</option>
@@ -269,7 +287,7 @@
                 </select>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label class="block text-sm font-medium text-gray-700 mb-2">
                     <i class="fas fa-layer-group text-orange-500 mr-1"></i>
@@ -277,7 +295,7 @@
                   </label>
                   <select
                     v-model="newQuestion.difficulty"
-                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 text-sm sm:text-base"
                     required
                   >
                     <option value="">Pilih tingkat kesulitan</option>
@@ -288,7 +306,9 @@
                 </div>
               </div>
 
-              <div class="flex space-x-3 pt-4">
+              <div
+                class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 pt-4"
+              >
                 <button
                   type="submit"
                   class="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-3 rounded-lg font-medium flex items-center justify-center space-x-2"
@@ -299,7 +319,7 @@
                 <button
                   type="button"
                   @click="cancelModal"
-                  class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                  class="sm:w-auto px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   Batal
                 </button>
@@ -313,17 +333,19 @@
         v-if="showImportModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       >
-        <div class="bg-white rounded-xl max-w-md w-full p-6">
-          <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        <div class="bg-white rounded-xl max-w-md w-full p-4 sm:p-6">
+          <h2 class="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
             <i class="fas fa-upload text-blue-500 mr-2"></i>
             Import Soal
           </h2>
           <div class="space-y-4">
             <div
-              class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center"
+              class="border-2 border-dashed border-gray-300 rounded-lg p-4 sm:p-6 text-center"
             >
-              <i class="fas fa-file-upload text-4xl text-gray-400 mb-4"></i>
-              <p class="text-gray-600 mb-2">Drag & drop file atau klik untuk browse</p>
+              <i class="fas fa-file-upload text-3xl sm:text-4xl text-gray-400 mb-4"></i>
+              <p class="text-sm sm:text-base text-gray-600 mb-2">
+                Drag & drop file atau klik untuk browse
+              </p>
               <input
                 ref="fileInput"
                 type="file"
@@ -333,12 +355,12 @@
               />
               <button
                 @click="$refs.fileInput.click()"
-                class="text-blue-600 hover:text-blue-700 font-medium"
+                class="text-blue-600 hover:text-blue-700 font-medium text-sm sm:text-base"
               >
                 Pilih File
               </button>
             </div>
-            <div class="flex space-x-3">
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
               <button
                 @click="processImport"
                 class="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium transition-colors"
@@ -361,9 +383,9 @@
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       >
         <div class="bg-white rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          <div class="p-6">
-            <div class="flex justify-between items-center mb-6">
-              <h2 class="text-2xl font-bold text-gray-800">
+          <div class="p-4 sm:p-6">
+            <div class="flex justify-between items-center mb-4 sm:mb-6">
+              <h2 class="text-xl sm:text-2xl font-bold text-gray-800">
                 <i class="fas fa-eye text-purple-500 mr-2"></i>
                 Preview Soal
               </h2>
@@ -375,10 +397,10 @@
               </button>
             </div>
 
-            <div v-if="previewData" class="space-y-6">
-              <div class="flex flex-wrap gap-2 text-sm">
+            <div v-if="previewData" class="space-y-4 sm:space-y-6">
+              <div class="flex flex-wrap gap-2 text-xs sm:text-sm">
                 <span
-                  class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full font-medium"
+                  class="bg-blue-100 text-blue-800 px-2 sm:px-3 py-1 rounded-full font-medium"
                 >
                   {{ getQuestionTypeLabel(previewData.type) }}
                 </span>
@@ -387,7 +409,7 @@
                 </span>
                 <span
                   v-if="previewData.duration"
-                  class="bg-gray-100 text-gray-800 px-3 py-1 rounded-full font-medium"
+                  class="bg-gray-100 text-gray-800 px-2 sm:px-3 py-1 rounded-full font-medium"
                 >
                   <i class="fas fa-clock mr-1"></i>
                   {{ Math.ceil(previewData.duration / 60) }} menit
@@ -395,14 +417,16 @@
               </div>
 
               <div class="bg-gray-50 p-4 rounded-lg">
-                <h3 class="text-lg font-semibold text-gray-800 mb-4">
+                <h3 class="text-base sm:text-lg font-semibold text-gray-800 mb-4">
                   <i class="fas fa-question-circle text-purple-500 mr-2"></i>
                   {{ previewData.text }}
                 </h3>
               </div>
 
               <div class="space-y-3">
-                <h4 class="font-medium text-gray-700">Pilihan Jawaban:</h4>
+                <h4 class="font-medium text-gray-700 text-sm sm:text-base">
+                  Pilihan Jawaban:
+                </h4>
                 <div
                   v-for="(option, index) in previewData.options"
                   :key="index"
@@ -414,14 +438,14 @@
                   ]"
                 >
                   <div class="flex items-center space-x-3">
-                    <span class="font-bold">{{ option.label }}.</span>
-                    <span>{{ option.text }}</span>
+                    <span class="font-bold flex-shrink-0">{{ option.label }}.</span>
+                    <span class="break-words">{{ option.text }}</span>
                     <span
                       v-if="option.isCorrect"
-                      class="ml-auto text-green-600 font-bold"
+                      class="ml-auto text-green-600 font-bold flex-shrink-0"
                     >
                       <i class="fas fa-check-circle"></i>
-                      Benar
+                      <span class="hidden sm:inline ml-1">Benar</span>
                     </span>
                   </div>
                 </div>
@@ -435,7 +459,7 @@
         v-if="showDeleteModal"
         class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       >
-        <div class="bg-white rounded-xl max-w-md w-full p-6">
+        <div class="bg-white rounded-xl max-w-md w-full p-4 sm:p-6">
           <div class="text-center">
             <div
               class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4"
@@ -447,7 +471,7 @@
               Apakah Anda yakin ingin menghapus soal ini? Tindakan ini tidak dapat
               dibatalkan.
             </p>
-            <div class="flex space-x-3">
+            <div class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-3">
               <button
                 @click="deleteQuestion"
                 class="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg font-medium transition-colors"
@@ -464,10 +488,11 @@
           </div>
         </div>
       </div>
+
       <div
         v-if="toast.show"
         :class="[
-          'fixed top-4 right-4 px-6 py-4 rounded-lg shadow-lg z-50 transition-all duration-300 transform',
+          'fixed top-4 right-4 px-4 sm:px-6 py-3 sm:py-4 rounded-lg shadow-lg z-50 transition-all duration-300 transform max-w-xs sm:max-w-sm',
           toast.type === 'success' ? 'bg-green-500 text-white' : 'bg-red-500 text-white',
           toast.show ? 'translate-y-0 opacity-100' : '-translate-y-2 opacity-0',
         ]"
@@ -479,8 +504,9 @@
                 ? 'fas fa-check-circle'
                 : 'fas fa-exclamation-circle'
             "
+            class="flex-shrink-0"
           ></i>
-          <span>{{ toast.message }}</span>
+          <span class="text-sm sm:text-base break-words">{{ toast.message }}</span>
         </div>
       </div>
     </div>

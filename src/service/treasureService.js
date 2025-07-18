@@ -1,11 +1,9 @@
 import axios from "axios";
-
 const baseURL = "http://localhost:8081";
-
+// tunnel backend kamu
 const API = axios.create({
   baseURL: baseURL,
 });
-
 export default {
   // ========== IMAGE HELPER ==========
   getfullpathImage(img) {
@@ -45,6 +43,13 @@ export default {
   deleteQuestion(id) {
     return API.delete(`/soal/${id}`);
   },
+
+  submitQuiz(submissionData) {
+    return API.post("/quiz/submit", submissionData);
+  },
+  getQuizProgress(studentId) {
+    return API.get(`/quiz/progress/${studentId}`);
+  },
    // ========== Lokasi (Location) ==========
    CreateLokasi(data){
     return API.post('/lokasi',data)
@@ -61,7 +66,6 @@ export default {
    DeleteLokasi(id){
     return API.delete(`/lokasi/${id}`)
    },
-
      // ========== AUTH ==========
    register(data) {
     return API.post("/register", data);
