@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen flex flex-col bg-gray-50">
-      
+      <!-- Hero Section -->
       <section class="hero relative py-24 md:py-32 text-white flex-grow">
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
         <div class="container mx-auto px-6 lg:px-8 relative z-10 text-center">
@@ -22,7 +22,7 @@
         </div>
       </section>
   
-      
+      <!-- QR Scanner -->
       <div v-if="showScanner" class="py-12 bg-white text-center">
         <qrcode-stream @decode="onDecode" @init="onInit" class="mx-auto w-64 h-64" />
         <div v-if="scannedUrl" class="mt-6">
@@ -33,7 +33,7 @@
         </div>
       </div>
   
-      
+      <!-- Event Details Section -->
       <section class="py-16 bg-white">
         <div class="container mx-auto px-6 lg:px-8">
           <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-12">Tanggal Pelaksanaan</h2>
@@ -50,7 +50,7 @@
         </div>
       </section>
   
-      
+      <!-- Alur Event -->
       <section class="py-16 bg-gray-100 heroes">
         <div class="container mx-auto px-6 lg:px-8">
       
@@ -74,13 +74,13 @@
         </div>
       </section>
   
-      
+      <!-- Footer Sponsor -->
       <footer class="bg-gray-800 text-white py-12">
         <div class="container mx-auto px-6 lg:px-8 text-center">
           <h4 class="text-xl font-semibold mb-6">Didukung Oleh</h4>
           <div class="flex flex-wrap justify-center space-x-6">
-            
-            
+            <!-- update logo sponsor asli -->
+            <!-- <img src="@/assets/sponsor1.png" alt="Sponsor" class="h-12 mb-4" />
             <img src="@/assets/sponsor2.png" alt="Sponsor" class="h-12 mb-4" />
             <img src="@/assets/sponsor3.png" alt="Sponsor" class="h-12 mb-4" /> -->
           </div>
@@ -88,7 +88,7 @@
         </div>
       </footer>
   
-      
+      <!-- Sponsor Popup -->
       <div v-if="showSponsorPopup" class="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="fixed inset-0 bg-black bg-opacity-50" @click="closeSponsorPopup"></div>
         <div class="bg-white rounded-xl p-8 max-w-md w-full relative z-20">
@@ -98,7 +98,7 @@
           <h3 class="text-2xl font-bold text-gray-800 mb-4">Selamat Datang!</h3>
           <p class="text-gray-600 mb-6 text-center">Event ini disponsori oleh mitra-mitra terpercaya kami.</p>
           <div class="flex justify-center space-x-4 mb-6">
-            
+            <!-- <img src="@/assets/sponsor1.png" alt="Sponsor" class="h-12" />
             <img src="@/assets/sponsor2.png" alt="Sponsor" class="h-12" /> -->
           </div>
           <button @click="closeSponsorPopup" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2 rounded-full shadow transition duration-200">

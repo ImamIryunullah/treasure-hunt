@@ -1,7 +1,7 @@
 <template>
   <div
     :class="[
-      'bg-gradient-to-b from-slate-900 to-slate-800 text-white transition-all duration-300 flex flex-col shadow-xl',
+      'bg-black text-white transition-all duration-300 flex flex-col shadow-xl',
       isCollapsed ? 'w-16' : 'w-72',
     ]"
     class="min-h-screen relative"
@@ -22,7 +22,7 @@
             >
               Treasure Hunt UNTAG
             </h1>
-            <p class="text-sm text-slate-400 font-medium">Admin Panel</p>
+            <p class="text-sm text-slate-400 font-m um">Admin Panel</p>
           </div>
         </div>
         <button
@@ -59,7 +59,7 @@
             <div class="flex-shrink-0 w-6 h-6 flex items-center justify-center">
               <i
                 :class="item.icon"
-                class="text-blue-400 text-lg group-hover:scale-110 transition-transform"
+                class="text-yellow-400 text-lg group-hover:scale-110 transition-transform"
               ></i>
             </div>
             <span v-if="!isCollapsed" class="ml-3 flex-1 text-left font-medium">{{
@@ -107,14 +107,14 @@
             >
               <i
                 :class="sub.icon"
-                class="text-slate-400 w-4 text-base group-hover:text-white transition-colors"
+                class="text-yellow-300 w-4 text-base group-hover:text-white transition-colors"
               ></i>
               <span class="font-medium group-hover:text-white transition-colors">{{
                 sub.name
               }}</span>
               <div
                 v-if="isRouteActive(sub.route)"
-                class="absolute right-2 w-2 h-2 bg-blue-500 rounded-full"
+                class="absolute right-2 w-2 h-2 bg-yellow-500 rounded-full"
               ></div>
             </router-link>
           </div>
@@ -126,7 +126,7 @@
           class="flex items-center transition-all duration-200 rounded-xl group relative"
           :class="[
             isRouteActive(item.route)
-              ? 'bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-l-4 border-blue-500'
+              ? 'bg-yellow-600 border-l-4 border-yellow-700'
               : 'hover:bg-slate-700/50',
             isCollapsed ? 'p-3 justify-center' : 'p-3 hover:translate-x-1',
           ]"
@@ -134,7 +134,7 @@
           <div class="flex-shrink-0 flex items-center justify-center w-6 h-6">
             <i
               :class="item.icon"
-              class="text-blue-400 text-lg group-hover:scale-110 transition-transform"
+              class="text-yellow-400 text-lg group-hover:scale-110 transition-transform"
             ></i>
           </div>
           <span
@@ -234,12 +234,7 @@ export default {
 
     const menuItems = [
       {
-        name: "Dashboard",
-        icon: "fas fa-home",
-        route: "/admin-dashboard",
-      },
-      {
-        name: "Kelola Game",
+        name: "Kelola Quiz & Treasure Hunt",
         icon: "fas fa-gamepad",
         children: [
           {
@@ -253,12 +248,13 @@ export default {
             icon: "fas fa-users",
           },
           {
-            name: "Manajemen Kuis",
-            route: "/bank-soal",
+            name: "Manajemen Quiz",
+            route: "/admin/quiz",
             icon: "fas fa-question-circle",
           },
         ],
       },
+  
       {
         name: "Progress Kelompok",
         icon: "fas fa-chart-line",
@@ -278,6 +274,11 @@ export default {
         name: "Riwayat Aktivitas",
         icon: "fas fa-history",
         route: "/riwayat-aktivitas-mahasiswa",
+      },
+      {
+        name: "Dashboard",
+        icon: "fas fa-home",
+        route: "/admin-dashboard",
       },
     ];
 

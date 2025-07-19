@@ -3,7 +3,6 @@
     class="relative min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center p-4"
     style="background-image: url('/background_login.jpeg')"
   >
-
     <div class="absolute inset-0 bg-gray-900 opacity-50"></div>
     <div class="absolute inset-0 bg-black bg-opacity-30">
       <div class="absolute inset-0"></div>
@@ -186,7 +185,7 @@
 
 <script>
 import { ref, reactive } from "vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
 import treasureService from "@/service/treasureService";
 
 export default {
@@ -195,9 +194,8 @@ export default {
     const isLoading = ref(false);
     const showPassword = ref(false);
     const errorMessage = ref("");
-        
-    const router = useRouter();
 
+    const router = useRouter();
 
     const loginForm = reactive({
       nim: "",
@@ -209,38 +207,38 @@ export default {
       showPassword.value = !showPassword.value;
     };
 
-
     const handleLogin = async () => {
-  try {
-    isLoading.value = true;
-    errorMessage.value = "";
+      try {
+        isLoading.value = true;
+        errorMessage.value = "";
 
-    if (!loginForm.nim || !loginForm.password) {
-      errorMessage.value = "NIM dan password harus diisi";
-      return;
-    }
+        if (!loginForm.nim || !loginForm.password) {
+          errorMessage.value = "NIM dan password harus diisi";
+          return;
+        }
 
-    const response = await treasureService.login({
-      nim: loginForm.nim,
-      password: loginForm.password,
-    });
+        const response = await treasureService.login({
+          nim: loginForm.nim,
+          password: loginForm.password,
+        });
 
-    // ✅ Cek respon dan arahkan user
-    console.log("Login berhasil:", response.data);
-    // Simpan token / data user jika dibutuhkan
-    router.push("/mahasiswa-dashboard");
-
-  } catch (error) {
-    console.error("Login error:", error);
-    if (error.response?.data?.error) {
-      errorMessage.value = error.response.data.error;
-    } else {
-      errorMessage.value = "Terjadi kesalahan. Silakan coba lagi.";
-    }
-  } finally {
-    isLoading.value = false;
-  }
-};
+        // ✅ Cek respon dan arahkan user
+        console.log("Login berhasil:", response.data);
+        // Simpan token / data user jika dibutuhkan
+        localStorage.setItem("token", response.data.token);
+        console.log("Login berhasil, token disimpan:", response.data.token);
+        router.push("/quiz");
+      } catch (error) {
+        console.error("Login error:", error);
+        if (error.response?.data?.error) {
+          errorMessage.value = error.response.data.error;
+        } else {
+          errorMessage.value = "Terjadi kesalahan. Silakan coba lagi.";
+        }
+      } finally {
+        isLoading.value = false;
+      }
+    };
 
     return {
       loginForm,
@@ -269,7 +267,6 @@ export default {
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
-
 
 /* Custom focus styles */
 input:focus {

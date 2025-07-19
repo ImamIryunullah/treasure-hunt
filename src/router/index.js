@@ -1,16 +1,23 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import store from "@/store/store";
-const AdminDashboard = () => import("@/views/AdminDashboard");
-const AdminKelolaSoal = () => import("@/views/AdminKelolaSoal");
-const AdminMonitoringProgress = () => import("@/views/AdminMonitoringProgress");
+const AdminDashboard = () => import("@/views/admin/AdminDashboard");
+const AdminKelolaSoal = () => import("@/views/admin/AdminKelolaSoal");
+const AdminMonitoringProgress = () => import("@/views/admin/AdminMonitoringProgress");
 const MahasiswaLeaderboard = () => import("@/views/MahasiswaLeaderboard");
-const ManajemenSponsorship = () => import("@/views/ManajemenSponsorship");
-const AdminManajemenKelompok = () => import("@/views/AdminManajemenKelompok");
-const ManajementEvent = () => import("@/views/ManajemenEvent");
-const AdminTreasureHunt = () => import("@/views/AdminTreasureHunt");
-const AdminLaporan = () => import("@/views/AdminLaporan");
-const AdminLeaderboard = () => import("@/views/AdminLeaderboard");
-const AdminRiwayatAktivitasMahasiswa = () => import("@/views/AdminRiwayatAktivitasMahasiswa");
+const ManajemenSponsorship = () => import("@/views/admin/ManajemenSponsorship");
+const AdminManajemenKelompok = () => import("@/views/admin/AdminManajemenKelompok");
+const ManajementEvent = () => import("@/views/admin/ManajemenEvent");
+const AdminTreasureHunt = () => import("@/views/admin/AdminTreasureHunt");
+const AdminLaporan = () => import("@/views/admin/AdminLaporan");
+const AdminLeaderboard = () => import("@/views/admin/AdminLeaderboard");
+const AdminRiwayatAktivitasMahasiswa = () => import("@/views/admin/AdminRiwayatAktivitasMahasiswa");
+
+
+
+// Admin Baru
+
+const KelolaKuisAdmin = () => import("@/views/adminUntag/kelolaKuisAdmin.vue");
+const hasilKuisAdmin = () => import("@/views/adminUntag/hasilkuisAdmin.vue");
 
 
 const LoginPage = () => import("@/views/LoginPage");
@@ -28,6 +35,9 @@ const MahasiswaSurveySistem = () => import("@/views/MahasiswaSurveySistem")
 const maps =() => import("@/components/Maps.vue")
 
 const LandingPage =() => import("@/views/LandingPage.vue")
+const KuisPage =() => import("@/views/KuisPage.vue")
+
+
 
 const routes = [
 {
@@ -36,63 +46,63 @@ const routes = [
   component : maps
 },
   {
-    path: "/admin-dashboard",
+    path: "/admin/admin-dashboard",
     name: "Admin Dashboard",
     component: AdminDashboard,
   },
 
   {
-    path: "/bank-soal",
+    path: "/admin/bank-soal",
     name: "Kelola Soal",
     component: AdminKelolaSoal,
   },
   {
-    path: "/manajemen-treasure-hunt",
+    path: "/admin/manajemen-treasure-hunt",
     name: "Admin Manajemen Treasure Hunt",
     component: AdminTreasureHunt,
   },
 
   {
-    path: "/leaderboard-game-kuis",
+    path: "/admin/leaderboard-game-kuis",
     name: "Admin Leaderboard Kuis",
     component: AdminLeaderboard,
   },
 
   {
-    path: "/monitoring-progress",
+    path: "/admin/monitoring-progress",
     name: "Monitoring Progress",
     component: AdminMonitoringProgress,
   },
 
   {
-    path: "/laporan-dan-rekapan-akhir",
+    path: "/admin/laporan-dan-rekapan-akhir",
     name: "Laporan & Rekapan Akhir",
     component: AdminLaporan,
   },
 
   {
-    path: "/leaderboard-kuis",
+    path: "/admin/leaderboard-kuis",
     name: "Leaderboard",
     component: MahasiswaLeaderboard,
   },
 
   {
-    path: "/sponsorship",
+    path: "/admin/sponsorship",
     name: "Manajemen Sponsorship",
     component: ManajemenSponsorship,
   },
   {
-    path: "/manajemen-kelompok",
+    path: "/admin/manajemen-kelompok",
     name: "Manajemen Kelompok",
     component: AdminManajemenKelompok,
   },
   {
-    path: "/manajemen-event",
+    path: "/admin/manajemen-event",
     name: "Manajemen Event",
     component: ManajementEvent,
   },
   {
-    path: "/riwayat-aktivitas-mahasiswa",
+    path: "/admin/riwayat-aktivitas-mahasiswa",
     name: "Manajemen Riwayat Aktivitas Mahasiswa",
     component: AdminRiwayatAktivitasMahasiswa,
   },
@@ -160,6 +170,27 @@ const routes = [
     path: "/",
     name: "Landing Page",
     component: LandingPage,
+  },
+
+  {
+    path: "/quiz",
+    name: "Quiz Page",
+    component: KuisPage,
+  },
+
+
+
+  // router admin baru
+
+  {
+    path: "/admin/quiz",
+    name: "Admin Kelola Quiz",
+    component: KelolaKuisAdmin,
+  },
+  {
+    path: "/admin/hasil-quiz",
+    name: "Admin Hasil Quiz",
+    component: hasilKuisAdmin,
   },
 
 ];
